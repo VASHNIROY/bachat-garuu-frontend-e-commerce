@@ -2,6 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import BasicCard from "./Card/card";
 import "bootstrap/dist/css/bootstrap.min.css";
+import wipro from "../images/download.jpg";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -29,7 +30,7 @@ function SamplePrevArrow(props) {
   );
 }
 
-export default function App() {
+export default function FeaturedProducts() {
   const slider = React.useRef(null);
 
   const settings = {
@@ -37,7 +38,7 @@ export default function App() {
     infinite: true,
     arrows: false,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 5,
     slidesToScroll: 1,
 
     // customPaging: function (i) {
@@ -79,10 +80,12 @@ export default function App() {
   };
 
   return (
-    <div>
-      <h1 style={{ textAlign: "center", margin: "20px 0px" }}>
-        REACT-SLICK CAROUSEL
-      </h1>
+    <div
+      style={{
+        width: "80%",
+      }}
+    >
+      <h1>REACT-SLICK CAROUSEL</h1>
 
       <div style={{ margin: 20 }}>
         <button onClick={() => slider?.current?.slickPrev()}>Prev</button>
@@ -106,27 +109,27 @@ export default function App() {
 const products = [
   {
     id: 1,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
+    image: wipro,
   },
   {
     id: 2,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
+    image: wipro,
   },
   {
     id: 3,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
+    image: wipro,
   },
   {
     id: 4,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
+    image: wipro,
   },
 
   {
     id: 5,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
+    image: wipro,
   },
   {
     id: 6,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
+    image: wipro,
   },
 ];

@@ -1,10 +1,16 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import ProductsSlider from "./Components/ProductsSlider";
+import FeaturedProducts from "./Components/FeaturedProducts";
 
 function App() {
-  return <ProductsSlider />;
+  return (
+    <div className="app-container">
+      <div className="app-mini-container">
+        <FeaturedProducts />
+      </div>
+    </div>
+  );
 }
 
 export default App;
