@@ -2,13 +2,14 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import FeaturedProducts from "./Components/FeaturedProducts";
+import Navbar from "./Components/Navbar/navbar";
+import SearchPopup from "./Components/Navbar/searchpopup/searchPopup";
 
 function App() {
   return (
     <div className="app-container">
-      <div className="app-mini-container">
-        <FeaturedProducts />
-      </div>
+      <Navbar />
+      {/* <FeaturedProducts /> */}
     </div>
   );
 }
