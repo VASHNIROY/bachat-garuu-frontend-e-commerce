@@ -6,6 +6,9 @@
   align-items: center;
   height: 80px;
   width: 90% !important;
+  position: absolute;
+  z-index: -999;
+  top: 0;
 }
 
 .mbl-navbar-logo {
