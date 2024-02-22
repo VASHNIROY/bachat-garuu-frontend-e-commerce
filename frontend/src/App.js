@@ -1,15 +1,15 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-import FeaturedProducts from "./Components/FeaturedProducts";
-import Navbar from "./Components/Navbar/navbar";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
 
 function App() {
   return (
-      <div className="app-container">
-        <Navbar />
-        {/* <FeaturedProducts /> */}
-      </div>
+    <div className="app-container">
+      <Routes>
+        <Route path="/" Component={HomePage} />
+      </Routes>
+    </div>
   );
 }
 

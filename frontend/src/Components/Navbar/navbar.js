@@ -9,6 +9,7 @@ import { MdWifiCalling3 } from "react-icons/md";
 
 import "reactjs-popup/dist/index.css";
 import Sidebar from "./Sidebar/sidebar";
+import NavElementsBar from "../NavElementsBar";
 
 const categories = [
   {
@@ -160,6 +161,7 @@ const Navbar = () => {
             </div>
           </div>
           <hr className="navbar-hr-line" />
+          <NavElementsBar />
         </div>
       )}
     </>

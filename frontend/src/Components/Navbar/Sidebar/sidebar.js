@@ -45,8 +45,6 @@ const Sidebar = ({ isMenuopen, setMenuOpen }) => {
     );
   }
 
-  console.log(isMenuItem);
-
   return (
     isMenuopen && (
       <div className="sidebar-main-container">
