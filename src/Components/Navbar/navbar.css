@@ -143,14 +143,16 @@
 }
 
 .category-search {
-  width: 600px;
+  width: 800px;
   height: 48px;
   color: #184363;
   border: none;
   font-size: 15px;
   background-color: #edf4f6;
   outline: none;
-  padding: 5px;
+  padding: 17px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
 }
 
 .navbar-search-icon-container {

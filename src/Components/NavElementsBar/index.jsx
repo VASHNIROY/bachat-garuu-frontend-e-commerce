@@ -3,7 +3,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { FaCodeCompare } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { RiShoppingCart2Line } from "react-icons/ri";
-import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { Scrollbars } from "react-custom-scrollbars";
@@ -18,24 +17,34 @@ const categories = [
   { id: 4, name: "New Born" },
   { id: 5, name: "Mobiles" },
   { id: 6, name: "Appliances" },
-  { id: 7, name: "Decorating Items" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
-  { id: 8, name: "Face Scrubs" },
+
+  { id: 16, name: "Face Scrubs" },
+  { id: 17, name: "Face Scrubs" },
+  { id: 18, name: "Face Scrubs" },
+  { id: 19, name: "Face Scrubs" },
 ];
+
+// const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const NavElementsBar = () => {
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
   const [activedropEle, setActivedropEle] = useState("");
+
+  //   useEffect(() => {
+  //     const Fetchdata = async () => {
+  //       const api = `${baseUrl}dashboard`;
+  //       console.log(api);
+  //       const options = {
+  //         method: "POST",
+  //       };
+
+  //       const response = await fetch(api, options);
+  //       console.log("response", response);
+  //       const data = await response.json();
+  //       console.log(data);
+  //     };
+  //     Fetchdata();
+  //   }, []);
 
   function showCategoriesDropdown() {
     return (
@@ -47,6 +56,7 @@ export const NavElementsBar = () => {
           <ul className="nav-dropdown-ul-container">
             {categories.map((each) => (
               <li
+                key={each.id}
                 onClick={() => setActivedropEle(each.name)}
                 className={`${
                   activedropEle === each.name ? "nav-dropdown-li-active" : ""

@@ -134,11 +134,6 @@ const Navbar = () => {
               ></path>
             </svg>
             <div className="navbar-icons-container">
-              <select className="category-input">
-                {categories.map((each) => (
-                  <option key={each.id}>{each.category}</option>
-                ))}
-              </select>
               <input
                 className="category-search"
                 type="search"
