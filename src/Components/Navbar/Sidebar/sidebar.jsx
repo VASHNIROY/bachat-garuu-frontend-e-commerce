@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./sidebar.css";
 import { IoMdClose } from "react-icons/io";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { Scrollbars } from "react-custom-scrollbars";
+
+import { context } from "../../../App.jsx";
 
 const sidebarMenuItems = [
   { id: 1, item: "Home" },
@@ -12,17 +15,12 @@ const sidebarMenuItems = [
   { id: 4, item: "Shop" },
 ];
 
-const sidebarShopItems = [
-  { id: 1, item: "Home" },
-  { id: 2, item: "Inner Pages" },
-  { id: 3, item: "Shop" },
-  { id: 4, item: "Shops" },
-];
-
 const Sidebar = ({ isMenuopen, setMenuOpen }) => {
-  console.log(isMenuopen, setMenuOpen, "tuglak");
   const [isMenuItem, setMenuItem] = useState("menu");
   const [isArrowOpen, setArrow] = useState(sidebarMenuItems[0].item);
+
+  const categoryList = useContext(context);
+
   const handleMenuChange = () => {
     setMenuOpen(false);
   };
@@ -47,19 +45,21 @@ const Sidebar = ({ isMenuopen, setMenuOpen }) => {
 
   function ShopList() {
     return (
-      <ul className="menu-ul-list">
-        {" "}
-        {sidebarShopItems.map((each) => (
-          <li className="menu-list-items-li" key={each.id}>
-            <p className="">{each.item}</p>
-            {isArrowOpen === each.item ? (
-              <MdKeyboardArrowDown onClick={() => setArrow(each.id)} />
-            ) : (
-              <MdKeyboardArrowRight onClick={() => setArrow(each.item)} />
-            )}
-          </li>
-        ))}
-      </ul>
+      <Scrollbars style={{ width: 260, height: 400 }}>
+        <ul className="menu-ul-list">
+          {" "}
+          {categoryList.map((each) => (
+            <li className="menu-list-items-li" key={each.id}>
+              <p className="">{each.name}</p>
+              {isArrowOpen === each.item ? (
+                <MdKeyboardArrowDown onClick={() => setArrow(each.id)} />
+              ) : (
+                <MdKeyboardArrowRight onClick={() => setArrow(each.name)} />
+              )}
+            </li>
+          ))}
+        </ul>
+      </Scrollbars>
     );
   }
 
