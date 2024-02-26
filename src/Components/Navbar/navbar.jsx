@@ -1,7 +1,7 @@
 import "./navbar.css";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CiSearch } from "react-icons/ci";
-import React, { useState } from "react";
+import { useState } from "react";
 import Popup from "reactjs-popup";
 import { AiOutlineClose } from "react-icons/ai";
 import { useMediaQuery } from "@material-ui/core";
@@ -11,43 +11,19 @@ import "reactjs-popup/dist/index.css";
 import Sidebar from "./Sidebar/sidebar";
 import NavElementsBar from "../NavElementsBar";
 
-const categories = [
-  {
-    id: 1,
-    category: "personal care",
-  },
-  {
-    id: 2,
-    category: "personal care",
-  },
-  {
-    id: 3,
-    category: "personal care",
-  },
-  {
-    id: 4,
-    category: "personal care",
-  },
-  {
-    id: 5,
-    category: "personal care",
-  },
-  {
-    id: 6,
-    category: "personal care",
-  },
-];
-
 const Navbar = () => {
   const [isPopupOpen, setPopup] = useState(false);
   const [isMenuopen, setMenubar] = useState(false);
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
   const isWebScreen = useMediaQuery("(min-width: 1250px)");
+  console.log(isMenuopen, isPopupOpen, "kapil");
 
   return (
     <>
       {isMobileScreen && (
-        <>
+        <div
+          style={{ display: "flex", width: "100%", justifyContent: "center" }}
+        >
           {isMenuopen && (
             <Sidebar setMenuOpen={setMenubar} isMenuopen={isMenuopen} />
           )}
@@ -99,11 +75,6 @@ const Navbar = () => {
                 />
               </div>
               <div className="mbl-search-modal">
-                <select className="mbl-category-input">
-                  {categories.map((each) => (
-                    <option key={each.id}>{each.category}</option>
-                  ))}
-                </select>
                 <input
                   className="mbl-category-search"
                   placeholder="What are you looking for ?"
@@ -114,7 +85,7 @@ const Navbar = () => {
               </div>
             </Popup>
           </div>
-        </>
+        </div>
       )}
       {isWebScreen && (
         <div className="navbar">

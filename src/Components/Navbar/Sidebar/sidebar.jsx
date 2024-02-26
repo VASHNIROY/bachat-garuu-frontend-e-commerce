@@ -1,10 +1,28 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import "./sidebar.css";
 import { IoMdClose } from "react-icons/io";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { MdKeyboardArrowDown } from "react-icons/md";
+
+const sidebarMenuItems = [
+  { id: 1, item: "Home" },
+  { id: 2, item: "Inner Pages" },
+  { id: 3, item: "Blog" },
+  { id: 4, item: "Shop" },
+];
+
+const sidebarShopItems = [
+  { id: 1, item: "Home" },
+  { id: 2, item: "Inner Pages" },
+  { id: 3, item: "Shop" },
+  { id: 4, item: "Shops" },
+];
 
 const Sidebar = ({ isMenuopen, setMenuOpen }) => {
+  console.log(isMenuopen, setMenuOpen, "tuglak");
   const [isMenuItem, setMenuItem] = useState("menu");
+  const [isArrowOpen, setArrow] = useState(sidebarMenuItems[0].item);
   const handleMenuChange = () => {
     setMenuOpen(false);
   };
@@ -13,34 +31,34 @@ const Sidebar = ({ isMenuopen, setMenuOpen }) => {
     return (
       <ul className="menu-ul-list">
         {" "}
-        <li className="menu-list-items-li">
-          <p className="">Home</p>
-          <MdKeyboardArrowRight />
-        </li>
-        <p>
-          Inner Pages
-          <MdKeyboardArrowRight />
-        </p>
-        <p>
-          Blog
-          <MdKeyboardArrowRight />
-        </p>
-        <p>
-          Shop
-          <MdKeyboardArrowRight />
-        </p>
+        {sidebarMenuItems.map((each) => (
+          <li className="menu-list-items-li" key={each.id}>
+            <p className="">{each.item}</p>
+            {isArrowOpen === each.item ? (
+              <MdKeyboardArrowDown onClick={() => setArrow(each.id)} />
+            ) : (
+              <MdKeyboardArrowRight onClick={() => setArrow(each.item)} />
+            )}
+          </li>
+        ))}
       </ul>
     );
   }
 
   function ShopList() {
     return (
-      <ul>
+      <ul className="menu-ul-list">
         {" "}
-        <h1 className="heding">Shop</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
+        {sidebarShopItems.map((each) => (
+          <li className="menu-list-items-li" key={each.id}>
+            <p className="">{each.item}</p>
+            {isArrowOpen === each.item ? (
+              <MdKeyboardArrowDown onClick={() => setArrow(each.id)} />
+            ) : (
+              <MdKeyboardArrowRight onClick={() => setArrow(each.item)} />
+            )}
+          </li>
+        ))}
       </ul>
     );
   }
@@ -49,24 +67,26 @@ const Sidebar = ({ isMenuopen, setMenuOpen }) => {
     isMenuopen && (
       <div className="sidebar-main-container">
         <IoMdClose className="sidebar-close-icon" onClick={handleMenuChange} />
-        <ul className="sidebar-menu-bar">
-          <li
-            className={`sidebar-menu-items ${
-              isMenuItem === "menu" ? "sidebar-menu-items-active" : ""
-            }`}
-            onClick={() => setMenuItem("menu")}
-          >
-            Menu
-          </li>
-          <li
-            className={`sidebar-menu-items ${
-              isMenuItem === "shop" ? "sidebar-menu-items-active" : ""
-            }`}
-            onClick={() => setMenuItem("shop")}
-          >
-            Shop
-          </li>
-        </ul>
+        <div style={{ width: "100%" }}>
+          <ul className="sidebar-menu-bar">
+            <li
+              className={`sidebar-menu-items ${
+                isMenuItem === "menu" ? "sidebar-menu-items-active" : ""
+              }`}
+              onClick={() => setMenuItem("menu")}
+            >
+              Menu
+            </li>
+            <li
+              className={`sidebar-menu-items ${
+                isMenuItem === "shop" ? "sidebar-menu-items-active" : ""
+              }`}
+              onClick={() => setMenuItem("shop")}
+            >
+              Shop
+            </li>
+          </ul>
+        </div>
         {isMenuItem === "menu" ? MenuList() : ShopList()}
       </div>
     )

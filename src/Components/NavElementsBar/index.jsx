@@ -6,7 +6,7 @@ import { RiShoppingCart2Line } from "react-icons/ri";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { Scrollbars } from "react-custom-scrollbars";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
@@ -17,34 +17,55 @@ const categories = [
   { id: 4, name: "New Born" },
   { id: 5, name: "Mobiles" },
   { id: 6, name: "Appliances" },
-
   { id: 16, name: "Face Scrubs" },
   { id: 17, name: "Face Scrubs" },
   { id: 18, name: "Face Scrubs" },
   { id: 19, name: "Face Scrubs" },
 ];
 
-// const baseUrl = process.env.REACT_APP_BASE_URL;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const NavElementsBar = () => {
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
   const [activedropEle, setActivedropEle] = useState("");
 
-  //   useEffect(() => {
-  //     const Fetchdata = async () => {
-  //       const api = `${baseUrl}dashboard`;
-  //       console.log(api);
-  //       const options = {
-  //         method: "POST",
-  //       };
+  const bodyData = {
+    vendor_id: "4d513d3d",
+    user_id: "27",
+    dashboard_type: "ecommerce",
+  };
 
-  //       const response = await fetch(api, options);
-  //       console.log("response", response);
-  //       const data = await response.json();
-  //       console.log(data);
-  //     };
-  //     Fetchdata();
-  //   }, []);
+  const formData = new FormData();
+
+  Object.entries(bodyData).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
+  console.log(formData);
+
+  useEffect(() => {
+    const Fetchdata = async (formData) => {
+      const api = `${baseUrl}dashboard`;
+      console.log("formData", formData);
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: formData,
+      };
+
+      try {
+        const response = await fetch(api, options);
+        console.log("response", response);
+        const data = await response.json();
+        console.log("jsonData", data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    Fetchdata(formData);
+  }, [formData]);
 
   function showCategoriesDropdown() {
     return (

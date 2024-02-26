@@ -1,21 +1,21 @@
 .sidebar-main-container {
   height: 100vh;
-  z-index: 999;
-  position: relative;
-  left: -24%;
-  width: 650px;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 270px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  padding-right: 30%;
+  align-self: flex-start;
   background-color: white;
   color: black;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  z-index: 999;
 }
 
 .sidebar-close-icon {
   position: absolute;
-  left: 109%;
+  left: 104%;
   bottom: 53%;
   height: 30px;
   width: 30px;
@@ -23,12 +23,11 @@
 
 .sidebar-menu-bar {
   display: flex;
-  width: 115%;
   margin-top: 10%;
   font-weight: bold;
-  margin-right: -39%;
+  padding-left: 11px;
   list-style-type: none;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .sidebar-menu-items {
@@ -51,8 +50,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 11%;
 }
 
 .menu-list-items-li p {
   margin: 0;
+}
+
+.menu-ul-list {
+  font-size: 16px;
+  padding: 0% 8% 0% 6%;
+  font-weight: bold;
 }
