@@ -1,0 +1,54 @@
+.features-carousel-card {
+  height: 450px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+}
+
+.featured-carousel-card-img-container {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.featured-carousel-card-img {
+  height: 250px;
+  width: 250px;
+  background-color: #56778f;
+}
+
+.featured-carousel-card-content-container {
+  width: 300px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5px;
+}
+.feature-curosal-arrow-button {
+  display: flex;
+  text-align: right;
+  justify-content: right;
+  /* margin:20px; */
+}
+.feature-curosal-arrow-right {
+  background-color: #fff;
+  border: none;
+  outline: none;
+}
+.feature-curosal-arrow {
+  color: #fff;
+  font-size: 20px;
+  background-color: #c0c0c0;
+  border-radius: 50px;
+}
+.product-curosal-heading {
+  text-align: center;
+  font-size: 35px;
+  color: #184363;
+}

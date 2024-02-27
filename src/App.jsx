@@ -55,9 +55,9 @@ function App() {
     <div className="app-container">
       <context.Provider value={categoryList}>
         <Navbar />
-        {/* <Routes>
-        <Route path="/" Component={HomePage} />
-      </Routes> */}
+        <Routes>
+          <Route path="/" Component={HomePage} />
+        </Routes>
         <Footer />
       </context.Provider>
     </div>
