@@ -74,7 +74,7 @@ function SellingProducts() {
           <div
             key={product.id}
             className="medicines-cards-main-category-container"
-            style={{ height: "490px", width: "250px" }}
+            style={{ height: "490px", width:"275px" }}
           >
             <div className="medicines-cards-sub-category-container">
               <div className="medicines-cards-new-buttons">
@@ -103,7 +103,6 @@ function SellingProducts() {
             <h5 className="medicines-cards-heading">{product.category}</h5>
             <h2
               className="medicines-cards-paragraph"
-              style={{ width: "150px" }}
             >
               {product.name}
             </h2>

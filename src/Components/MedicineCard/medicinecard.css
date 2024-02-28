@@ -1,11 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
  
  
-/* .medicine-card-main-container{
-    display: flex;
-    width: 80%;
-    height: auto;
-} */
+.medicine-card-main-container{
+   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
 .medicines-categories-container {
     display: flex;
     flex-direction: column;
@@ -13,9 +15,12 @@
     justify-content: center;
   }
   .medicines-categories-heading{
+    margin-top: 3%;
     font-size: 24px;
     color: #184363;
-    gap: 10px;
+    font-weight: 700;
+    text-transform: none;
+    /* gap: 10px; */
   }
  
   .medicines-categories-button-container {
@@ -42,7 +47,7 @@
     justify-content: center;
     flex-direction: row;
     align-items: center;
-    width:100%;
+    width:82%;
 }  
 .medicines-cards-main-category-container {
     position: relative;
@@ -62,15 +67,16 @@
 }
  
 .medicines-cards-image {
-    width: 100%!important;
+    width:100%!important;
     height: 250px!important;
+    border-radius: 10px;
     cursor: pointer;
 }
  
 .medicines-cards-heading {
     font-size: 14px;
     color: #15A9E3;
-    margin: 10px;
+    /* margin: 10px; */
 }
  
 .medicines-cards-paragraph {
@@ -166,77 +172,3 @@
 .medicines-cards-main-category-container:hover .medicines-cards-icons-container{
     display:block;
 }
- 
-                              /*       Media queries         */
- 
-   /* @media screen and (max-width: 768px) {
-  .medicines-categories-button-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
-} */
- 
-/* @media screen and (max-width: 768px) {
-  .medicines-categories-button-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
-    .medicines-categories-heading {
-      font-size: 20px;
-    }
- 
-    .medicines-cards-mini-container {
-      width:100%;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      flex-direction: row;
-      align-items: center;
-    }
- 
-    .medicines-cards-main-category-container {
-      width: 45%;
-      margin-bottom: 20px;
- 
-    }
- 
-    .medicines-cards-sub-category-container {
-      width: auto;
-    }
- 
-    .medicines-cards-button {
-      left: 0;
-    }
-  }
- 
-  @media screen and (max-width: 512px) {
-    .medicines-categories-button {
-      padding: 6px 12px;
-      font-size: 12px;
-  }
-    .medicines-cards-main-category-container {
-      width: 90%;
-      margin-bottom: 20px;
- 
-    }
-    .medicines-categories-heading {
-      font-size: 18px;
-    }
- 
-    .medicines-cards-paragraph {
-      padding: 10px;
-    }
-  }
- 
-  @media screen and (max-width: 1200px){
-    .medicines-cards-main-container {
-      width: 65%;
-      margin-bottom: 20px;
-    }
-  } */

@@ -215,12 +215,12 @@ export default function FeaturedProducts() {
   });
 
   return (
-    <div style={{ width: "100%" }}>
-      <h1 className="product-curosal-heading">Featured Products</h1>
-      <div className="feature-curosal-arrow-button">
-        <button
-          className="feature-curosal-arrow-right"
-          onClick={() => slider?.current?.slickPrev()}
+    <div style={{ width: "100%",padding:"0 8% 0 8%" }}>
+       <h1 className="product-curosal-heading">Featured Products</h1>
+    <div className="feature-curosal-arrow-button">
+    <button
+      className="feature-curosal-arrow-right"
+      onClick={() => slider?.current?.slickPrev()}
         >
           <IoIosArrowBack className="feature-curosal-arrow" />
         </button>

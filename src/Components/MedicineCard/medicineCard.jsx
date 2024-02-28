@@ -53,7 +53,7 @@ function MedicineCard() {
   ];
 
   return (
-    <div className="medicine-card-main-container">
+    <>
       <div className="medicines-categories-container">
         <h1 className="medicines-categories-heading">Popular Categories</h1>
         <div className="medicines-categories-button-container">
@@ -62,12 +62,11 @@ function MedicineCard() {
           <button className="medicines-categories-button">Herbs</button>
         </div>
       </div>
-
       <div className="medicines-cards-mini-container">
         {medicines.map((medicine, index) => (
           <div
             className="medicines-cards-main-category-container"
-            style={{ height: "490px", width: "230px" }}
+            style={{ height: "490px", width: "275px" }}
             key={index}
           >
             <div className="medicines-cards-sub-category-container">
@@ -95,7 +94,7 @@ function MedicineCard() {
               </div>
             </div>
 
-            <div className="medicines-cards-image-container bg-danger">
+            <div className="medicines-cards-image-container ">
               <img
                 className="medicines-cards-image"
                 style={{ height: "250px", width: "250px" }}
@@ -107,7 +106,6 @@ function MedicineCard() {
             <h5 className="medicines-cards-heading">{medicine.category}</h5>
             <h2
               className="medicines-cards-paragraph"
-              style={{ width: "150px" }}
             >
               {medicine.name}
             </h2>
@@ -128,7 +126,8 @@ function MedicineCard() {
           </div>
         ))}
       </div>
-    </div>
+      
+    </>
   );
 }
 
