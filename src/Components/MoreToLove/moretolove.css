@@ -1,11 +1,24 @@
 .medicine-curosal-main-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.medicine-curosal-mini-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 82%;
 }
 
 .medicine-curosal-sub-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 20px;
   width: 100%;
 }

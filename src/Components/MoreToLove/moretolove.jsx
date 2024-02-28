@@ -75,6 +75,7 @@ function Curosal() {
   ];
   return (
     <div className="medicine-curosal-main-container">
+      <div className="medicine-curosal-mini-container">
       <h1 className="medicine-curosal-main-heading">More To Love</h1>
       <div className="medicine-curosal-sub-container">
         {carouselItems.map((item, index) => (
@@ -96,6 +97,7 @@ function Curosal() {
             </div>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
