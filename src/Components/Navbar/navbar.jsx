@@ -16,7 +16,6 @@ const Navbar = () => {
   const [isMenuopen, setMenubar] = useState(false);
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
   const isWebScreen = useMediaQuery("(min-width: 1250px)");
-  console.log(isMenuopen, isPopupOpen, "kapil");
 
   return (
     <>

@@ -3,19 +3,23 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { FaCodeCompare } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { RiShoppingCart2Line } from "react-icons/ri";
+import Badge from "@mui/material/Badge";
+
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { Scrollbars } from "react-custom-scrollbars";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
-import { context } from "../../App.jsx";
+import { useAppContext } from "../../Context/index.jsx";
 
 export const NavElementsBar = () => {
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
   const [activedropEle, setActivedropEle] = useState("");
 
-  let categoryList = useContext(context);
+  const { categoryList } = useAppContext();
+
+  const { cartCount } = useAppContext();
 
   function showCategoriesDropdown() {
     return (
@@ -79,14 +83,18 @@ export const NavElementsBar = () => {
             <li>
               <Tooltip title="Wishlist">
                 <IconButton>
-                  <FaRegHeart className="nav-ele-bar-icon" />
+                  <Badge badgeContent={4} color="primary">
+                    <FaRegHeart className="nav-ele-bar-icon" />
+                  </Badge>
                 </IconButton>
               </Tooltip>
             </li>
             <li>
               <Tooltip title="Cart">
                 <IconButton>
-                  <RiShoppingCart2Line className="nav-ele-bar-icon" />
+                  <Badge badgeContent={cartCount} color="primary">
+                    <RiShoppingCart2Line className="nav-ele-bar-icon" />
+                  </Badge>
                 </IconButton>
               </Tooltip>
             </li>
