@@ -17,6 +17,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" Component={HomePage} />
+          <Route path="/contact-us" element={<ContactUs />} />
         </Routes>
         <Footer />
         {isMobileScreen && <SimpleBottomNavigation />}
