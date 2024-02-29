@@ -1,12 +1,15 @@
 .medicine-banner-main-container {
-    background-image: url(https://enovathemes.com/propharm/wp-content/uploads/row_big_1.jpg?id=2513);
-    padding: 20px;
-    width: 100%;
-    height: 100%;
+  padding-top: 48px !important;
+  padding-bottom: 56px !important;
+  background: #b5e4f6 url(https://enovathemes.com/propharm/wp-content/uploads/row_big_1.jpg?id=2513) !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
   }
   
   .medicine-banner-sub-container {
     max-width: 600px; 
+    height: 100%;
     margin: 0 auto;
     text-align: center;
   }

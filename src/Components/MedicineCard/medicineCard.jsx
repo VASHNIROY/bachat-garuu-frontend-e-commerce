@@ -62,6 +62,7 @@ function MedicineCard() {
           <button className="medicines-categories-button">Herbs</button>
         </div>
       </div>
+      <div className="medicines-card-main-container">
       <div className="medicines-cards-mini-container">
         {medicines.map((medicine, index) => (
           <div
@@ -125,6 +126,7 @@ function MedicineCard() {
             </button>
           </div>
         ))}
+      </div>
       </div>
       
     </>

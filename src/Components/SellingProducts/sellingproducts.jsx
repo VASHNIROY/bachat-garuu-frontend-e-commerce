@@ -69,6 +69,7 @@ function SellingProducts() {
           <button className="medicines-categories-button">Herbs</button>
         </div>
       </div>
+      <div className="medicines-card-main-container">
       <div className="medicines-cards-mini-container">
         {products.map((product) => (
           <div
@@ -122,6 +123,7 @@ function SellingProducts() {
             </button>
           </div>
         ))}
+      </div>
       </div>
     </>
   );
