@@ -1,0 +1,58 @@
+.advertising-main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.advertising-banner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 82%;
+  background-image: url("https://enovathemes.com/propharm/wp-content/uploads/slide1_back-3.jpg");
+  border-radius: 15px;
+}
+
+.adve-promo-heading {
+  color: #fff;
+  font-size: 12px;
+  background-color: goldenrod;
+  width: max-content;
+  padding: 5px;
+  border-radius: 8px;
+}
+.adve-span-element {
+  font-weight: bold;
+}
+
+.adve-button {
+  color: #fff;
+  padding: 10px;
+  background-color: #184363;
+  border-radius: 10px;
+  border-color: #184363;
+}
+
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.image-animation {
+  animation: slideInFromTop 0.5s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+  .advertising-banner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

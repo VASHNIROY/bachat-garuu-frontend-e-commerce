@@ -26,11 +26,6 @@ const bottonNavIcons = [
     icon: <CiHeart className="bottom-nav-icon-size" />,
     name: "Wishlist",
   },
-  {
-    id: 5,
-    icon: <IoIosGitCompare className="bottom-nav-icon-size" />,
-    name: "Compare",
-  },
 ];
 
 export default function SimpleBottomNavigation() {

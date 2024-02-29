@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
   const [cartCount, setCartCount] = useState();
   const [featuredProductsList, setFeaturedProductsList] = useState([]);
   const [recentlyViewedProducts, setRecentlyViewedProducts] = useState([]);
+  const [sponsoredProducts, setSponsoredProducts] = useState([]);
 
   const dashboardBodyData = {
     vendor_id: "4d513d3d",
@@ -129,13 +130,43 @@ export const AppProvider = ({ children }) => {
     FetchRecentlyViewdata(dashboardFormData);
   }, []);
 
+  useEffect(() => {
+    const FetchRecentlyViewdata = async (dashboardFormData) => {
+      const api = `${baseUrl}dashboard`;
+      const options = {
+        method: "POST",
+        body: dashboardFormData,
+      };
+
+      try {
+        const response = await fetch(api, options);
+        const data = await response.json();
+
+        const setSponsoredProductsList = data.data.filter(
+          (each) => each.type === "product1"
+        );
+
+        setSponsoredProducts(setSponsoredProductsList[0].data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    FetchRecentlyViewdata(dashboardFormData);
+  }, []);
+
   AppProvider.propTypes = {
     children: PropTypes.node,
   };
 
   return (
     <AppContext.Provider
-      value={{ categoryList, cartCount, featuredProductsList ,recentlyViewedProducts}}
+      value={{
+        categoryList,
+        cartCount,
+        featuredProductsList,
+        recentlyViewedProducts,
+        sponsoredProducts,
+      }}
     >
       {children}
     </AppContext.Provider>

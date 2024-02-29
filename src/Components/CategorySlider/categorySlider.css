@@ -2,6 +2,7 @@
   height: 84px;
   width: 84px;
   color: #15a9e3;
+  object-fit: contain;
 }
 
 .slider-main-container {

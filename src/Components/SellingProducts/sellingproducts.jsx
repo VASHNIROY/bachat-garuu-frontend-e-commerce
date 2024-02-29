@@ -1,7 +1,6 @@
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { IoIosGitCompare } from "react-icons/io";
-import { IoSearchOutline } from "react-icons/io5";
+
 // import { Rating } from "react-simple-star-rating";
 import "../MedicineCard/medicinecard.css";
 import { useAppContext } from "../../Context";
@@ -37,12 +36,6 @@ function SellingProducts() {
               <div className="medicines-cards-icons-container">
                 <div className="medicines-cards-icons">
                   <FaRegHeart />
-                </div>
-                <div className="medicines-cards-icons">
-                  <IoIosGitCompare />
-                </div>
-                <div className="medicines-cards-icons">
-                  <IoSearchOutline />
                 </div>
               </div>
               <div className="medicines-cards-image-container">
