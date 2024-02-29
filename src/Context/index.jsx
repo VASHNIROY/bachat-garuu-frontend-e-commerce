@@ -10,6 +10,8 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 export const AppProvider = ({ children }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [cartCount, setCartCount] = useState();
+  const [featuredProductsList, setFeaturedProductsList] = useState([]);
+  const [recentlyViewedProducts, setRecentlyViewedProducts] = useState([]);
 
   const dashboardBodyData = {
     vendor_id: "4d513d3d",
@@ -36,7 +38,7 @@ export const AppProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const Fetchdata = async (cartformData) => {
+    const FetchCartCountdata = async (cartformData) => {
       const api = `${baseUrl}getCartCount`;
       const options = {
         method: "POST",
@@ -53,11 +55,11 @@ export const AppProvider = ({ children }) => {
         console.error("Error fetching data:", error);
       }
     };
-    Fetchdata(cartformData);
+    FetchCartCountdata(cartformData);
   }, []);
 
   useEffect(() => {
-    const Fetchdata = async (dashboardFormData) => {
+    const FetchCategorydata = async (dashboardFormData) => {
       const api = `${baseUrl}dashboard`;
       const options = {
         method: "POST",
@@ -76,7 +78,55 @@ export const AppProvider = ({ children }) => {
         console.error("Error fetching data:", error);
       }
     };
-    Fetchdata(dashboardFormData);
+    FetchCategorydata(dashboardFormData);
+  }, []);
+
+  useEffect(() => {
+    const FetchFeaturedProductsdata = async (dashboardFormData) => {
+      const api = `${baseUrl}dashboard`;
+      const options = {
+        method: "POST",
+        body: dashboardFormData,
+      };
+
+      try {
+        const response = await fetch(api, options);
+        const data = await response.json();
+
+        const featuredProducts = data.data.filter(
+          (each) => each.type === "product"
+        );
+
+        setFeaturedProductsList(featuredProducts[0].data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    FetchFeaturedProductsdata(dashboardFormData);
+  }, []);
+
+  useEffect(() => {
+    const FetchRecentlyViewdata = async (dashboardFormData) => {
+      const api = `${baseUrl}dashboard`;
+      const options = {
+        method: "POST",
+        body: dashboardFormData,
+      };
+
+      try {
+        const response = await fetch(api, options);
+        const data = await response.json();
+
+        const recentlyViewedProductsList = data.data.filter(
+          (each) => each.type === "recently_viewed"
+        );
+
+        setRecentlyViewedProducts(recentlyViewedProductsList[0].data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    FetchRecentlyViewdata(dashboardFormData);
   }, []);
 
   AppProvider.propTypes = {
@@ -84,7 +134,9 @@ export const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ categoryList, cartCount }}>
+    <AppContext.Provider
+      value={{ categoryList, cartCount, featuredProductsList ,recentlyViewedProducts}}
+    >
       {children}
     </AppContext.Provider>
   );

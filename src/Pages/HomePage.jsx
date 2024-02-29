@@ -9,9 +9,10 @@ const HomePage = () => {
   return (
     <>
       <FeaturedProducts />
+      <CategorySlider />
       <Layout title={"ALl Products - Best offers "}>
         <NewSeltterBanner />
-      <MedicineCard />
+        <MedicineCard />
         <Curosal />
         <OfferCards/>
         <SellingProducts/>

@@ -97,6 +97,13 @@
   position: relative;
 }
 
+.nav-ele-bar-btn-main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .nav-dropdown-container {
   overflow-y: scroll;
   width: max-content;
