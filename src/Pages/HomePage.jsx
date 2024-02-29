@@ -4,7 +4,7 @@ import MedicineCard from "../Components/MedicineCard/medicineCard";
 import Curosal from "../Components/MoreToLove/moretolove";
 import SellingProducts from "../Components/SellingProducts/sellingproducts";
 import NewSeltterBanner from "../Components/NewSeltterBanner";
-
+import OfferCards from "../Components/OfferCards";
 const HomePage = () => {
   return (
     <>
@@ -14,6 +14,7 @@ const HomePage = () => {
         <NewSeltterBanner />
       <MedicineCard />
         <Curosal />
+        <OfferCards/>
       </Layout>
     </>
   );

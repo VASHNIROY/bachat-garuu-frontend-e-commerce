@@ -212,7 +212,7 @@ export default function FeaturedProducts() {
   });
 
   return (
-    <div style={{ width: "100%",padding:"0 8% 0 8%" }}>
+    <div style={{ width: "100%",padding:"0 9% 0 9%" }}>
        <h1 className="product-curosal-heading">Featured Products</h1>
     <div className="feature-curosal-arrow-button">
     <button
