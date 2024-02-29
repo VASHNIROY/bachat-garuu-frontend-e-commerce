@@ -10,11 +10,11 @@ const HomePage = () => {
     <>
       <FeaturedProducts />
       <Layout title={"ALl Products - Best offers "}>
-        <SellingProducts />
         <NewSeltterBanner />
       <MedicineCard />
         <Curosal />
         <OfferCards/>
+        <SellingProducts/>
       </Layout>
     </>
   );
