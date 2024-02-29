@@ -51,7 +51,6 @@ export default function FeaturedProducts() {
   const slider = React.useRef(null);
 
   const settings = {
-    dots: true,
     infinite: true,
     arrows: false,
     speed: 500,
@@ -66,7 +65,6 @@ export default function FeaturedProducts() {
           slidesToShow: 5,
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
           rows: 2,
           slidePerRow: 1,
         },
@@ -78,7 +76,6 @@ export default function FeaturedProducts() {
           slidesToShow: 2,
           slidesToScroll: 2,
           infinite: true,
-          dots: true,
         },
       },
       {
