@@ -68,15 +68,6 @@ const products = [
 
 const bannerImages = [
   {
-    id: 5,
-    category: "Home",
-    name: "Thar's Antiseptic Ointment",
-    image:
-      "https://enovathemes.com/propharm/wp-content/uploads/product4-300x300.jpg",
-    price: "$9.95",
-    rating: 4,
-  },
-  {
     id: 6,
     category: "Baby",
     name: "MooGoo Baby & Child Cradle",
@@ -210,6 +201,24 @@ const ProductViewdetail = () => {
     autoplay: true,
     speed: 2000,
     autoplaySpeed: 4000,
+    responsive: [
+      {
+        breakpoint: 1023,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+    ],
   };
 
   const settings2 = {
@@ -496,12 +505,6 @@ const ProductViewdetail = () => {
               ))}
             </Slider>
           </div>
-
-          {/* <div className="product-view-detail-tab-banners-container">
-            {bannerImages.map((el) => (
-              <BasicCard item={el} key={el.id} />
-            ))}
-          </div> */}
 
           <div className="product-view-detail-mirror-banner-container">
             <img
