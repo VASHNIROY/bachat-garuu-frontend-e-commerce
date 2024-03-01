@@ -6,6 +6,7 @@ import Navbar from "./Components/Navbar/navbar";
 import Footer from "./Components/Footer/footer";
 import { createContext, useEffect, useState } from "react";
 import ContactUs from "./Pages/ContactUs";
+import ProductViewdetail from "./Components/ProductViewdetail/ProductViewdetail";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -59,6 +60,7 @@ function App() {
         <Routes>
           <Route path="/" Component={HomePage} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/product" element={<ProductViewdetail />} />
         </Routes>
         <Footer />
       </context.Provider>
