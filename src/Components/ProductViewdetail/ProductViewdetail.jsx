@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./ProductViewdetail.css";
 import { Rating } from "react-simple-star-rating";
 import { FiShoppingCart } from "react-icons/fi";
@@ -19,6 +19,10 @@ import BasicCard from "../BasicCard/basiccard";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { useAppContext } from "../../Context";
+
+import PropTypes from "prop-types";
 
 const products = [
   {
@@ -139,11 +143,51 @@ const moreToLove = [
   },
 ];
 
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", background: "red", right: 0 }}
+      onClick={onClick}
+    >
+      <IoIosArrowForward />
+    </div>
+  );
+}
+
+SampleNextArrow.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
+  onClick: PropTypes.func,
+};
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", background: "green", left: 0 }}
+      onClick={onClick}
+    >
+      <IoIosArrowBack />
+    </div>
+  );
+}
+
+SamplePrevArrow.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
+  onClick: PropTypes.func,
+};
+
 const ProductViewdetail = () => {
   const [selectedProduct, setProduct] = useState(products[0]);
   const [numberOfProducts, setNumberOfProducts] = useState(0);
 
+  const { featuredProductsList } = useAppContext();
   const [selectActive, setSelectActive] = useState("des");
+  const slider = useRef(null);
 
   const settings = {
     dots: false,
@@ -153,6 +197,47 @@ const ProductViewdetail = () => {
     autoplay: true,
     speed: 2000,
     autoplaySpeed: 4000,
+  };
+
+  const settings2 = {
+    infinite: true,
+    arrows: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+
+    // responsive: [
+    //   {
+    //     breakpoint: 1424,
+    //     settings: {
+    //       slidesToShow: 5,
+    //       slidesToScroll: 1,
+    //       infinite: true,
+    //       rows: 2,
+    //       slidePerRow: 1,
+    //     },
+    //   },
+
+    //   {
+    //     breakpoint: 1124,
+    //     settings: {
+    //       slidesToShow: 2,
+    //       slidesToScroll: 2,
+    //       infinite: true,
+    //     },
+    //   },
+    //   {
+    //     breakpoint: 800,
+    //     settings: {
+    //       slidesToShow: 1,
+    //       slidesToScroll: 1,
+    //       initialSlide: 2,
+    //     },
+    //   },
+    // ],
+
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
   };
 
   return (
@@ -376,6 +461,29 @@ const ProductViewdetail = () => {
                   </table>
                 </div>
               )}
+            </div>
+            <div className="product-view-detail-related-products-container">
+              <h3 className="product-view-detail-heading">Related Products</h3>
+              <div className="feature-curosal-arrow-button">
+                <button
+                  className="feature-curosal-arrow-right"
+                  onClick={() => slider?.current?.slickPrev()}
+                >
+                  <IoIosArrowBack className="feature-curosal-arrow" />
+                </button>
+                <button
+                  style={{ marginLeft: 10 }}
+                  className="feature-curosal-arrow-right"
+                  onClick={() => slider?.current?.slickNext()}
+                >
+                  <IoIosArrowForward className="feature-curosal-arrow" />
+                </button>
+              </div>
+              <Slider ref={slider} {...settings2}>
+                {featuredProductsList.map((item) => (
+                  <BasicCard item={item} key={item.id} />
+                ))}
+              </Slider>
             </div>
           </div>
         </div>
