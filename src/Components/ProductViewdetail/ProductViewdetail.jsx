@@ -15,6 +15,10 @@ import { FaGreaterThan } from "react-icons/fa6";
 import { LuRepeat2, LuMail } from "react-icons/lu";
 import { BiSolidDiscount } from "react-icons/bi";
 import Slider from "react-slick";
+import { useAppContext } from "../../Context";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 import BasicCard from "../BasicCard/basiccard";
 
 import "slick-carousel/slick/slick.css";
@@ -145,6 +149,17 @@ const ProductViewdetail = () => {
 
   const [selectActive, setSelectActive] = useState("des");
 
+  const { setproductid, productData } = useAppContext();
+  const { id } = useParams();
+
+  const { productDetails, similarProducts } = productData;
+
+  console.log("productDetails", productDetails);
+
+  useEffect(() => {
+    setproductid(id);
+  }, []);
+
   const settings = {
     dots: false,
     infinite: true,
@@ -167,23 +182,25 @@ const ProductViewdetail = () => {
               <div className="product-view-detail-big-img-container">
                 <img
                   className="product-view-big-image"
-                  src={selectedProduct.image}
+                  src={productDetails.home_image}
                 />
               </div>
               <div className="product-view-detail-products-images-container">
-                {products.map((el) => (
-                  <>
-                    {" "}
-                    <img
-                      className={`product-view-detail-products-image ${
-                        el === selectedProduct ? "active" : ""
-                      }`}
-                      src={el.image}
-                      alt={el.name}
-                      onClick={() => setProduct(el)}
-                    />
-                  </>
-                ))}
+                {productDetails &&
+                  productDetails.gallery_image &&
+                  productDetails.gallery_image.map((each) => (
+                    <>
+                      {" "}
+                      <img
+                        className={`product-view-detail-products-image ${
+                          each === selectedProduct ? "active" : ""
+                        }`}
+                        src={each.image}
+                        alt="name"
+                        onClick={() => setProduct(each)}
+                      />
+                    </>
+                  ))}
               </div>
             </div>
             <div className="product-view-detail-container">
@@ -311,7 +328,7 @@ const ProductViewdetail = () => {
               {selectActive === "des" ? (
                 <div className="product-view-detail-description-container">
                   <p className="product-view-detail-description-para">
-                    But I must explain to you how all this mistaken idea of
+                    {/* But I must explain to you how all this mistaken idea of
                     denouncing pleasure and praising pain was born and I will
                     give you a complete account of the system, and expound the
                     actual teachings of the great explorer of the truth, the
@@ -327,7 +344,8 @@ const ProductViewdetail = () => {
                     produces no resultant pleasure? On the other hand, we
                     denounce with righteous indignation and dislike men who are
                     so beguiled and demoralized by the charms of pleasure of the
-                    moment, so blinded by desire.
+                    moment, so blinded by desire. */}
+                    {productDetails.description}
                   </p>
                 </div>
               ) : (
@@ -345,7 +363,7 @@ const ProductViewdetail = () => {
                           brand
                         </td>
                         <td className="product-additional-details-right-heading">
-                          Mape
+                          {productDetails.brand_name}
                         </td>
                       </tr>
                       <tr className="product-additional-details-table-row">

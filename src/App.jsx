@@ -20,7 +20,7 @@ function App() {
         <Routes>
           <Route path="/" Component={HomePage} />
           <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/product/:id" element={<ContactUs />} />
+          <Route path="/product/:id" element={<ProductViewdetail />} />
         </Routes>
         <Footer />
         {isMobileScreen && <SimpleBottomNavigation />}
