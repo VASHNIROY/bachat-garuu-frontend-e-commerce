@@ -1,6 +1,5 @@
 import "./index.css";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { FaCodeCompare } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import Badge from "@mui/material/Badge";
@@ -116,13 +115,6 @@ export const NavElementsBar = () => {
             <li className="nav-ele-bar-li-ele">Features</li>
           </ul>
           <ul className="nav-ele-bar-icons-ul-container">
-            <li>
-              <Tooltip title="Compare">
-                <IconButton>
-                  <FaCodeCompare className="nav-ele-bar-icon" />
-                </IconButton>
-              </Tooltip>
-            </li>
             <li>
               <Tooltip title="Wishlist">
                 <IconButton>
