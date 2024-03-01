@@ -21,6 +21,7 @@ function App() {
           <Route path="/" Component={HomePage} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/product/:id" element={<ContactUs />} />
+          <Route path="/product" element={<ProductViewdetail />} />
         </Routes>
         <Footer />
         {isMobileScreen && <SimpleBottomNavigation />}
