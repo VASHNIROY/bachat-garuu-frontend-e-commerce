@@ -8,6 +8,7 @@ import SimpleBottomNavigation from "./Components/BottomNavbar/bottomnavbar";
 import { AppProvider } from "./Context";
 import { useMediaQuery } from "@material-ui/core";
 import ContactUs from "./Pages/ContactusPage/ContactUs";
+import ProductViewdetail from "./Components/ProductViewdetail/ProductViewdetail";
 
 function App() {
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
