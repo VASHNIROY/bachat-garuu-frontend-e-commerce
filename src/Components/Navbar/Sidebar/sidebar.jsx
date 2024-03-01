@@ -1,12 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./sidebar.css";
 import { IoMdClose } from "react-icons/io";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Scrollbars } from "react-custom-scrollbars";
-
-import { context } from "../../../App.jsx";
+import { useAppContext } from "../../../Context";
 
 const sidebarMenuItems = [
   { id: 1, item: "Home" },
@@ -19,7 +18,8 @@ const Sidebar = ({ isMenuopen, setMenuOpen }) => {
   const [isMenuItem, setMenuItem] = useState("menu");
   const [isArrowOpen, setArrow] = useState(sidebarMenuItems[0].item);
 
-  const categoryList = useContext(context);
+  const {categoryList} = useAppContext();
+
 
   const handleMenuChange = () => {
     setMenuOpen(false);
