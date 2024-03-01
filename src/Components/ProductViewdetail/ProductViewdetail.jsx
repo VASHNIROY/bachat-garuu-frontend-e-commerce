@@ -15,12 +15,15 @@ import { FaGreaterThan } from "react-icons/fa6";
 import { LuRepeat2, LuMail } from "react-icons/lu";
 import { BiSolidDiscount } from "react-icons/bi";
 import Slider from "react-slick";
+import { useAppContext } from "../../Context";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 import BasicCard from "../BasicCard/basiccard";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useAppContext } from "../../Context";
 
 import PropTypes from "prop-types";
 
@@ -176,9 +179,19 @@ const ProductViewdetail = () => {
   const [selectedProduct, setProduct] = useState(products[0]);
   const [numberOfProducts, setNumberOfProducts] = useState(0);
 
-  const { featuredProductsList } = useAppContext();
   const [selectActive, setSelectActive] = useState("des");
   const slider = useRef(null);
+
+  const { setproductid, productData } = useAppContext();
+  const { id } = useParams();
+
+  const { productDetails, similarProducts } = productData;
+
+  console.log("product details", productDetails);
+
+  useEffect(() => {
+    setproductid(id);
+  }, []);
 
   const settings = {
     dots: false,
@@ -261,38 +274,40 @@ const ProductViewdetail = () => {
               <div className="product-view-detail-big-img-container">
                 <img
                   className="product-view-big-image"
-                  src={selectedProduct.image}
+                  src={productDetails.home_image}
                 />
               </div>
               <div className="product-view-detail-products-images-container">
-                {products.map((el) => (
-                  <>
-                    {" "}
-                    <img
-                      className={`product-view-detail-products-image ${
-                        el === selectedProduct ? "active" : ""
-                      }`}
-                      src={el.image}
-                      alt={el.name}
-                      onClick={() => setProduct(el)}
-                    />
-                  </>
-                ))}
+                {productDetails &&
+                  productDetails.gallery_image &&
+                  productDetails.gallery_image.map((each) => (
+                    <>
+                      {" "}
+                      <img
+                        className={`product-view-detail-products-image ${
+                          each === selectedProduct ? "active" : ""
+                        }`}
+                        src={each.image}
+                        alt="name"
+                        onClick={() => setProduct(each)}
+                      />
+                    </>
+                  ))}
               </div>
             </div>
             <div className="product-view-detail-container">
               <div className="product-view-details-first-container">
                 <h1 className="product-view-detail-heading">
-                  Vitamin D3 (1000IU) Cap X
+                  {productDetails.name}
                 </h1>
-                <div className="product-view-detail-review-container">
+                {/* <div className="product-view-detail-review-container">
                   {" "}
                   <Rating size={20} initialValue={3.2} />{" "}
                   <p className="product-view-detail-review">
                     {" "}
                     (3 customer reviews)
                   </p>
-                </div>
+                </div> */}
               </div>
               <hr />
               <div className="product-view-details-second-container">
@@ -351,9 +366,9 @@ const ProductViewdetail = () => {
                     <FaRegHeart /> Add to wishlist
                   </p>
 
-                  <p className="product-view-details-category">
+                  {/* <p className="product-view-details-category">
                     <LuRepeat2 /> Add to compare
-                  </p>
+                  </p> */}
                   <p className="product-view-details-category">
                     <LuMail /> Ask about product
                   </p>
@@ -405,7 +420,7 @@ const ProductViewdetail = () => {
               {selectActive === "des" ? (
                 <div className="product-view-detail-description-container">
                   <p className="product-view-detail-description-para">
-                    But I must explain to you how all this mistaken idea of
+                    {/* But I must explain to you how all this mistaken idea of
                     denouncing pleasure and praising pain was born and I will
                     give you a complete account of the system, and expound the
                     actual teachings of the great explorer of the truth, the
@@ -421,7 +436,8 @@ const ProductViewdetail = () => {
                     produces no resultant pleasure? On the other hand, we
                     denounce with righteous indignation and dislike men who are
                     so beguiled and demoralized by the charms of pleasure of the
-                    moment, so blinded by desire.
+                    moment, so blinded by desire. */}
+                    {productDetails.description}
                   </p>
                 </div>
               ) : (
@@ -439,7 +455,7 @@ const ProductViewdetail = () => {
                           brand
                         </td>
                         <td className="product-additional-details-right-heading">
-                          Mape
+                          {productDetails.brand_name}
                         </td>
                       </tr>
                       <tr className="product-additional-details-table-row">
@@ -447,7 +463,7 @@ const ProductViewdetail = () => {
                           Form
                         </td>
                         <td className="product-additional-details-right-heading">
-                          Ornal Granules
+                          {productDetails.specification[0].specification_key}
                         </td>
                       </tr>
                       <tr className="product-additional-details-table-row">
@@ -463,7 +479,7 @@ const ProductViewdetail = () => {
                           Frequency
                         </td>
                         <td className="product-additional-details-right-heading">
-                          Individual
+                          {productDetails.specification[0].specification_value}
                         </td>
                       </tr>
                     </tbody>
@@ -472,7 +488,7 @@ const ProductViewdetail = () => {
               )}
             </div>
             <div className="product-view-detail-related-products-container">
-              <h3 className="product-view-detail-heading">Related Products</h3>
+              <h3 className="product-view-detail-heading">Similar Products</h3>
               <div className="feature-curosal-arrow-button">
                 <button
                   className="feature-curosal-arrow-right"
@@ -489,7 +505,7 @@ const ProductViewdetail = () => {
                 </button>
               </div>
               <Slider ref={slider} {...settings2}>
-                {featuredProductsList.map((item) => (
+                {similarProducts.map((item) => (
                   <BasicCard item={item} key={item.id} />
                 ))}
               </Slider>

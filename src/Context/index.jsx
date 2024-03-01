@@ -20,7 +20,6 @@ export const AppProvider = ({ children }) => {
     similarProducts: [],
   });
 
-  console.log("context product id", productId);
 
   const dashboardBodyData = {
     vendor_id: "4d513d3d",
@@ -208,7 +207,6 @@ export const AppProvider = ({ children }) => {
     setProductId(id);
   };
 
-  console.log("productDetails", productData);
 
   AppProvider.propTypes = {
     children: PropTypes.node,
