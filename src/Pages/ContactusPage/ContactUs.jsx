@@ -1,5 +1,6 @@
 import { FaSquarePhone } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
+import { useParams } from "react-router-dom";
 import "./contactus.css";
 import {
   FaFacebookF,
@@ -7,8 +8,16 @@ import {
   FaInstagram,
   FaYoutube,
 } from "react-icons/fa";
+import { useAppContext } from "../../Context";
+import { useEffect } from "react";
 
 const ContactUs = () => {
+  const { setproductid, productData } = useAppContext();
+  const { id } = useParams();
+  console.log("productData in page", productData);
+  useEffect(() => {
+    setproductid(id);
+  }, []);
   return (
     <div className="contact-us-main-container">
       <div className="contact-us-display-container">

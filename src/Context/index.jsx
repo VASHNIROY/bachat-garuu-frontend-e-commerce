@@ -14,6 +14,13 @@ export const AppProvider = ({ children }) => {
   const [featuredProductsList, setFeaturedProductsList] = useState([]);
   const [recentlyViewedProducts, setRecentlyViewedProducts] = useState([]);
   const [sponsoredProducts, setSponsoredProducts] = useState([]);
+  const [productId, setProductId] = useState(null);
+  const [productData, SetProductDetails] = useState({
+    productDetails: {},
+    similarProducts: [],
+  });
+
+  console.log("context product id", productId);
 
   const dashboardBodyData = {
     vendor_id: "4d513d3d",
@@ -25,6 +32,38 @@ export const AppProvider = ({ children }) => {
     vendor_id: "4d513d3d",
     user_id: "27",
     cart_type: "ecommerce",
+  };
+
+  const getProductBody = {
+    vendor_id: "4d513d3d",
+    user_id: "27",
+    product_id: productId,
+  };
+  const FetchProductDetailsData = async () => {
+    const productFormData = new FormData();
+
+    Object.entries(getProductBody).forEach(([key, value]) => {
+      productFormData.append(key, value);
+    });
+
+    const api = `${baseUrl}getProductDetails`;
+    const options = {
+      method: "POST",
+      body: productFormData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+
+      const productDetails = data.data;
+
+      const similarProducts = data.similar_product;
+
+      SetProductDetails({ productDetails, similarProducts });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const dashboardFormData = new FormData();
@@ -155,9 +194,21 @@ export const AppProvider = ({ children }) => {
     FetchRecentlyViewdata(dashboardFormData);
   }, []);
 
+  useEffect(() => {
+    if (productId !== null) {
+      FetchProductDetailsData();
+    }
+  }, [productId]);
+
   const incrementCartCount = () => {
     setlocalCartCount((prevCount) => prevCount + 1);
   };
+
+  const setproductid = (id) => {
+    setProductId(id);
+  };
+
+  console.log("productDetails", productData);
 
   AppProvider.propTypes = {
     children: PropTypes.node,
@@ -172,7 +223,9 @@ export const AppProvider = ({ children }) => {
         recentlyViewedProducts,
         sponsoredProducts,
         incrementCartCount,
-        localCartCount
+        localCartCount,
+        setproductid,
+        productData,
       }}
     >
       {children}
