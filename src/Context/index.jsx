@@ -9,7 +9,8 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const AppProvider = ({ children }) => {
   const [categoryList, setCategoryList] = useState([]);
-  const [cartCount, setCartCount] = useState();
+  const [serverCartCount, setServerCartCount] = useState();
+  const [localCartCount, setlocalCartCount] = useState(0);
   const [featuredProductsList, setFeaturedProductsList] = useState([]);
   const [recentlyViewedProducts, setRecentlyViewedProducts] = useState([]);
   const [sponsoredProducts, setSponsoredProducts] = useState([]);
@@ -51,7 +52,7 @@ export const AppProvider = ({ children }) => {
         const data = await response.json();
 
         const count = data.data.count;
-        setCartCount(count);
+        setServerCartCount(count);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -154,6 +155,10 @@ export const AppProvider = ({ children }) => {
     FetchRecentlyViewdata(dashboardFormData);
   }, []);
 
+  const incrementCartCount = () => {
+    setlocalCartCount((prevCount) => prevCount + 1);
+  };
+
   AppProvider.propTypes = {
     children: PropTypes.node,
   };
@@ -162,10 +167,12 @@ export const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         categoryList,
-        cartCount,
+        serverCartCount,
         featuredProductsList,
         recentlyViewedProducts,
         sponsoredProducts,
+        incrementCartCount,
+        localCartCount
       }}
     >
       {children}

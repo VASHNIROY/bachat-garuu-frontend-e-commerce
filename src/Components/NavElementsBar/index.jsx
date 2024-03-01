@@ -17,9 +17,9 @@ export const NavElementsBar = () => {
   const [activedropEle, setActivedropEle] = useState("");
   const [isShowbyCategoryTrue, setShowbyCategoryTrue] = useState(false);
 
-  const { categoryList } = useAppContext();
+  const { categoryList, localCartCount, serverCartCount } = useAppContext();
 
-  const { cartCount } = useAppContext();
+  const cartCount = localCartCount + serverCartCount;
 
   const handleMouseMove = (e) => {
     // Get the horizontal and vertical position of the mouse
