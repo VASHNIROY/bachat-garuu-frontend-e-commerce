@@ -24,7 +24,6 @@ import BasicCard from "../BasicCard/basiccard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useAppContext } from "../../Context";
 
 import PropTypes from "prop-types";
 
@@ -189,7 +188,6 @@ const ProductViewdetail = () => {
   const [selectedProduct, setProduct] = useState(products[0]);
   const [numberOfProducts, setNumberOfProducts] = useState(0);
 
-  const { featuredProductsList } = useAppContext();
   const [selectActive, setSelectActive] = useState("des");
   const slider = useRef(null);
 
@@ -198,7 +196,7 @@ const ProductViewdetail = () => {
 
   const { productDetails, similarProducts } = productData;
 
-  console.log("productDetails", productDetails);
+  console.log("product details", productDetails);
 
   useEffect(() => {
     setproductid(id);
@@ -291,16 +289,16 @@ const ProductViewdetail = () => {
             <div className="product-view-detail-container">
               <div className="product-view-details-first-container">
                 <h1 className="product-view-detail-heading">
-                  Vitamin D3 (1000IU) Cap X
+                  {productDetails.name}
                 </h1>
-                <div className="product-view-detail-review-container">
+                {/* <div className="product-view-detail-review-container">
                   {" "}
                   <Rating size={20} initialValue={3.2} />{" "}
                   <p className="product-view-detail-review">
                     {" "}
                     (3 customer reviews)
                   </p>
-                </div>
+                </div> */}
               </div>
               <hr />
               <div className="product-view-details-second-container">
@@ -359,9 +357,9 @@ const ProductViewdetail = () => {
                     <FaRegHeart /> Add to wishlist
                   </p>
 
-                  <p className="product-view-details-category">
+                  {/* <p className="product-view-details-category">
                     <LuRepeat2 /> Add to compare
-                  </p>
+                  </p> */}
                   <p className="product-view-details-category">
                     <LuMail /> Ask about product
                   </p>
@@ -456,7 +454,7 @@ const ProductViewdetail = () => {
                           Form
                         </td>
                         <td className="product-additional-details-right-heading">
-                          Ornal Granules
+                          {productDetails.specification[0].specification_key}
                         </td>
                       </tr>
                       <tr className="product-additional-details-table-row">
@@ -472,7 +470,7 @@ const ProductViewdetail = () => {
                           Frequency
                         </td>
                         <td className="product-additional-details-right-heading">
-                          Individual
+                          {productDetails.specification[0].specification_value}
                         </td>
                       </tr>
                     </tbody>
@@ -481,7 +479,7 @@ const ProductViewdetail = () => {
               )}
             </div>
             <div className="product-view-detail-related-products-container">
-              <h3 className="product-view-detail-heading">Related Products</h3>
+              <h3 className="product-view-detail-heading">Similar Products</h3>
               <div className="feature-curosal-arrow-button">
                 <button
                   className="feature-curosal-arrow-right"
@@ -498,7 +496,7 @@ const ProductViewdetail = () => {
                 </button>
               </div>
               <Slider ref={slider} {...settings2}>
-                {featuredProductsList.map((item) => (
+                {similarProducts.map((item) => (
                   <BasicCard item={item} key={item.id} />
                 ))}
               </Slider>
