@@ -17,7 +17,7 @@ function OfferCards() {
                 {cardData.map((card, index) => (
                     <div key={index} className='cards-medicines-mini-container'>
                         {card.icon}
-                        <h3 className='cards-medicines-heading'>{card.text}</h3>
+                        <h3 className='cards-medicines-heading' style={{textAlign:'center'}}>{card.text}</h3>
                     </div>
                 ))}
             </div>

@@ -71,6 +71,7 @@
     height: 250px!important;
     border-radius: 10px;
     cursor: pointer;
+    object-fit: contain;
 }
  
 .medicines-cards-heading {
@@ -83,7 +84,10 @@
     font-size: 14px;
     color:  #184363;
     font-weight: 700;
-}
+    overflow: hidden;
+    height:50px;
+    margin-top: 10px;
+  }
 .medicines-cards-paragraph:hover{
   color: #1589E3;
 }
@@ -97,6 +101,7 @@
     position: absolute;
     top:20px;
     right:10px;
+    cursor: pointer;
 }
 .medicines-cards-icons{
   background-color: white;

@@ -5,6 +5,7 @@ import Curosal from "../Components/MoreToLove/moretolove";
 import SellingProducts from "../Components/SellingProducts/sellingproducts";
 import NewSeltterBanner from "../Components/NewSeltterBanner";
 import OfferCards from "../Components/OfferCards";
+import CategorySlider from "../Components/CategorySlider/categorySlider";
 const HomePage = () => {
   return (
     <>
