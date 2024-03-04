@@ -63,7 +63,7 @@
 }
 
 .product-view-big-image {
-  width: 50%;
+  width: 90%;
   object-fit: contain;
   padding: 10px;
   border-radius: 20px;
