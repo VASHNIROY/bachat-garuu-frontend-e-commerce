@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import "./ProductViewdetail.css";
-import { Rating } from "react-simple-star-rating";
+// import { Rating } from "react-simple-star-rating";
 import { FiShoppingCart } from "react-icons/fi";
 import {
   FaRegHeart,
@@ -12,7 +12,7 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import { FaGreaterThan } from "react-icons/fa6";
-import { LuRepeat2, LuMail } from "react-icons/lu";
+import { LuMail } from "react-icons/lu";
 import { BiSolidDiscount } from "react-icons/bi";
 import Slider from "react-slick";
 import { useAppContext } from "../../Context";
@@ -27,44 +27,44 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import PropTypes from "prop-types";
 
-const products = [
-  {
-    id: 1,
-    category: "Supplements, Vitamins",
-    name: "Vitamin C 500mg Sugarless Tab",
-    image:
-      "https://enovathemes.com/propharm/wp-content/uploads/product42-300x300.jpg",
-    price: "$16.00 - $35.00",
-    rating: 2,
-  },
-  {
-    id: 2,
-    category: "Personal Care",
-    name: "Enterosgel Tube",
-    image:
-      "https://enovathemes.com/propharm/wp-content/uploads/product29-300x300.jpg",
-    price: "$41.95",
-    rating: "",
-  },
-  {
-    id: 3,
-    category: "Sports Nutrition",
-    name: "Protein Chocolate Flake",
-    image:
-      "https://enovathemes.com/propharm/wp-content/uploads/product47-300x300.jpg",
-    price: "$54.95",
-    rating: 5,
-  },
-  {
-    id: 4,
-    category: "Medicines",
-    name: "Advil Minis Liquid Cap X 90",
-    image:
-      "https://enovathemes.com/propharm/wp-content/uploads/product13-300x300.jpg",
-    price: "$22.00",
-    rating: "",
-  },
-];
+// const products = [
+//   {
+//     id: 1,
+//     category: "Supplements, Vitamins",
+//     name: "Vitamin C 500mg Sugarless Tab",
+//     image:
+//       "https://enovathemes.com/propharm/wp-content/uploads/product42-300x300.jpg",
+//     price: "$16.00 - $35.00",
+//     rating: 2,
+//   },
+//   {
+//     id: 2,
+//     category: "Personal Care",
+//     name: "Enterosgel Tube",
+//     image:
+//       "https://enovathemes.com/propharm/wp-content/uploads/product29-300x300.jpg",
+//     price: "$41.95",
+//     rating: "",
+//   },
+//   {
+//     id: 3,
+//     category: "Sports Nutrition",
+//     name: "Protein Chocolate Flake",
+//     image:
+//       "https://enovathemes.com/propharm/wp-content/uploads/product47-300x300.jpg",
+//     price: "$54.95",
+//     rating: 5,
+//   },
+//   {
+//     id: 4,
+//     category: "Medicines",
+//     name: "Advil Minis Liquid Cap X 90",
+//     image:
+//       "https://enovathemes.com/propharm/wp-content/uploads/product13-300x300.jpg",
+//     price: "$22.00",
+//     rating: "",
+//   },
+// ];
 
 const bannerImages = [
   {
@@ -176,18 +176,22 @@ SamplePrevArrow.propTypes = {
 };
 
 const ProductViewdetail = () => {
-  const [selectedProduct, setProduct] = useState(products[0]);
+  const [selectedProduct, setProduct] = useState("");
   const [numberOfProducts, setNumberOfProducts] = useState(0);
 
   const [selectActive, setSelectActive] = useState("des");
   const slider = useRef(null);
 
-  const { setproductid, productData } = useAppContext();
+  const { setproductid, productData, addToCart } = useAppContext();
   const { id } = useParams();
 
   const { productDetails, similarProducts } = productData;
 
   console.log("product details", productDetails);
+
+  const addToCartbtn = (props) => {
+    addToCart(props);
+  };
 
   useEffect(() => {
     setproductid(id);
@@ -274,7 +278,11 @@ const ProductViewdetail = () => {
               <div className="product-view-detail-big-img-container">
                 <img
                   className="product-view-big-image"
-                  src={productDetails.home_image}
+                  src={
+                    selectedProduct === ""
+                      ? productDetails.home_image
+                      : selectedProduct.image
+                  }
                 />
               </div>
               <div className="product-view-detail-products-images-container">
@@ -288,7 +296,7 @@ const ProductViewdetail = () => {
                           each === selectedProduct ? "active" : ""
                         }`}
                         src={each.image}
-                        alt="name"
+                        alt={each.image}
                         onClick={() => setProduct(each)}
                       />
                     </>
@@ -337,7 +345,10 @@ const ProductViewdetail = () => {
                   <div className="product-add-button-container">
                     <button
                       className="product-add-button"
-                      onClick={() => setNumberOfProducts(numberOfProducts - 1)}
+                      onClick={() => {
+                        setNumberOfProducts(numberOfProducts - 1);
+                        addToCartbtn("remove");
+                      }}
                     >
                       -
                     </button>
@@ -348,7 +359,10 @@ const ProductViewdetail = () => {
                     />
                     <button
                       className="product-add-button"
-                      onClick={() => setNumberOfProducts(numberOfProducts + 1)}
+                      onClick={() => {
+                        setNumberOfProducts(numberOfProducts + 1);
+                        addToCartbtn("add");
+                      }}
                     >
                       +
                     </button>

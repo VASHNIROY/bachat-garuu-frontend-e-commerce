@@ -7,7 +7,6 @@ import "../MedicineCard/medicinecard.css";
 
 function BasicCard(item) {
   const items = item.item;
-  console.log("items", items);
   return (
     <div className="medicines-cards-mini-container">
       <div

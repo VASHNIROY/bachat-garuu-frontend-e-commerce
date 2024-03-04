@@ -15,11 +15,11 @@ export const AppProvider = ({ children }) => {
   const [recentlyViewedProducts, setRecentlyViewedProducts] = useState([]);
   const [sponsoredProducts, setSponsoredProducts] = useState([]);
   const [productId, setProductId] = useState(null);
+
   const [productData, SetProductDetails] = useState({
     productDetails: {},
     similarProducts: [],
   });
-
 
   const dashboardBodyData = {
     vendor_id: "4d513d3d",
@@ -27,9 +27,9 @@ export const AppProvider = ({ children }) => {
     dashboard_type: "ecommerce",
   };
 
-  const cartBody = {
-    vendor_id: "4d513d3d",
-    user_id: "27",
+  const cartCountBody = {
+    vendor_id: "4d544d3d",
+    user_id: "1",
     cart_type: "ecommerce",
   };
 
@@ -73,7 +73,7 @@ export const AppProvider = ({ children }) => {
 
   const cartformData = new FormData();
 
-  Object.entries(cartBody).forEach(([key, value]) => {
+  Object.entries(cartCountBody).forEach(([key, value]) => {
     cartformData.append(key, value);
   });
 
@@ -193,6 +193,28 @@ export const AppProvider = ({ children }) => {
     FetchRecentlyViewdata(dashboardFormData);
   }, []);
 
+  // useEffect(() => {
+  //   const FetchBannerCarouseldata = async (dashboardFormData) => {
+  //     const api = `${baseUrl}dashboard`;
+  //     const options = {
+  //       method: "POST",
+  //       body: dashboardFormData,
+  //     };
+
+  //     try {
+  //       const response = await fetch(api, options);
+  //       const data = await response.json();
+
+  //       const bannerData = data.data.filter((each) => each.type === "banner");
+
+  //       setSponsoredProducts(setSponsoredProductsList[0].data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  //   FetchBannerCarouseldata(dashboardFormData);
+  // }, []);
+
   useEffect(() => {
     if (productId !== null) {
       FetchProductDetailsData();
@@ -207,6 +229,39 @@ export const AppProvider = ({ children }) => {
     setProductId(id);
   };
 
+  async function addToCart(props) {
+    const addToCartBody = {
+      vendor_id: "4d544d3d",
+      user_id: "1",
+      product_id: productId,
+      unit: productData.productDetails.unit_details[0].unit,
+      unit_id: productData.productDetails.unit_details[0].unit_id,
+      unit_value: productData.productDetails.unit_details[0].unit_value,
+      type: props,
+      product_type: productData.productDetails.product_type,
+      cart_type: "ecommerce",
+    };
+    console.log("fetching product data ", addToCartBody, "type", props);
+    const addToCartformData = new FormData();
+
+    Object.entries(addToCartBody).forEach(([key, value]) => {
+      addToCartformData.append(key, value);
+    });
+    const api = `${baseUrl}addToCart`;
+    const options = {
+      method: "POST",
+      body: addToCartformData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
   AppProvider.propTypes = {
     children: PropTypes.node,
@@ -224,6 +279,7 @@ export const AppProvider = ({ children }) => {
         localCartCount,
         setproductid,
         productData,
+        addToCart,
       }}
     >
       {children}
