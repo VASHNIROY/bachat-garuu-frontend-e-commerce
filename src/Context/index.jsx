@@ -9,10 +9,17 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const AppProvider = ({ children }) => {
   const [categoryList, setCategoryList] = useState([]);
-  const [cartCount, setCartCount] = useState();
+  const [serverCartCount, setServerCartCount] = useState();
+  const [localCartCount, setlocalCartCount] = useState(0);
   const [featuredProductsList, setFeaturedProductsList] = useState([]);
   const [recentlyViewedProducts, setRecentlyViewedProducts] = useState([]);
   const [sponsoredProducts, setSponsoredProducts] = useState([]);
+  const [productId, setProductId] = useState(null);
+  const [productData, SetProductDetails] = useState({
+    productDetails: {},
+    similarProducts: [],
+  });
+
 
   const dashboardBodyData = {
     vendor_id: "4d513d3d",
@@ -24,6 +31,38 @@ export const AppProvider = ({ children }) => {
     vendor_id: "4d513d3d",
     user_id: "27",
     cart_type: "ecommerce",
+  };
+
+  const getProductBody = {
+    vendor_id: "4d513d3d",
+    user_id: "27",
+    product_id: productId,
+  };
+  const FetchProductDetailsData = async () => {
+    const productFormData = new FormData();
+
+    Object.entries(getProductBody).forEach(([key, value]) => {
+      productFormData.append(key, value);
+    });
+
+    const api = `${baseUrl}getProductDetails`;
+    const options = {
+      method: "POST",
+      body: productFormData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+
+      const productDetails = data.data;
+
+      const similarProducts = data.similar_product;
+
+      SetProductDetails({ productDetails, similarProducts });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const dashboardFormData = new FormData();
@@ -51,7 +90,7 @@ export const AppProvider = ({ children }) => {
         const data = await response.json();
 
         const count = data.data.count;
-        setCartCount(count);
+        setServerCartCount(count);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -154,6 +193,21 @@ export const AppProvider = ({ children }) => {
     FetchRecentlyViewdata(dashboardFormData);
   }, []);
 
+  useEffect(() => {
+    if (productId !== null) {
+      FetchProductDetailsData();
+    }
+  }, [productId]);
+
+  const incrementCartCount = () => {
+    setlocalCartCount((prevCount) => prevCount + 1);
+  };
+
+  const setproductid = (id) => {
+    setProductId(id);
+  };
+
+
   AppProvider.propTypes = {
     children: PropTypes.node,
   };
@@ -162,10 +216,14 @@ export const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         categoryList,
-        cartCount,
+        serverCartCount,
         featuredProductsList,
         recentlyViewedProducts,
         sponsoredProducts,
+        incrementCartCount,
+        localCartCount,
+        setproductid,
+        productData,
       }}
     >
       {children}
