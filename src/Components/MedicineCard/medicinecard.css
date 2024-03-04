@@ -46,14 +46,13 @@
   justify-content: center;
   flex-direction: row;
   align-items: center;
-  width: 82%;
+  width: 100%;
 }
 .medicines-cards-main-category-container {
   position: relative;
   border-radius: 10px;
   padding: 20px;
   background-color: #ffffff;
-  /* width: 20%; */
 }
 .medicines-cards-sub-category-container {
   display: flex;
@@ -66,11 +65,11 @@
 }
 
 .medicines-cards-image {
-    width:100%!important;
-    height: 250px!important;
-    border-radius: 10px;
-    cursor: pointer;
-    object-fit: contain;
+  width: 100% !important;
+  height: 250px !important;
+  border-radius: 10px;
+  cursor: pointer;
+  object-fit: contain;
 }
 
 .medicines-cards-heading {
@@ -80,26 +79,27 @@
 }
 
 .medicines-cards-paragraph {
-    font-size: 14px;
-    color:  #184363;
-    font-weight: 700;
-    overflow: hidden;
-    max-height:20px;
-  }
-.medicines-cards-paragraph:hover{
-  color: #1589E3;
+  font-size: 14px;
+  color: #184363;
+  font-weight: 700;
+  overflow: hidden;
+  height: 50px;
+  margin-top: 10px;
 }
-.medicines-cards-icons-container{
-    display: flex;
-    color: #1589E3;
-    padding: 10px;
-    flex-direction:column;
-    gap: 5px;
-    display:none;
-    position: absolute;
-    top:20px;
-    right:10px;
-    cursor: pointer;
+.medicines-cards-paragraph:hover {
+  color: #1589e3;
+}
+.medicines-cards-icons-container {
+  display: flex;
+  color: #1589e3;
+  padding: 10px;
+  flex-direction: column;
+  gap: 5px;
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  cursor: pointer;
 }
 .medicines-cards-icons {
   background-color: white;
