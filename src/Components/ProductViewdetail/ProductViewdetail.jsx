@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import "./ProductViewdetail.css";
-import { Rating } from "react-simple-star-rating";
+
 import { FiShoppingCart } from "react-icons/fi";
 import {
   FaRegHeart,
@@ -12,7 +12,7 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import { FaGreaterThan } from "react-icons/fa6";
-import { LuRepeat2, LuMail } from "react-icons/lu";
+import { LuMail } from "react-icons/lu";
 import { BiSolidDiscount } from "react-icons/bi";
 import Slider from "react-slick";
 import { useAppContext } from "../../Context";
@@ -218,6 +218,14 @@ const ProductViewdetail = () => {
           infinite: true,
         },
       },
+      {
+        breakpoint: 512,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 2,
+        },
+      },
     ],
   };
 
@@ -228,35 +236,44 @@ const ProductViewdetail = () => {
     slidesToShow: 3,
     slidesToScroll: 1,
 
-    // responsive: [
-    //   {
-    //     breakpoint: 1424,
-    //     settings: {
-    //       slidesToShow: 5,
-    //       slidesToScroll: 1,
-    //       infinite: true,
-    //       rows: 2,
-    //       slidePerRow: 1,
-    //     },
-    //   },
+    responsive: [
+      {
+        breakpoint: 1275,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          rows: 2,
+          slidePerRow: 1,
+        },
+      },
 
-    //   {
-    //     breakpoint: 1124,
-    //     settings: {
-    //       slidesToShow: 2,
-    //       slidesToScroll: 2,
-    //       infinite: true,
-    //     },
-    //   },
-    //   {
-    //     breakpoint: 800,
-    //     settings: {
-    //       slidesToShow: 1,
-    //       slidesToScroll: 1,
-    //       initialSlide: 2,
-    //     },
-    //   },
-    // ],
+      {
+        breakpoint: 1022,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          rows: 2,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 769,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 512,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 2,
+        },
+      },
+    ],
 
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
