@@ -25,11 +25,11 @@
 .medicine-cursoal-row1-container {
   display: flex;
   flex-direction: row !important;
-  width: 460px;
+  width: 33%;
 }
 
 .medcine-cursal-image {
-  width: 190px;
+  width: 100%;
   height: 160px;
   padding: 20px;
   border-radius: 30px !important;
@@ -37,7 +37,7 @@
 }
 .medicine-curosal-content-container {
   margin-top: 30px !important;
-  width: 80%;
+  width: 100%;
 }
 .medicine-curosal-main-heading {
   color: #184363;
@@ -52,6 +52,8 @@
   margin: 5px;
   color: #184363;
   font-weight: 700;
+  overflow: hidden;
+  max-height: 35px;
   text-transform: none;
 }
 .medicine-curosal-heading:hover {
@@ -64,4 +66,21 @@
   font-weight: 700;
   font-size: 14px;
   color: #184363;
+}
+@media  screen and (min-width:320px) and (max-width: 767px) {
+  .medicine-curosal-sub-container{
+    display: flex;
+    flex-direction: column !important;
+    width: 100%;
+  }
+  .medicine-curosal-heading{
+    font-size: 14px;
+    margin: 5px;
+    color: #184363;
+    font-weight: 700;
+    width: 100%;
+  }
+  .medicine-cursoal-row1-container{
+    width: 90%;
+  }
 }
