@@ -19,7 +19,8 @@ export const NavElementsBar = () => {
 
   const { categoryList, localCartCount, serverCartCount } = useAppContext();
 
-  const cartCount = localCartCount + serverCartCount;
+  const cartCount =
+    parseInt(localCartCount) || 0 + parseInt(serverCartCount) || 0;
 
   const handleMouseMove = (e) => {
     // Get the horizontal and vertical position of the mouse

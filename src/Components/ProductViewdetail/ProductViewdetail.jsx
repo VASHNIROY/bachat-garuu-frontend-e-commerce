@@ -189,9 +189,9 @@ const ProductViewdetail = () => {
 
   console.log("product details", productDetails);
 
-  const addToCartbtn = (props) => {
-    addToCart(props);
-  };
+  // const addToCartbtn = (props) => {
+  //   addToCart(props);
+  // };
 
   useEffect(() => {
     setproductid(id);
@@ -347,7 +347,7 @@ const ProductViewdetail = () => {
                       className="product-add-button"
                       onClick={() => {
                         setNumberOfProducts(numberOfProducts - 1);
-                        addToCartbtn("remove");
+                        // addToCartbtn("remove");
                       }}
                     >
                       -
@@ -361,13 +361,16 @@ const ProductViewdetail = () => {
                       className="product-add-button"
                       onClick={() => {
                         setNumberOfProducts(numberOfProducts + 1);
-                        addToCartbtn("add");
+                        // addToCartbtn("add");
                       }}
                     >
                       +
                     </button>
                   </div>
-                  <button className="product-add-to-cart-button">
+                  <button
+                    className="product-add-to-cart-button"
+                    onClick={() => addToCart()}
+                  >
                     <FiShoppingCart /> Add to Cart
                   </button>
                   <button className="product-buy-now-button">
