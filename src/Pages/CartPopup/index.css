@@ -1,0 +1,19 @@
+.cart-pop-up-main-container {
+}
+.cart-pop-up-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 200px;
+  overflow: scroll;
+}
+.cart-pop-up-list-card {
+  display: flex;
+  gap: 20px;
+}
+.cart-pop-up-image-container {
+  width: 150px;
+}
+.cart-pop-up-image {
+  width: 100%;
+}
