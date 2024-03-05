@@ -14,7 +14,7 @@ function SponsoredProducts() {
           {sponsoredProducts.map((item) => (
             <div
               key={item.brand_id}
-              className="medicine-cursoal-row1-container"
+              className="medicine-cursoal-row1-container" 
             >
               <img
                 src={item.home_image}

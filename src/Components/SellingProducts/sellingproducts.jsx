@@ -1,7 +1,6 @@
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineShoppingCart } from "react-icons/md";
 
-// import { Rating } from "react-simple-star-rating";
 import "../MedicineCard/medicinecard.css";
 import { useAppContext } from "../../Context";
 
@@ -26,7 +25,7 @@ function SellingProducts() {
             <div
               key={product.id}
               className="medicines-cards-main-category-container"
-              style={{ height: "490px", width: "275px" }}
+              style={{ height: "490px", width: "200px" }}
             >
               <div className="medicines-cards-sub-category-container">
                 <div className="medicines-cards-new-buttons">
@@ -46,9 +45,7 @@ function SellingProducts() {
                   alt={product.name}
                 />
               </div>
-              {/* <h5 className="medicines-cards-heading">{product.category}</h5> */}
               <h2 className="medicines-cards-paragraph">{product.name}</h2>
-              {/* <Rating size={25} initialValue={product.rating} /> */}
               <p className="medicines-cards-price">
                 {product.unit_mrp && (
                   <span
