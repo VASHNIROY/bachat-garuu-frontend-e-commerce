@@ -83,7 +83,7 @@
   color: #184363;
   font-weight: 700;
   overflow: hidden;
-  height: 30px;
+  max-height: 30px;
   margin-top: 10px;
 }
 .medicines-cards-paragraph:hover {
