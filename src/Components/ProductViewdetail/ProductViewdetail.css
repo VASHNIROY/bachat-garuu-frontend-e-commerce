@@ -64,6 +64,7 @@
 
 .product-view-big-image {
   width: 90%;
+  height: 450px;
   object-fit: contain;
   padding: 10px;
   border-radius: 20px;
@@ -159,8 +160,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 9.5%;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   color: white;
   font-size: 22px;
   font-weight: bold;

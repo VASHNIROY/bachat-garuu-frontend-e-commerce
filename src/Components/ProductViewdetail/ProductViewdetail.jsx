@@ -177,7 +177,7 @@ SamplePrevArrow.propTypes = {
 
 const ProductViewdetail = () => {
   const [selectedProduct, setProduct] = useState("");
-  const [numberOfProducts, setNumberOfProducts] = useState(0);
+  // const [numberOfProducts, setNumberOfProducts] = useState(0);
 
   const [selectActive, setSelectActive] = useState("des");
   const slider = useRef(null);
@@ -237,7 +237,7 @@ const ProductViewdetail = () => {
     infinite: true,
     arrows: false,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
 
     responsive: [
@@ -359,7 +359,7 @@ const ProductViewdetail = () => {
               </div>
               <div className="product-view-details-four-container">
                 <div className="product-add-to-cart-container">
-                  <div className="product-add-button-container">
+                  {/* <div className="product-add-button-container">
                     <button
                       className="product-add-button"
                       onClick={() => {
@@ -383,8 +383,13 @@ const ProductViewdetail = () => {
                     >
                       +
                     </button>
-                  </div>
-                  <button className="product-add-to-cart-button">
+                  </div> */}
+                  <button
+                    className="product-add-to-cart-button"
+                    onClick={() => {
+                      addToCartbtn("add");
+                    }}
+                  >
                     <FiShoppingCart /> Add to Cart
                   </button>
                   <button className="product-buy-now-button">
