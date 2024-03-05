@@ -52,7 +52,6 @@ export default function FeaturedProducts() {
   const slider = React.useRef(null);
 
   const { featuredProductsList } = useAppContext();
-  console.log("fetchedFeatureProducts", featuredProductsList);
 
   const settings = {
     infinite: true,
@@ -125,7 +124,7 @@ export default function FeaturedProducts() {
       </div>
       <Slider ref={slider} {...settings}>
         {featuredProductsList.map((item) => (
-          <Link to={`/product/${item.id}`} key={item.id}>
+          <Link className="basic-card-link" to={`/product/${item.id}`} key={item.id}>
             {" "}
             <BasicCard item={item} key={item.id} />
           </Link>

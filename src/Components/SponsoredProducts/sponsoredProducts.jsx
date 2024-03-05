@@ -6,7 +6,6 @@ function SponsoredProducts() {
   // const carouselItems = [
 
   const { sponsoredProducts } = useAppContext();
-  console.log("sponsoredProducts", sponsoredProducts);
   return (
     <div className="medicine-curosal-main-container">
       <div className="medicine-curosal-mini-container">
