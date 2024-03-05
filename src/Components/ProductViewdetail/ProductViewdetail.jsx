@@ -148,9 +148,9 @@ const ProductViewdetail = () => {
 
   const { productDetails, similarProducts } = productData;
 
-  // const addToCartbtn = (props) => {
-  //   addToCart(props);
-  // };
+  const addToCartbtn = (props) => {
+    addToCart(props);
+  };
 
   useEffect(() => {
     setproductid(id);

@@ -46,7 +46,7 @@ const CategoryItem = ({ categoryId }) => {
   return (
     <div className="category-item-main-container">
       {noData ? (
-        <p className="no-data-message">No data found</p>
+        <p>Data Not Found</p>
       ) : (
         <>
           {productsList.map((el) => (
