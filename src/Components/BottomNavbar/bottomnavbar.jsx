@@ -1,6 +1,5 @@
 import { CiUser } from "react-icons/ci";
 import { CiHome } from "react-icons/ci";
-import { IoIosGitCompare } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
 import { CiShoppingCart } from "react-icons/ci";
 import { useState } from "react";

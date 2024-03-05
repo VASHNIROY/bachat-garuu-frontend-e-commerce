@@ -64,9 +64,9 @@ export default function FeaturedProducts() {
 
     responsive: [
       {
-        breakpoint: 1424,
+        breakpoint: 1275,
         settings: {
-          slidesToShow: 5,
+          slidesToShow: 4,
           slidesToScroll: 1,
           infinite: true,
           rows: 2,
@@ -75,15 +75,24 @@ export default function FeaturedProducts() {
       },
 
       {
-        breakpoint: 1124,
+        breakpoint: 1022,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          rows: 2,
           infinite: true,
         },
       },
       {
-        breakpoint: 800,
+        breakpoint: 769,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 512,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
