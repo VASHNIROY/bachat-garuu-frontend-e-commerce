@@ -8,11 +8,9 @@ import CategorySlider from "../Components/CategorySlider/categorySlider";
 import SponsoredProducts from "../Components/SponsoredProducts/sponsoredProducts";
 import AdvertBanner from "../Components/AdvertisingBanner/advertBanner";
 import BannerCarousel from "../Components/BannerCarousel/bannerCarousel";
-import { CartSampleBtn } from "../Components/CartSampleBtn/cartsample";
 const HomePage = () => {
   return (
     <>
-      <CartSampleBtn />
       <AdvertBanner />
       <BannerCarousel />
       <FeaturedProducts />
