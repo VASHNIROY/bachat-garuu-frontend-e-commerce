@@ -27,45 +27,6 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import PropTypes from "prop-types";
 
-// const products = [
-//   {
-//     id: 1,
-//     category: "Supplements, Vitamins",
-//     name: "Vitamin C 500mg Sugarless Tab",
-//     image:
-//       "https://enovathemes.com/propharm/wp-content/uploads/product42-300x300.jpg",
-//     price: "$16.00 - $35.00",
-//     rating: 2,
-//   },
-//   {
-//     id: 2,
-//     category: "Personal Care",
-//     name: "Enterosgel Tube",
-//     image:
-//       "https://enovathemes.com/propharm/wp-content/uploads/product29-300x300.jpg",
-//     price: "$41.95",
-//     rating: "",
-//   },
-//   {
-//     id: 3,
-//     category: "Sports Nutrition",
-//     name: "Protein Chocolate Flake",
-//     image:
-//       "https://enovathemes.com/propharm/wp-content/uploads/product47-300x300.jpg",
-//     price: "$54.95",
-//     rating: 5,
-//   },
-//   {
-//     id: 4,
-//     category: "Medicines",
-//     name: "Advil Minis Liquid Cap X 90",
-//     image:
-//       "https://enovathemes.com/propharm/wp-content/uploads/product13-300x300.jpg",
-//     price: "$22.00",
-//     rating: "",
-//   },
-// ];
-
 const bannerImages = [
   {
     id: 6,
@@ -187,11 +148,9 @@ const ProductViewdetail = () => {
 
   const { productDetails, similarProducts } = productData;
 
-  console.log("product details", productDetails);
-
-  const addToCartbtn = (props) => {
-    addToCart(props);
-  };
+  // const addToCartbtn = (props) => {
+  //   addToCart(props);
+  // };
 
   useEffect(() => {
     setproductid(id);
@@ -364,7 +323,7 @@ const ProductViewdetail = () => {
                       className="product-add-button"
                       onClick={() => {
                         setNumberOfProducts(numberOfProducts - 1);
-                        addToCartbtn("remove");
+                        // addToCartbtn("remove");
                       }}
                     >
                       -
@@ -378,7 +337,7 @@ const ProductViewdetail = () => {
                       className="product-add-button"
                       onClick={() => {
                         setNumberOfProducts(numberOfProducts + 1);
-                        addToCartbtn("add");
+                        // addToCartbtn("add");
                       }}
                     >
                       +

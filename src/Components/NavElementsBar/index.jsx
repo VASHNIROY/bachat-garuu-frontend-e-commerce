@@ -11,16 +11,20 @@ import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 import { useAppContext } from "../../Context/index.jsx";
 import CategorySlider from "../CategorySlider/categorySlider.jsx";
+import Popup from "reactjs-popup";
+import CartPopup from "../../Pages/CartPopup/index.jsx";
 import CategoryItem from "../CategoryItem/CategoryItem.jsx";
 
 export const NavElementsBar = () => {
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
 
   const [isShowbyCategoryTrue, setShowbyCategoryTrue] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const { categoryList, localCartCount, serverCartCount } = useAppContext();
 
-  const cartCount = localCartCount + serverCartCount;
+  const cartCount =
+    parseInt(localCartCount) || 0 + parseInt(serverCartCount) || 0;
   const initialActiveElId =
     categoryList && categoryList.length > 0 ? categoryList[0].category_id : "";
 
@@ -99,6 +103,10 @@ export const NavElementsBar = () => {
     );
   }
 
+  const handleCloseClick = () => {
+    setIsPopupOpen(false);
+  };
+
   return (
     <>
       <div className="navbar-ele">
@@ -139,13 +147,27 @@ export const NavElementsBar = () => {
               </Tooltip>
             </li>
             <li>
-              <Tooltip title="Cart">
-                <IconButton>
-                  <Badge badgeContent={cartCount} color="primary">
-                    <RiShoppingCart2Line className="nav-ele-bar-icon" />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
+              <Popup
+                closeOnDocumentClick={false}
+                open={isPopupOpen}
+                onClose={handleCloseClick}
+                contentStyle={{
+                  width: "350px",
+                  padding: "5px",
+                }}
+                trigger={
+                  <Tooltip title="Cart">
+                    <IconButton>
+                      <Badge badgeContent={cartCount} color="primary">
+                        <RiShoppingCart2Line className="nav-ele-bar-icon" />
+                      </Badge>
+                    </IconButton>
+                  </Tooltip>
+                }
+                position="bottom right"
+              >
+                <CartPopup onClose={handleCloseClick} />
+              </Popup>
             </li>
           </ul>
         </div>
