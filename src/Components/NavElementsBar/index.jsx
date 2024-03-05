@@ -11,11 +11,14 @@ import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 import { useAppContext } from "../../Context/index.jsx";
 import CategorySlider from "../CategorySlider/categorySlider.jsx";
+import Popup from "reactjs-popup";
+import CartPopup from "../../Pages/CartPopup/index.jsx";
 
 export const NavElementsBar = () => {
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
   const [activedropEle, setActivedropEle] = useState("");
   const [isShowbyCategoryTrue, setShowbyCategoryTrue] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const { categoryList, localCartCount, serverCartCount } = useAppContext();
 
@@ -86,6 +89,10 @@ export const NavElementsBar = () => {
     );
   }
 
+  const handleCloseClick = () => {
+    setIsPopupOpen(false);
+  };
+
   return (
     <>
       <div className="navbar-ele">
@@ -126,13 +133,27 @@ export const NavElementsBar = () => {
               </Tooltip>
             </li>
             <li>
-              <Tooltip title="Cart">
-                <IconButton>
-                  <Badge badgeContent={cartCount} color="primary">
-                    <RiShoppingCart2Line className="nav-ele-bar-icon" />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
+              <Popup
+                closeOnDocumentClick={false}
+                open={isPopupOpen}
+                onClose={handleCloseClick}
+                contentStyle={{
+                  width: "350px",
+                  padding: "5px",
+                }}
+                trigger={
+                  <Tooltip title="Cart">
+                    <IconButton>
+                      <Badge badgeContent={cartCount} color="primary">
+                        <RiShoppingCart2Line className="nav-ele-bar-icon" />
+                      </Badge>
+                    </IconButton>
+                  </Tooltip>
+                }
+                position="bottom right"
+              >
+                <CartPopup onClose={handleCloseClick} />
+              </Popup>
             </li>
           </ul>
         </div>
