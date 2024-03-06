@@ -15,6 +15,7 @@ export const AppProvider = ({ children }) => {
   const [recentlyViewedProducts, setRecentlyViewedProducts] = useState([]);
   const [sponsoredProducts, setSponsoredProducts] = useState([]);
   const [productId, setProductId] = useState(null);
+  const [bannerData, setBannerData] = useState([]);
 
   const [productData, SetProductDetails] = useState({
     productDetails: {},
@@ -113,6 +114,8 @@ export const AppProvider = ({ children }) => {
           (each) => each.type === "category_list"
         );
 
+        console.log(categoryList, "context category List");
+
         setCategoryList(categorysList[0].data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -193,27 +196,26 @@ export const AppProvider = ({ children }) => {
     FetchRecentlyViewdata(dashboardFormData);
   }, []);
 
-  // useEffect(() => {
-  //   const FetchBannerCarouseldata = async (dashboardFormData) => {
-  //     const api = `${baseUrl}dashboard`;
-  //     const options = {
-  //       method: "POST",
-  //       body: dashboardFormData,
-  //     };
+  useEffect(() => {
+    const FetchBannerCarouseldata = async (dashboardFormData) => {
+      const api = `${baseUrl}dashboard`;
+      const options = {
+        method: "POST",
+        body: dashboardFormData,
+      };
 
-  //     try {
-  //       const response = await fetch(api, options);
-  //       const data = await response.json();
+      try {
+        const response = await fetch(api, options);
+        const data = await response.json();
 
-  //       const bannerData = data.data.filter((each) => each.type === "banner");
-
-  //       setSponsoredProducts(setSponsoredProductsList[0].data);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-  //   FetchBannerCarouseldata(dashboardFormData);
-  // }, []);
+        const bannerData = data.data.filter((each) => each.type === "banner");
+        setBannerData(bannerData[0].data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    FetchBannerCarouseldata(dashboardFormData);
+  }, []);
 
   useEffect(() => {
     if (productId !== null) {
@@ -280,6 +282,7 @@ export const AppProvider = ({ children }) => {
         setproductid,
         productData,
         addToCart,
+        bannerData,
       }}
     >
       {children}

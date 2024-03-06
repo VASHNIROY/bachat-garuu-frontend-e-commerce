@@ -10,6 +10,7 @@ import { MdWifiCalling3 } from "react-icons/md";
 import "reactjs-popup/dist/index.css";
 import Sidebar from "./Sidebar/sidebar";
 import NavElementsBar from "../NavElementsBar";
+import logo from "../../Utils/logo.png";
 
 const Navbar = () => {
   const [isPopupOpen, setPopup] = useState(false);
@@ -27,7 +28,7 @@ const Navbar = () => {
             <Sidebar setMenuOpen={setMenubar} isMenuopen={isMenuopen} />
           )}
           <div className="mbl-navbar-main-container">
-            <svg
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               className="mbl-navbar-logo"
               viewBox="0 0 197.4 44.93"
@@ -40,7 +41,14 @@ const Navbar = () => {
                 d="M40.4 14.37h-7.64V6.72A6.72 6.72 0 0 0 26 0h-4.9a6.73 6.73 0 0 0-6.73 6.72v7.64H6.72A6.72 6.72 0 0 0 0 21.08V26a6.73 6.73 0 0 0 6.72 6.73h7.65c0 4.31-.5 7.25-2.14 10.17a1.39 1.39 0 0 0 1.53 2c5.32-1.23 15.48-4.53 19-12.2h7.65a6.72 6.72 0 0 0 6.72-6.7v-4.9a6.73 6.73 0 0 0-6.72-6.73Zm-18.64 15a2.31 2.31 0 0 1-1.64-.68l-4.47-4.47a2.32 2.32 0 0 1 3.28-3.28l2.83 2.83 6.43-6.43a2.32 2.32 0 0 1 3.28 3.28l-8.07 8.07a2.31 2.31 0 0 1-1.64.65Z"
                 style={{ fill: "#15a9e3" }}
               ></path>
-            </svg>
+            </svg> */}
+            <div className="mbl-navbar-logo">
+              <img src={logo} className="navbar-logo" />
+              <div className="navbar-logo-content-container">
+                <p style={{ margin: 0 }}>Bachat Guruu</p>
+                <p style={{ margin: 0 }}>ISSE SASTA AUR KAHAN</p>
+              </div>
+            </div>
             <div className="mbl-navbar-icons-container">
               <CiSearch
                 className="mbl-navbar-icons"
@@ -89,7 +97,7 @@ const Navbar = () => {
       {isWebScreen && (
         <div className="navbar">
           <div className="navbar-main-container">
-            <svg
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               className="navbar-logo"
               viewBox="0 0 197.4 44.93"
@@ -102,7 +110,14 @@ const Navbar = () => {
                 d="M40.4 14.37h-7.64V6.72A6.72 6.72 0 0 0 26 0h-4.9a6.73 6.73 0 0 0-6.73 6.72v7.64H6.72A6.72 6.72 0 0 0 0 21.08V26a6.73 6.73 0 0 0 6.72 6.73h7.65c0 4.31-.5 7.25-2.14 10.17a1.39 1.39 0 0 0 1.53 2c5.32-1.23 15.48-4.53 19-12.2h7.65a6.72 6.72 0 0 0 6.72-6.7v-4.9a6.73 6.73 0 0 0-6.72-6.73Zm-18.64 15a2.31 2.31 0 0 1-1.64-.68l-4.47-4.47a2.32 2.32 0 0 1 3.28-3.28l2.83 2.83 6.43-6.43a2.32 2.32 0 0 1 3.28 3.28l-8.07 8.07a2.31 2.31 0 0 1-1.64.65Z"
                 style={{ fill: "#15a9e3" }}
               ></path>
-            </svg>
+            </svg> */}
+            <div className="navbar-logo-container">
+              <img src={logo} className="navbar-logo" />
+              <div className="navbar-logo-content-container">
+                <p style={{ margin: 0 }}>Bachat Guruu</p>
+                <p style={{ margin: 0 }}>ISSE SASTA AUR KAHAN</p>
+              </div>
+            </div>
             <div className="navbar-icons-container">
               <input
                 className="category-search"
