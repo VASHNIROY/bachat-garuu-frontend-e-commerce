@@ -11,15 +11,28 @@ import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 import { useAppContext } from "../../Context/index.jsx";
 import CategorySlider from "../CategorySlider/categorySlider.jsx";
+import Popup from "reactjs-popup";
+import CartPopup from "../../Pages/CartPopup/index.jsx";
+import CategoryItem from "../CategoryItem/CategoryItem.jsx";
 
 export const NavElementsBar = () => {
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
-  const [activedropEle, setActivedropEle] = useState("");
+
   const [isShowbyCategoryTrue, setShowbyCategoryTrue] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const { categoryList, localCartCount, serverCartCount } = useAppContext();
 
-  const cartCount = localCartCount + serverCartCount;
+  const cartCount =
+    parseInt(localCartCount) || 0 + parseInt(serverCartCount) || 0;
+  const initialActiveElId =
+    categoryList && categoryList.length > 0 ? categoryList[0].category_id : "";
+
+  const [activeElId, setActivedropEle] = useState(initialActiveElId);
+
+  console.log(activeElId, "actsmdvksmd");
+
+  console.log(categoryList, "nbvskmljpewifodvkl");
 
   const handleMouseMove = (e) => {
     // Get the horizontal and vertical position of the mouse
@@ -54,21 +67,26 @@ export const NavElementsBar = () => {
       >
         <Scrollbars style={{ width: 300, height: 480 }}>
           <ul className="nav-dropdown-ul-container">
-            {categoryList.map((each) => (
-              <li
-                key={each.id}
-                onClick={() => setActivedropEle(each.name)}
-                className={`${
-                  activedropEle === each.name ? "nav-dropdown-li-active" : ""
-                }`}
-              >
-                {each.name}
-              </li>
-            ))}
+            {categoryList.map((each) => {
+              console.log(activeElId, "active Id");
+              return (
+                <li
+                  key={each.category_id}
+                  onClick={() => setActivedropEle(each.category_id)}
+                  className={`${
+                    activeElId === each.category_id
+                      ? "nav-dropdown-li-active"
+                      : ""
+                  }`}
+                >
+                  {each.name}
+                </li>
+              );
+            })}
           </ul>
         </Scrollbars>
         <div className="nav-dropdown-side-container">
-          <h1>hello</h1>
+          <CategoryItem categoryId={activeElId} />
         </div>
       </SlideDown>
     );
@@ -77,13 +95,17 @@ export const NavElementsBar = () => {
   function showCategoryCarousel() {
     return (
       <SlideDown
-        className="nav-dropdown-main-container"
+        className="nav-dropdown-shop-by-container"
         onMouseLeave={() => setShowbyCategoryTrue(false)}
       >
         <CategorySlider />
       </SlideDown>
     );
   }
+
+  const handleCloseClick = () => {
+    setIsPopupOpen(false);
+  };
 
   return (
     <>
@@ -125,13 +147,27 @@ export const NavElementsBar = () => {
               </Tooltip>
             </li>
             <li>
-              <Tooltip title="Cart">
-                <IconButton>
-                  <Badge badgeContent={cartCount} color="primary">
-                    <RiShoppingCart2Line className="nav-ele-bar-icon" />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
+              <Popup
+                closeOnDocumentClick={false}
+                open={isPopupOpen}
+                onClose={handleCloseClick}
+                contentStyle={{
+                  width: "350px",
+                  padding: "5px",
+                }}
+                trigger={
+                  <Tooltip title="Cart">
+                    <IconButton>
+                      <Badge badgeContent={cartCount} color="primary">
+                        <RiShoppingCart2Line className="nav-ele-bar-icon" />
+                      </Badge>
+                    </IconButton>
+                  </Tooltip>
+                }
+                position="bottom right"
+              >
+                <CartPopup onClose={handleCloseClick} />
+              </Popup>
             </li>
           </ul>
         </div>

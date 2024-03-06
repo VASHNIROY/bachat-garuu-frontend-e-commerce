@@ -94,7 +94,6 @@ function CategorySlider() {
       <div className="slider-container-2">
         <Slider {...settings}>
           {categoryList.map((slide) => {
-            console.log(slide, "helloooooo");
             return (
               <div key={slide.id} className="icon-content-container">
                 <img className="icon-slider" src={slide.image} />

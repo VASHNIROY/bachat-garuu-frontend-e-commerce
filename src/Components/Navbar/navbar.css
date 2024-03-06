@@ -12,9 +12,9 @@
 }
 
 .mbl-navbar-logo {
-  width: 150px;
   display: flex;
   height: 40px;
+  object-fit: contain;
   justify-content: space-between;
   align-items: center;
 }
@@ -100,9 +100,25 @@
   width: 82% !important;
 }
 
-.navbar-logo {
-  width: 200px;
+.navbar-logo-container {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-logo-content-container {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  margin-left: 8px;
+  font-weight: bold;
+}
+
+.navbar-logo {
+  /* width: 200px; */
+  display: flex;
+  object-fit: contain;
+
   height: 50px;
   justify-content: space-between;
   align-items: center;

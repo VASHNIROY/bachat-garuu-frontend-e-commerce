@@ -1,17 +1,57 @@
+import React from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineShoppingCart } from "react-icons/md";
-
 import { Rating } from "react-simple-star-rating";
 import "./medicinecard.css";
 
 function MedicineCard() {
+
+  // const [currency, setCurrency] = useState('dollar');
+  // const conversionRate = 0.92; 
+
+  const handleCurrencyChange = (selectedCurrency) => {
+    setCurrency(selectedCurrency);
+  };
+
+  
+  // const convertCurrency = (price) => {
+  //   if (!price) {
+  //     return ""; 
+  //   }
+  
+  //   if (typeof price === 'string') {
+  //     if (price.includes('-')) {
+  //       const [minPrice, maxPrice] = price.split('-').map(p => parseFloat(p.trim().replace('$', '')));
+  //       const convertedMinPrice = (minPrice * (currency === 'euro' ? conversionRate : 1)).toFixed(2);
+  //       const convertedMaxPrice = (maxPrice * (currency === 'euro' ? conversionRate : 1)).toFixed(2);
+  //       if (currency === 'dollar') {
+  //         return `$${convertedMinPrice}` + " - " + `$${convertedMaxPrice}`;
+  //       } else {
+  //         return `€${convertedMaxPrice}`  + " - " + `€${convertedMinPrice}`;
+  //       }
+  //     } else {
+  //       const convertedPrice = (parseFloat(price.replace('$', '')) * (currency === 'euro' ? conversionRate : 1)).toFixed(2);
+  //       if(currency === 'dollar'){
+  //         return `$${convertedPrice}`;
+  //       }
+  //       else{
+  //         return `€${convertedPrice}`;
+  //       }
+        
+  //     }
+  //   } else if (typeof price === 'number') {
+  //     return (price * (currency === 'euro' ? conversionRate : 1)).toFixed(2);
+  //   } else {
+  //     return ""; 
+  //   }
+  // };
   const medicines = [
     {
       image:
         "https://enovathemes.com/propharm/wp-content/uploads/product42-300x300.jpg",
       category: "Supplements,Vitamins",
       name: "Vitamin C 500mg Sugarless Tab",
-      price: "$16.00-$35.00",
+      price: `$16.00 - $35.00`,
       rating: 3,
     },
     {
@@ -19,7 +59,7 @@ function MedicineCard() {
         "https://enovathemes.com/propharm/wp-content/uploads/product19-300x300.jpg",
       category: "Supplements,Vitamins",
       name: "Vitamin D3 (1000IU) Cap X",
-      price: "$30.00-$40.00",
+      price: `$30.00 - $40.00`,
       rating: 4,
     },
     {
@@ -27,7 +67,7 @@ function MedicineCard() {
         "https://enovathemes.com/propharm/wp-content/uploads/product8-300x300.jpg",
       category: "Supplements,Vitamins",
       name: "Own Vitamin B1 250mg Tab X 75",
-      price: "$15.50",
+      price: `$15.50`,
       rating: "",
     },
     {
@@ -35,8 +75,8 @@ function MedicineCard() {
         "https://enovathemes.com/propharm/wp-content/uploads/product9-300x300.jpg",
       category: "Supplements",
       name: "Spring Leaf Liver Detox",
-      price: "$22.00",
-      originalPrice: "$31.95",
+      price: `$22.00`,
+      originalPrice: `$31.95`,
       rating: 5,
     },
     {
@@ -45,7 +85,7 @@ function MedicineCard() {
       category: "Protein",
       name: "Amazonia Raw Protein Slim &",
       stars: 5,
-      price: "$33.50",
+      price: `$33.50`,
       originalPrice: "$37.50",
       rating: 5,
     },
@@ -53,6 +93,10 @@ function MedicineCard() {
 
   return (
     <>
+      {/* <div>
+        <button onClick={() => handleCurrencyChange('dollar')}>Dollar</button>
+        <button onClick={() => handleCurrencyChange('euro')}>Euro</button>
+      </div> */}
       <div className="medicines-categories-container">
         <h1 className="medicines-categories-heading">Popular Categories</h1>
         <div className="medicines-categories-button-container">
@@ -105,10 +149,10 @@ function MedicineCard() {
                   <span
                     style={{ textDecoration: "line-through", color: "gray" }}
                   >
-                    {medicine.originalPrice}
+                    {(medicine.originalPrice)}
                   </span>
                 )}{" "}
-                {medicine.price}
+              {(medicine.price)}
               </p>
               <button className="medicines-cards-cart-button mb-0">
                 {" "}

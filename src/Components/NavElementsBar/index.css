@@ -94,7 +94,19 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   border-radius: 15px;
   z-index: 999;
-  position: relative;
+  position: absolute;
+  top: 95%;
+}
+
+.nav-dropdown-shop-by-container {
+  width: 80%;
+  display: flex;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  background-color: #edf4f6;
+  border-radius: 15px;
+  z-index: 999;
+  position: absolute;
+  top: 95%;
 }
 
 .nav-ele-bar-btn-main-container {
@@ -131,9 +143,9 @@
 }
 
 .nav-dropdown-side-container {
-  background-color: black;
-  color: white;
+  background-color: white;
   width: 80%;
+  height: 480px;
   display: flex;
   justify-content: center;
   align-items: center;

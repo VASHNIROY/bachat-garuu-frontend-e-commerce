@@ -12,6 +12,9 @@
 }
 .product-view-detail-left-side-container {
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
 }
 
 .product-view-detail-first-container {
@@ -61,6 +64,8 @@
 
 .product-view-big-image {
   width: 90%;
+  height: 450px;
+  object-fit: contain;
   padding: 10px;
   border-radius: 20px;
 }
@@ -76,6 +81,7 @@
 .product-view-detail-products-image {
   height: 60px;
   width: 60px;
+  object-fit: contain;
   border-radius: 5px;
 }
 
@@ -86,6 +92,7 @@
 .product-view-detail-container {
   padding: 20px;
   width: 50%;
+  height: max-content;
   display: flex;
   flex-direction: column;
   gap: 4%;
@@ -153,8 +160,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 9.5%;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   color: white;
   font-size: 22px;
   font-weight: bold;
@@ -484,11 +491,65 @@
   color: #184363;
 }
 
-@media screen and (min-width: 1024px) and (max-width: 1465px) {
+@media screen and (min-width: 1023px) and (max-width: 1465px) {
   .product-view-detail-sub-container {
     width: 92%;
     display: flex;
     gap: 2%;
+  }
+
+  .product-view-detail-left-side-container {
+    width: 70%;
+  }
+  .product-view-detail-right-side-container {
+    width: 27%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .product-add-to-cart-button {
+    width: 43%;
+    border-radius: 50px;
+    height: 40px;
+    text-align: center;
+    border: none;
+    background-color: #15a9e3;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 10px;
+  }
+  .product-add-to-cart-container {
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  .product-buy-now-button {
+    width: 43%;
+    border-radius: 50px;
+    height: 40px;
+    text-align: center;
+    border: none;
+    background-color: orange;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .product-view-detail-container {
+    padding: 20px;
+    width: 58%;
+    display: flex;
+    flex-direction: column;
+    gap: 4%;
+  }
+  .product-view-detail-view-container {
+    width: 40%;
+  }
+  .discount-icon {
+    color: #15a9e3;
+    font-size: 35px;
   }
 }
 
@@ -501,6 +562,106 @@
   }
   .product-view-detail-left-side-container {
     width: 100%;
+  }
+  .product-view-detail-right-side-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .poduct-view-detail-more-to-love-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 32%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .product-view-detail-sub-container {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+  }
+  .product-view-detail-left-side-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .product-view-detail-first-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+    width: 100%;
+  }
+  .product-view-detail-view-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .product-view-big-image {
+    width: 60%;
+    padding: 10px;
+    border-radius: 20px;
+  }
+  .product-view-detail-save-container {
+    position: relative;
+    height: 0px;
+    top: 24px;
+    left: 30px;
+    width: 100%;
+    z-index: 1;
+  }
+  .product-view-detail-container {
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4%;
+  }
+  .product-add-to-cart-container {
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 22px;
+  }
+  .product-add-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2%;
+    width: auto;
+  }
+  .product-add-to-cart-button {
+    border-radius: 50px;
+    height: 40px;
+    text-align: center;
+    border: none;
+    background-color: #15a9e3;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    width: auto;
+    margin: 10px;
+  }
+
+  .product-buy-now-button {
+    border-radius: 50px;
+    height: 40px;
+    text-align: center;
+    width: auto;
+    border: none;
+    background-color: orange;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 10px;
   }
   .product-view-detail-right-side-container {
     width: 100%;
