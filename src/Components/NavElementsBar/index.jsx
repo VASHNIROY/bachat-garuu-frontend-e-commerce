@@ -148,7 +148,7 @@ export const NavElementsBar = () => {
             </li>
             <li>
               <Popup
-                closeOnDocumentClick={false}
+                closeOnDocumentClick={true}
                 open={isPopupOpen}
                 onClose={handleCloseClick}
                 contentStyle={{

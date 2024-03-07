@@ -9,7 +9,10 @@ import { AppProvider } from "./Context";
 import { useMediaQuery } from "@material-ui/core";
 import ContactUs from "./Pages/ContactusPage/ContactUs";
 import ProductViewdetail from "./Components/ProductViewdetail/ProductViewdetail";
+import Login from "./Pages/LoginPage";
+import ForgotPassword from "./Pages/LoginPage/ForgotPassword";
 import CartPage from "./Pages/CartPage";
+import AboutUs from "./Pages/AboutUs";
 import CheckoutPage from "./Pages/CheckoutPage/CheckoutPage";
 
 function App() {
@@ -20,10 +23,13 @@ function App() {
       <AppProvider>
         <Navbar />
         <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/" Component={HomePage} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/product/:id" element={<ProductViewdetail />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>
         <Footer />
