@@ -6,17 +6,20 @@ import Popup from "reactjs-popup";
 import { AiOutlineClose } from "react-icons/ai";
 import { useMediaQuery } from "@material-ui/core";
 import { MdWifiCalling3 } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 import "reactjs-popup/dist/index.css";
 import Sidebar from "./Sidebar/sidebar";
 import NavElementsBar from "../NavElementsBar";
 import logo from "../../Utils/logo.png";
+import { useNavigate } from "react-router";
 
 const Navbar = () => {
   const [isPopupOpen, setPopup] = useState(false);
   const [isMenuopen, setMenubar] = useState(false);
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
   const isWebScreen = useMediaQuery("(min-width: 1250px)");
+  const navigate = useNavigate();
 
   return (
     <>
@@ -42,8 +45,10 @@ const Navbar = () => {
                 style={{ fill: "#15a9e3" }}
               ></path>
             </svg> */}
-            <div className="mbl-navbar-logo">
-              <img src={logo} className="navbar-logo" />
+            <div className="mbl-navbar-logo" onClick={() => navigate("/")}>
+              <Link to="/">
+                <img src={logo} className="navbar-logo" />
+              </Link>
               <div className="navbar-logo-content-container">
                 <p style={{ margin: 0 }}>Bachat Guruu</p>
                 <p style={{ margin: 0 }}>ISSE SASTA AUR KAHAN</p>
@@ -112,7 +117,10 @@ const Navbar = () => {
               ></path>
             </svg> */}
             <div className="navbar-logo-container">
-              <img src={logo} className="navbar-logo" />
+              <Link to="/">
+                {" "}
+                <img src={logo} className="navbar-logo" />
+              </Link>
               <div className="navbar-logo-content-container">
                 <p style={{ margin: 0 }}>Bachat Guruu</p>
                 <p style={{ margin: 0 }}>ISSE SASTA AUR KAHAN</p>

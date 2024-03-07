@@ -6,9 +6,11 @@ import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { CiMail } from "react-icons/ci";
+import { useNavigate } from "react-router";
 
 const Footer = () => {
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
+  const navigate = useNavigate();
   return (
     <div
       className={`${
@@ -75,7 +77,12 @@ const Footer = () => {
         <div className="footer-info-acc-mini-container">
           <p className="footer-side-headings">Information</p>
           <ul className="footer-info-acc-ul-container">
-            <li>About Us</li>
+            <li
+              className="footer-route-link"
+              onClick={() => navigate("/about-us")}
+            >
+              About Us
+            </li>
             <li>Delivery Information</li>
             <li>Privacy Policy</li>
             <li>Sales</li>
