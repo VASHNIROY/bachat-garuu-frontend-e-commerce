@@ -4,6 +4,7 @@ import './index.css'
 import { Rating } from "react-simple-star-rating";
 import NewsSeltterBanner from "../../Components/NewSeltterBanner";
 import FadeIn from 'react-fade-in';
+import CountTracker from "./CountTracker";
 
 
 function AboutUs () {
@@ -50,22 +51,28 @@ function AboutUs () {
           </div>
           
         </div>
-       <div className="medicine-about-us-trusted-container">
+        <div className="medicine-about-us-trusted-container">
         <div className="medicine-about-us-count-container">
-      <div className="medicine-about-us-count1">
-         <h1 className="medicine-about-us-count-heading">100K+</h1>
-         <p className="medicine-about-us-count-para">Monthly Visits</p>
-      </div>
-      <div className="medicine-about-us-count1">
-         <h1 className="medicine-about-us-count-heading">12K+</h1>
-         <p className="medicine-about-us-count-para">Customers</p>
-      </div>
-      <div className="medicine-about-us-count1">
-         <h1 className="medicine-about-us-count-heading">20K+</h1>
-         <p className="medicine-about-us-count-para">Industry Awards</p>
-      </div>
+          <div className="medicine-about-us-count1">
+            <h1 className="medicine-about-us-count-heading">
+            <CountTracker initialValue={0} targetValue={100000} />
+            </h1>
+            <p className="medicine-about-us-count-para">Monthly Visits</p>
+          </div>
+          <div className="medicine-about-us-count1">
+          <h1 className="medicine-about-us-count-heading">
+            <CountTracker initialValue={0} targetValue={12000} />
+            </h1>
+            <p className="medicine-about-us-count-para">Customers</p>
+          </div>
+          <div className="medicine-about-us-count1">
+          <h1 className="medicine-about-us-count-heading">
+          <CountTracker initialValue={0} targetValue={20000} isLast={true} />
+          </h1>
+          <p className="medicine-about-us-count-para">Industry Awards</p>
+          </div>
         </div>
-       </div>
+      </div>
        <FadeIn>
      <div className="medicine-about-us-card-container">
        <div className="medicine-about-us-card-sub-container">
