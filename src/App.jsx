@@ -10,6 +10,7 @@ import { useMediaQuery } from "@material-ui/core";
 import ContactUs from "./Pages/ContactusPage/ContactUs";
 import ProductViewdetail from "./Components/ProductViewdetail/ProductViewdetail";
 import CartPage from "./Pages/CartPage";
+import CheckoutPage from "./Pages/CheckoutPage/CheckoutPage";
 
 function App() {
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
@@ -23,6 +24,7 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/product/:id" element={<ProductViewdetail />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>
         <Footer />
         {isMobileScreen && <SimpleBottomNavigation />}

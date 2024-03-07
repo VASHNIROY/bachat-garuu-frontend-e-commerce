@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 
 function CartPage() {
+  const navigate = useNavigate();
   const cartList = [
     {
       id: 1,
@@ -101,7 +103,10 @@ function CartPage() {
           </div>
           <br />
           <div className="cart-page-button-container">
-            <button className="cart-page-proceed-button">
+            <button
+              className="cart-page-proceed-button"
+              onClick={() => navigate("/checkout")}
+            >
               Proceed to checkout
             </button>
             <button className="cart-page-continue-button">
