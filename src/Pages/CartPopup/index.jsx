@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import "./index.css";
-
+import { Link } from "react-router-dom";
 import { HiMiniXMark } from "react-icons/hi2";
 
 const CartPopup = () => {
+  const navigate = useNavigate();
   const cartList = [
     {
       id: 1,
@@ -43,8 +45,20 @@ const CartPopup = () => {
       <div className="cart-pop-up-subtotal-container">
         <p className="cart-pop-up-sub-total-text">SubTotal : $20</p>
         <div className="cart-pop-up-button-container">
-          <button className="cart-pop-up-page-button">View Cart</button>
-          <button className="cart-pop-up-page-button">Check out</button>
+          <button
+            className="cart-pop-up-page-button"
+            onClick={() => navigate("/cart")}
+          >
+            View Cart
+          </button>
+          <Link to="/cart">
+            <button
+            className="cart-pop-up-page-button"
+            onClick={() => navigate("/checkout")}
+          >
+            Check out
+          </button>
+          </Link>
         </div>
       </div>
     </div>
