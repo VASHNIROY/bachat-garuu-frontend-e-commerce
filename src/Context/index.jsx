@@ -114,6 +114,8 @@ export const AppProvider = ({ children }) => {
           (each) => each.type === "category_list"
         );
 
+        console.log(categoryList, "context category List");
+
         setCategoryList(categorysList[0].data);
       } catch (error) {
         console.error("Error fetching data:", error);
