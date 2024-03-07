@@ -24,9 +24,9 @@ function CartPage() {
         <div className="cart-page-list-container">
           {cartList.map((each) => (
             <div className="cart-page-left-container-values" key={each.id}>
-              <div className="cart-page-image">
+              <div className="cart-page-image-container">
                 <img
-                  src="https://enovathemes.com/propharm/wp-content/uploads/product42.jpg"
+                  src="https://ecom.taxoguru.com/image/product/PRO23-112.jpeg"
                   alt=""
                   className="cart-page-image-width"
                 />
@@ -55,7 +55,7 @@ function CartPage() {
           <div key={each.id} className="cart-page-responsive-card">
             <div className="cart-image-responsive-image-container">
               <img
-                src="https://enovathemes.com/propharm/wp-content/uploads/product42.jpg"
+                src="https://ecom.taxoguru.com/image/product/PRO23-112.jpeg"
                 alt=""
                 className="cart-page-responsive-image"
               />

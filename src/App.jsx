@@ -12,6 +12,7 @@ import ProductViewdetail from "./Components/ProductViewdetail/ProductViewdetail"
 import Login from "./Pages/LoginPage";
 import ForgotPassword from "./Pages/LoginPage/ForgotPassword";
 import CartPage from "./Pages/CartPage";
+import Wishlist from "./Pages/Wishlist";
 
 function App() {
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
@@ -27,6 +28,7 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/product/:id" element={<ProductViewdetail />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/wishlist" element={<Wishlist />} />
         </Routes>
         <Footer />
         {isMobileScreen && <SimpleBottomNavigation />}
