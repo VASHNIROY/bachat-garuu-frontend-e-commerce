@@ -6,6 +6,7 @@ import Popup from "reactjs-popup";
 import { AiOutlineClose } from "react-icons/ai";
 import { useMediaQuery } from "@material-ui/core";
 import { MdWifiCalling3 } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 import "reactjs-popup/dist/index.css";
 import Sidebar from "./Sidebar/sidebar";
@@ -43,7 +44,9 @@ const Navbar = () => {
               ></path>
             </svg> */}
             <div className="mbl-navbar-logo">
-              <img src={logo} className="navbar-logo" />
+              <Link to="/">
+                <img src={logo} className="navbar-logo" />
+              </Link>
               <div className="navbar-logo-content-container">
                 <p style={{ margin: 0 }}>Bachat Guruu</p>
                 <p style={{ margin: 0 }}>ISSE SASTA AUR KAHAN</p>
@@ -112,7 +115,10 @@ const Navbar = () => {
               ></path>
             </svg> */}
             <div className="navbar-logo-container">
-              <img src={logo} className="navbar-logo" />
+              <Link to="/">
+                {" "}
+                <img src={logo} className="navbar-logo" />
+              </Link>
               <div className="navbar-logo-content-container">
                 <p style={{ margin: 0 }}>Bachat Guruu</p>
                 <p style={{ margin: 0 }}>ISSE SASTA AUR KAHAN</p>
