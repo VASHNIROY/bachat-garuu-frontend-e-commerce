@@ -11,12 +11,14 @@ import "reactjs-popup/dist/index.css";
 import Sidebar from "./Sidebar/sidebar";
 import NavElementsBar from "../NavElementsBar";
 import logo from "../../Utils/logo.png";
+import { useNavigate } from "react-router";
 
 const Navbar = () => {
   const [isPopupOpen, setPopup] = useState(false);
   const [isMenuopen, setMenubar] = useState(false);
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
   const isWebScreen = useMediaQuery("(min-width: 1250px)");
+  const navigate = useNavigate();
 
   return (
     <>
@@ -42,7 +44,7 @@ const Navbar = () => {
                 style={{ fill: "#15a9e3" }}
               ></path>
             </svg> */}
-            <div className="mbl-navbar-logo">
+            <div className="mbl-navbar-logo" onClick={() => navigate("/")}>
               <img src={logo} className="navbar-logo" />
               <div className="navbar-logo-content-container">
                 <p style={{ margin: 0 }}>Bachat Guruu</p>

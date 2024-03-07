@@ -14,11 +14,14 @@ import CategorySlider from "../CategorySlider/categorySlider.jsx";
 import Popup from "reactjs-popup";
 import CartPopup from "../../Pages/CartPopup/index.jsx";
 import CategoryItem from "../CategoryItem/CategoryItem.jsx";
+import { useNavigate } from "react-router";
 
 export const NavElementsBar = () => {
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
+  const navigate = useNavigate();
 
   const [isShowbyCategoryTrue, setShowbyCategoryTrue] = useState(false);
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const { categoryList, localCartCount, serverCartCount } = useAppContext();
@@ -122,7 +125,9 @@ export const NavElementsBar = () => {
             All Categories
           </button>
           <ul className="nav-ele-bar-ul-container">
-            <li className="nav-ele-bar-li-ele">Home</li>
+            <li className="nav-ele-bar-li-ele" onClick={() => navigate("/")}>
+              Home
+            </li>
             <li className="nav-ele-bar-li-ele">Shop By Brand</li>
             <li
               className="nav-ele-bar-li-ele"
