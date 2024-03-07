@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import { useAppContext } from "../../Context";
 import "./index.css";
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import { useNavigate } from "react-router";
 
 function CartPage() {
   const { cartDetails } = useAppContext();
   const { setproductid, productData } = useAppContext();
+  const navigate = useNavigate();
 
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -146,7 +148,10 @@ function CartPage() {
             </div>
             <br />
             <div className="cart-page-button-container">
-              <button className="cart-page-proceed-button">
+              <button
+                className="cart-page-proceed-button"
+                onClick={() => navigate("/checkout")}
+              >
                 Proceed to checkout
               </button>
               <button className="cart-page-continue-button">

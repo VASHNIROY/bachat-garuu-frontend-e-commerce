@@ -53,11 +53,11 @@ const CartPopup = () => {
           </button>
           <Link to="/cart">
             <button
-            className="cart-pop-up-page-button"
-            onClick={() => navigate("/checkout")}
-          >
-            Check out
-          </button>
+              className="cart-pop-up-page-button"
+              onClick={() => navigate("/checkout")}
+            >
+              Check out
+            </button>
           </Link>
         </div>
       </div>

@@ -116,7 +116,10 @@ const Navbar = () => {
                 style={{ fill: "#15a9e3" }}
               ></path>
             </svg> */}
-            <div className="navbar-logo-container">
+            <div
+              className="navbar-logo-container"
+              onClick={() => navigate("/")}
+            >
               <Link to="/">
                 {" "}
                 <img src={logo} className="navbar-logo" />
