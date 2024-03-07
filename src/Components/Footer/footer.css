@@ -116,6 +116,10 @@
   align-items: flex-start;
 }
 
+.footer-route-link {
+  cursor: pointer;
+}
+
 @media screen and (min-width: 770px) and (max-width: 1000px) {
   .footer-address-help-container {
     flex-direction: row;
