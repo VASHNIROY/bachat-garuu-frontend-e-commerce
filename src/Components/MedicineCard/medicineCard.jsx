@@ -1,24 +1,21 @@
-import React from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { Rating } from "react-simple-star-rating";
 import "./medicinecard.css";
 
 function MedicineCard() {
-
   // const [currency, setCurrency] = useState('dollar');
-  // const conversionRate = 0.92; 
+  // const conversionRate = 0.92;
 
-  const handleCurrencyChange = (selectedCurrency) => {
-    setCurrency(selectedCurrency);
-  };
+  // const handleCurrencyChange = (selectedCurrency) => {
+  //   setCurrency(selectedCurrency);
+  // };
 
-  
   // const convertCurrency = (price) => {
   //   if (!price) {
-  //     return ""; 
+  //     return "";
   //   }
-  
+
   //   if (typeof price === 'string') {
   //     if (price.includes('-')) {
   //       const [minPrice, maxPrice] = price.split('-').map(p => parseFloat(p.trim().replace('$', '')));
@@ -37,12 +34,12 @@ function MedicineCard() {
   //       else{
   //         return `€${convertedPrice}`;
   //       }
-        
+
   //     }
   //   } else if (typeof price === 'number') {
   //     return (price * (currency === 'euro' ? conversionRate : 1)).toFixed(2);
   //   } else {
-  //     return ""; 
+  //     return "";
   //   }
   // };
   const medicines = [
@@ -149,10 +146,10 @@ function MedicineCard() {
                   <span
                     style={{ textDecoration: "line-through", color: "gray" }}
                   >
-                    {(medicine.originalPrice)}
+                    {medicine.originalPrice}
                   </span>
                 )}{" "}
-              {(medicine.price)}
+                {medicine.price}
               </p>
               <button className="medicines-cards-cart-button mb-0">
                 {" "}
