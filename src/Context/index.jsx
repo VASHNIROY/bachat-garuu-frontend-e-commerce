@@ -17,6 +17,7 @@ export const AppProvider = ({ children }) => {
   const [productId, setProductId] = useState(null);
   const [bannerData, setBannerData] = useState([]);
   const [cartDetails, setCartDetails] = useState([]);
+  const [wishList, setWishList] = useState([]);
 
   const [productData, SetProductDetails] = useState({
     productDetails: {},
@@ -25,7 +26,7 @@ export const AppProvider = ({ children }) => {
 
   const dashboardBodyData = {
     vendor_id: "4d513d3d",
-    user_id: "27",
+    user_id: "1",
     dashboard_type: "ecommerce",
   };
 
@@ -43,9 +44,15 @@ export const AppProvider = ({ children }) => {
 
   const getProductBody = {
     vendor_id: "4d513d3d",
-    user_id: "27",
+    user_id: "1",
     product_id: productId,
   };
+
+  const getWishlistData = {
+    vendor_id: "4d513d3d",
+    user_id: "1",
+  };
+
   const FetchProductDetailsData = async () => {
     const productFormData = new FormData();
 
@@ -68,6 +75,31 @@ export const AppProvider = ({ children }) => {
       const similarProducts = data.similar_product;
 
       SetProductDetails({ productDetails, similarProducts });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchWishlist = async () => {
+    const wishlistFormData = new FormData();
+
+    Object.entries(getWishlistData).forEach(([key, value]) => {
+      wishlistFormData.append(key, value);
+    });
+
+    const api = `${baseUrl}wishList`;
+    const options = {
+      method: "POST",
+      body: wishlistFormData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+
+      const data = await response.json();
+      const wishlist = data.data;
+
+      setWishList(wishlist);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -110,6 +142,7 @@ export const AppProvider = ({ children }) => {
       }
     };
     FetchCartCountdata(cartformData);
+    fetchWishlist();
   }, []);
 
   useEffect(() => {
@@ -317,6 +350,7 @@ export const AppProvider = ({ children }) => {
         addToCart,
         bannerData,
         cartDetails,
+        wishList,
       }}
     >
       {children}
