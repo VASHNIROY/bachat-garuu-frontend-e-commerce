@@ -8,12 +8,13 @@ import {
   FaWhatsapp,
   FaLinkedinIn,
   FaPinterestP,
+  FaRupeeSign,
   FaTelegramPlane,
   FaCheck,
 } from "react-icons/fa";
 import { FaGreaterThan } from "react-icons/fa6";
 import { LuMail } from "react-icons/lu";
-import { BiSolidDiscount } from "react-icons/bi";
+// import { BiSolidDiscount } from "react-icons/bi";
 import Slider from "react-slick";
 import { useAppContext } from "../../Context";
 import { useEffect } from "react";
@@ -151,6 +152,8 @@ const ProductViewdetail = () => {
   const addToCartbtn = (props) => {
     addToCart(props);
   };
+
+  console.log(productDetails, "product view details");
 
   useEffect(() => {
     setproductid(id);
@@ -314,7 +317,10 @@ const ProductViewdetail = () => {
               </div>
               <hr />
               <div className="product-view-details-third-container">
-                <h2 className="product-view-detail-price">$30.00 – $40.00</h2>
+                <h2 className="product-view-detail-price">
+                  <FaRupeeSign size={19} />
+                  {productDetails.unit_details[0].unit_sales_price}
+                </h2>
               </div>
               <div className="product-view-details-four-container">
                 <div className="product-add-to-cart-container">
@@ -368,10 +374,10 @@ const ProductViewdetail = () => {
                     <LuMail /> Ask about product
                   </p>
                 </div>
-                <div className="product-discount-banner">
+                {/* <div className="product-discount-banner">
                   <BiSolidDiscount className="discount-icon" /> Add 15 products
                   to cart and get 10$ discount
-                </div>
+                </div> */}
                 <div className="product-view-detail-icons-container">
                   <button className="product-view-detail-icon-button-f">
                     <FaFacebookF />

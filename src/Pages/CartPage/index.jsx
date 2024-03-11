@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useAppContext } from "../../Context";
 import "./index.css";
 import { MdOutlineDeleteOutline } from "react-icons/md";

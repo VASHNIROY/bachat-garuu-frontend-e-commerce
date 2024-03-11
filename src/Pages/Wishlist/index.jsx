@@ -1,45 +1,39 @@
+import { useAppContext } from "../../Context";
 import "./index.css";
 
 import { HiMiniXMark } from "react-icons/hi2";
 
+import { FaRupeeSign } from "react-icons/fa";
+
 const Wishlist = () => {
-  const cartList = [
-    {
-      id: 1,
-    },
-    {
-      id: 2,
-    },
-    {
-      id: 3,
-    },
-    {
-      id: 4,
-    },
-  ];
+  const { wishList } = useAppContext();
+  console.log(wishList, "wishlist");
 
   return (
     <div className="wish-list-main-container">
       <h1 className="wish-list-main-heading">My Wishlist</h1>
       <div className="wish-list-list-container">
-        {cartList.map((each) => (
-          <div key={each.id} className="wish-list-list-card">
+        {wishList.map((each) => (
+          <div key={each.wishlist_id} className="wish-list-list-card">
             <div className="wish-list-image-container">
               <img
-                src="https://ecom.taxoguru.com/image/product/PRO23-112.jpeg"
-                alt=""
+                src={each.home_image}
+                alt={each.brand_name}
                 className="wish-list-image"
               />
             </div>
 
             <div>
               <div className="wish-list-heading">
-                <p className="wish-list-heading-hidden">
-                  Vitamin D3 (1000IU) Cap X, Vitamin D3 (1000IU) Cap X, Vitamin
-                  D3 (1000IU) Cap X
-                </p>
+                <p className="wish-list-heading-hidden">{each.name}</p>
                 <div className="wish-list-flex">
-                  <p className="wish-list-price">Price : $20</p>
+                  <p className="wish-list-price">
+                    Price :
+                    <span>
+                      <FaRupeeSign size={16} />
+                    </span>
+                    {each.unit_sales_price}
+                  </p>
                   <button className="wish-list-page-button">Add to Cart</button>
                 </div>
               </div>

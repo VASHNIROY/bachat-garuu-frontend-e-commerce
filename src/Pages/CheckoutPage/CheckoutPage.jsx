@@ -65,18 +65,13 @@ function CheckoutPage() {
     firstName: "",
     lastName: "",
     companyName: "",
-    country: "",
     streetAddress: "",
     appartment: "",
-    town: "",
-    state: "",
     zipCode: "",
     phoneNumber: "",
     email: "",
     paymentType: selectedType,
   });
-
-  console.log(cartDetails, "svslkn,c,clksnmckccnac, aklcnlas clkasn");
 
   const getAllAddress = async () => {
     const addressData = new FormData();
@@ -140,6 +135,8 @@ function CheckoutPage() {
     );
   });
 
+  const postAddress = async () => {};
+
   return (
     <>
       <div className="checkout-page-main-container">
@@ -197,14 +194,17 @@ function CheckoutPage() {
                   </div>
                 </>
               ))}
-              <form className="checkout-page-billing-form-container">
-                <h3
-                  className="checkout-page-form-add-heading"
-                  onClick={() => setShowAddAddress(!showAdd)}
+              <h3
+                className="checkout-page-form-add-heading"
+                onClick={() => setShowAddAddress(!showAdd)}
+              >
+                Add New Address <TbSquareRoundedPlusFilled />
+              </h3>
+              {showAdd && (
+                <form
+                  className="checkout-page-billing-form-container"
+                  onSubmit={postAddress}
                 >
-                  Add New Address <TbSquareRoundedPlusFilled />
-                </h3>
-                {showAdd && (
                   <>
                     <div className="checkout-page-input-container">
                       <label className="checkout-page-form-label">
@@ -282,9 +282,8 @@ function CheckoutPage() {
                       />
                     </div>
                   </>
-                )}
 
-                {/* <div className="checkout-page-input-container">
+                  {/* <div className="checkout-page-input-container">
                   <label className="checkout-page-form-label">
                     Town / city *
                   </label>
@@ -297,7 +296,7 @@ function CheckoutPage() {
                     value={billingDetails.town}
                   />
                 </div> */}
-                {/* <div className="checkout-page-input-container">
+                  {/* <div className="checkout-page-input-container">
                   <label className="checkout-page-form-label">State *</label>
                   <select
                     required
@@ -312,7 +311,7 @@ function CheckoutPage() {
                     <option>4</option>
                   </select>
                 </div> */}
-                {/* <div className="checkout-page-input-container">
+                  {/* <div className="checkout-page-input-container">
                   <label className="checkout-page-form-label">
                     Country / Region *
                   </label>
@@ -329,7 +328,16 @@ function CheckoutPage() {
                     <option>4</option>
                   </select>
                 </div> */}
-              </form>
+                  <div>
+                    <button
+                      className="checkout-page-apply-now-button"
+                      type="submit"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
             <div className="checkout-page-right-container">
               <h2 className="checkout-page-form-heading ">Your Order</h2>
