@@ -40,11 +40,9 @@ function AboutUs () {
         <div className="medicine-about-us-whole-container" >
          <div className="medicine-about-us-main-container">
           <div className="medicine-about-us-mini-container">
-          {/* <div className="medicine-about-us-sub-contaner"> */}
           <h1 className="medicine-about-us-title">About Us</h1>
           <p className="medicine-about-us-text">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you
            a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human.</p>
-          {/* </div>         */}
           </div>
           <div className="medicine-about-us-button-container">
             <button className="medicine-about-us-button">Contact us<IoIosArrowForward/></button>
