@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import "./CategoryItem.css";
+import { useNavigate } from "react-router";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const CategoryItem = ({ categoryId }) => {
   const [productsList, setProductsList] = useState([]);
+  const navigate = useNavigate();
 
   const [noData, setError] = useState(false);
 
@@ -50,7 +52,11 @@ const CategoryItem = ({ categoryId }) => {
       ) : (
         <>
           {productsList.map((el) => (
-            <div key={el.id} className="category-item-card">
+            <div
+              key={el.id}
+              className="category-item-card"
+              onClick={() => navigate(`/product/${el.id}`)}
+            >
               <img src={el.home_image} className="category-item-image" />
               <p className="category-item-name">{el.name}</p>
             </div>

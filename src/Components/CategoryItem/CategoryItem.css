@@ -16,6 +16,7 @@
 
 .category-item-card {
   width: 25%;
+  cursor: pointer;
 }
 
 .category-item-name {

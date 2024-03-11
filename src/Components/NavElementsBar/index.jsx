@@ -146,7 +146,10 @@ export const NavElementsBar = () => {
               <Tooltip title="Wishlist">
                 <IconButton>
                   <Badge badgeContent={4} color="primary">
-                    <FaRegHeart className="nav-ele-bar-icon" />
+                    <FaRegHeart
+                      className="nav-ele-bar-icon"
+                      onClick={() => navigate("/wishlist")}
+                    />
                   </Badge>
                 </IconButton>
               </Tooltip>

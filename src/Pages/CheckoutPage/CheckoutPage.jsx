@@ -3,6 +3,7 @@ import { BsFillInfoCircleFill } from "react-icons/bs";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 
 import "./CheckoutPage.css";
+import { useAppContext } from "../../Context";
 
 const typesOfTransfer = [
   {
@@ -22,26 +23,26 @@ const typesOfTransfer = [
   },
 ];
 
-const products = [
-  {
-    id: 1,
-    productName: "abc",
-    quantity: 2,
-    price: 50,
-  },
-  {
-    id: 2,
-    productName: "xyz",
-    quantity: 1,
-    price: 60,
-  },
-  {
-    id: 3,
-    productName: "qwe",
-    quantity: 2,
-    price: 20,
-  },
-];
+// const products = [
+//   {
+//     id: 1,
+//     productName: "abc",
+//     quantity: 2,
+//     price: 50,
+//   },
+//   {
+//     id: 2,
+//     productName: "xyz",
+//     quantity: 1,
+//     price: 60,
+//   },
+//   {
+//     id: 3,
+//     productName: "qwe",
+//     quantity: 2,
+//     price: 20,
+//   },
+// ];
 
 const addressBody = {
   vendor_id: "4d544d3d",
@@ -58,6 +59,8 @@ function CheckoutPage() {
 
   const [savedAddresses, setAddresses] = useState([]);
 
+  const { cartDetails } = useAppContext();
+
   const [billingDetails, setBillingDetails] = useState({
     firstName: "",
     lastName: "",
@@ -72,6 +75,8 @@ function CheckoutPage() {
     email: "",
     paymentType: selectedType,
   });
+
+  console.log(cartDetails, "svslkn,c,clksnmckccnac, aklcnlas clkasn");
 
   const getAllAddress = async () => {
     const addressData = new FormData();
@@ -116,16 +121,20 @@ function CheckoutPage() {
     }));
   };
 
-  const totalAmount = products.reduce((total, product) => {
-    const productAmount = product.quantity * product.price;
-    return total + productAmount;
-  }, 0);
+  // const totalAmount = products.reduce((total, product) => {
+  //   const productAmount = product.quantity * product.price;
+  //   return total + productAmount;
+  // }, 0);
 
-  const mappedProducts = products.map((product) => {
-    const productAmount = product.quantity * product.price;
+  const mappedProducts = cartDetails.data.map((product) => {
+    const truncatedTitle =
+      product.title.length > 20
+        ? `${product.title.slice(0, 20)}...`
+        : product.title;
+    const productAmount = product.qty * product.unit_sales_price;
     return (
       <div key={product.id} className="checkout-page-pricing-header-1">
-        <h5>{`${product.productName} * ${product.quantity}`}</h5>
+        <h5>{`${truncatedTitle} * ${product.qty}`}</h5>
         <h5>${productAmount}</h5>
       </div>
     );
@@ -333,13 +342,17 @@ function CheckoutPage() {
                   {mappedProducts}
 
                   <div className="checkout-page-pricing-header-1">
-                    <h5 className="checkout-page-pricing-label">Subtotal</h5>
-                    <h5> ${totalAmount}</h5>
+                    <h5 className="checkout-page-pricing-label">Total</h5>
+                    <h5> ${cartDetails.total_mrp}</h5>
+                  </div>
+                  <div className="checkout-page-pricing-header-1">
+                    <h5 className="checkout-page-pricing-label">Discount</h5>
+                    <h5> -${cartDetails.total_discount}</h5>
                   </div>
                   <div className="checkout-page-pricing-header-1">
                     <h5 className="checkout-page-pricing-label">Total</h5>
                     <h5 className="checkout-page-pricing-label">
-                      ${totalAmount}
+                      ${cartDetails.total_price}
                     </h5>
                   </div>
                 </div>
