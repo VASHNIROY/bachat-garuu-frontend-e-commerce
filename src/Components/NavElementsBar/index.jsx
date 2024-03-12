@@ -15,12 +15,15 @@ import Popup from "reactjs-popup";
 import CartPopup from "../../Pages/CartPopup/index.jsx";
 import CategoryItem from "../CategoryItem/CategoryItem.jsx";
 import { useNavigate } from "react-router";
+import CustomSlider from "../customSlider/customslider.jsx";
 
 export const NavElementsBar = () => {
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
   const navigate = useNavigate();
 
   const [isShowbyCategoryTrue, setShowbyCategoryTrue] = useState(false);
+
+  const [isShowbyBrandTrue, setShowbyBrandTrue] = useState(false);
 
   const [count, setCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -64,6 +67,59 @@ export const NavElementsBar = () => {
       setIsCateogrytrue(false);
     }
   };
+
+  const handleCategoryCarouselMouseMove = (e) => {
+    // Get the horizontal and vertical position of the mouse
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    // Get the horizontal and vertical position of the container
+    const containerX = e.currentTarget.getBoundingClientRect().left;
+    const containerY = e.currentTarget.getBoundingClientRect().top;
+
+    // Calculate the distance between the mouse and the container
+    const distanceX = mouseX - containerX;
+    const distanceY = mouseY - containerY;
+
+    // If the mouse is moving downwards, set isCategoryTrue to true
+    if (
+      distanceY > 0 &&
+      distanceX >= 0 &&
+      distanceX <= e.currentTarget.offsetWidth
+    ) {
+      setShowbyCategoryTrue(true);
+    } else {
+      // Otherwise, set isCategoryTrue to false
+      setShowbyCategoryTrue(false);
+    }
+  };
+
+  const handleBrandCarouselMouseMove = (e) => {
+    // Get the horizontal and vertical position of the mouse
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    // Get the horizontal and vertical position of the container
+    const containerX = e.currentTarget.getBoundingClientRect().left;
+    const containerY = e.currentTarget.getBoundingClientRect().top;
+
+    // Calculate the distance between the mouse and the container
+    const distanceX = mouseX - containerX;
+    const distanceY = mouseY - containerY;
+
+    // If the mouse is moving downwards, set isCategoryTrue to true
+    if (
+      distanceY > 0 &&
+      distanceX >= 0 &&
+      distanceX <= e.currentTarget.offsetWidth
+    ) {
+      setShowbyBrandTrue(true);
+    } else {
+      // Otherwise, set isCategoryTrue to false
+      setShowbyBrandTrue(false);
+    }
+  };
+
   function showCategoriesDropdown() {
     return (
       <SlideDown
@@ -107,6 +163,17 @@ export const NavElementsBar = () => {
     );
   }
 
+  function showByBrandCarousel() {
+    return (
+      <SlideDown
+        className="nav-dropdown-shop-by-container"
+        onMouseLeave={() => setShowbyBrandTrue(false)}
+      >
+        <CustomSlider />
+      </SlideDown>
+    );
+  }
+
   const handleCloseClick = () => {
     setIsPopupOpen(false);
   };
@@ -129,9 +196,17 @@ export const NavElementsBar = () => {
             <li className="nav-ele-bar-li-ele" onClick={() => navigate("/")}>
               Home
             </li>
-            <li className="nav-ele-bar-li-ele">Shop By Brand</li>
             <li
               className="nav-ele-bar-li-ele"
+              onMouseLeave={handleBrandCarouselMouseMove}
+              onClick={() => showByBrandCarousel(!isCategoryTrue)}
+              onMouseEnter={() => setShowbyBrandTrue(true)}
+            >
+              Shop By Brand
+            </li>
+            <li
+              className="nav-ele-bar-li-ele"
+              onMouseLeave={handleCategoryCarouselMouseMove}
               onClick={() => showCategoryCarousel(!isCategoryTrue)}
               onMouseEnter={() => setShowbyCategoryTrue(true)}
             >
@@ -189,6 +264,7 @@ export const NavElementsBar = () => {
 
       {isCategoryTrue && showCategoriesDropdown()}
       {isShowbyCategoryTrue && showCategoryCarousel()}
+      {isShowbyBrandTrue && showByBrandCarousel()}
     </>
   );
 };
