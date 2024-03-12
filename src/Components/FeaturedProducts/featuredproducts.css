@@ -43,9 +43,9 @@
 }
 .feature-curosal-arrow {
   color: #fff;
-  width: 30px;
-  height: 30px;
-  font-size: 28px;
+  width: 23px;
+  height: 23px;
+  /* font-size: 28px; */
   border-radius: 50%;
   /* padding:10px; */
   background-color: #39cb74;
