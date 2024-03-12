@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
-
+import Cookies from "js-cookie";
 import "./CheckoutPage.css";
 import { useAppContext } from "../../Context";
+import { useNavigate } from "react-router-dom";
 
 const typesOfTransfer = [
   {
@@ -60,23 +61,21 @@ function CheckoutPage() {
   const [savedAddresses, setAddresses] = useState([]);
 
   const { cartDetails } = useAppContext();
+  const navigate = useNavigate();
+  const userid = Cookies.get("userid");
 
   const [billingDetails, setBillingDetails] = useState({
-    firstName: "",
-    lastName: "",
-    companyName: "",
-    country: "",
-    streetAddress: "",
-    appartment: "",
-    town: "",
+    name: "",
+    mobile_no: "",
+    address: "",
+    street_address: "",
+    house_no: "",
+    pincode: "",
+    address_type: "",
     state: "",
-    zipCode: "",
-    phoneNumber: "",
+    city: "",
     email: "",
-    paymentType: selectedType,
   });
-
-  console.log(cartDetails, "svslkn,c,clksnmckccnac, aklcnlas clkasn");
 
   const getAllAddress = async () => {
     const addressData = new FormData();
@@ -110,7 +109,6 @@ function CheckoutPage() {
       ...prevDetails,
       [name]: value,
     }));
-    console.log(billingDetails.paymentType);
   };
 
   const handlePaymentChange = (typeId) => {
@@ -139,6 +137,128 @@ function CheckoutPage() {
       </div>
     );
   });
+
+  const postAddress = async (e) => {
+    e.preventDefault();
+    const addaddressformData = new FormData();
+    Object.entries(billingDetails).forEach(([key, value]) => {
+      addaddressformData.append(key, value);
+    });
+
+    addaddressformData.append("user_id", "1");
+    addaddressformData.append("vendor_id", "4d544d3d");
+    const api = `${baseUrl}addAddress`;
+    const options = {
+      method: "POST",
+      body: addaddressformData,
+    };
+    console.log("billingDetails", addaddressformData);
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+      setBillingDetails("");
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // const success = async (packageId) => {
+  //   try {
+  //     const options = {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         packageId: packageId,
+  //         organizationId: organizationId,
+  //       }),
+  //     };
+  //     const response = await fetch(
+  //       `${process.env}/postsubcriptionid`,
+  //       options
+  //     );
+  //     const data = await response.json();
+  //     if (response.ok === true) {
+  //       Toast.fire({
+  //         icon: "success",
+  //         title: data.message,
+  //       });
+  //       navigate("/login");
+  //     } else {
+  //       Toast.fire({
+  //         icon: "error",
+  //         title: data.message,
+  //       });
+  //     }
+  //   } catch {
+  //     console.log("error");
+  //   }
+  // };
+  // console.log(process.env.REACT_APP_PAYMENT_KEY);
+
+  // const initPayment = (data, packageId) => {
+  //   console.log("init payment called");
+  //   const options = {
+  //     key: import.meta.env.REACT_APP_PAYMENT_KEY,
+  //     // key: "rzp_test_BSbNIdfoV3nkDf",
+  //     amount: data.amount,
+  //     currency: data.currency,
+  //     name: "XpenseFlow",
+  //     description: "Payment for XpenseFlow",
+  //     image: { logo },
+  //     order_id: data.id,
+  //     handler: async (response) => {
+  //       console.log(response, "response before callin verify api");
+  //       try {
+  //         const verifyUrl = `${baseUrl}/paymentverify`;
+  //         const { data1 } = await axios.post(verifyUrl, {
+  //           ...response,
+  //           amount: data.amount,
+  //           // packageId: packageId,
+  //           // organizationId: organizationId,
+  //         });
+  //         console.log(data1);
+  //         await success(packageId);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     },
+  //     theme: {
+  //       color: "#3399cc",
+  //     },
+  //   };
+  //   const rzp1 = new window.Razorpay(options);
+  //   rzp1.open();
+  // };
+
+
+  
+  // const handlePayment = async (id, price) => {
+  //   console.log("handle called", price);
+  //   try {
+  //     const orderUrl = `${baseUrl}/orders`;
+  //     const { data } = await axios.post(orderUrl, {
+  //       amount: parseInt(price),
+  //     });
+  //     console.log(data, "first data console");
+  //     console.log(data.data, "payment data");
+  //     initPayment(data.data, id);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const chechUserLogin = () => {
+    console.log("userid", typeof userid);
+    if (userid == undefined || userid == null) {
+      console.log("entered");
+      return navigate("/login");
+    }
+    return null;
+  };
 
   return (
     <>
@@ -177,27 +297,39 @@ function CheckoutPage() {
             )}
           </div>
           <div className="checkout-page-bottom-container">
-            <div className="checkout-page-left-container">
-              <h1 className="checkout-page-form-heading">Saved Locations</h1>{" "}
-              {savedAddresses.map((el) => (
-                <>
-                  {" "}
-                  <div className="checkout-page-address-card-container">
-                    <h2 className="checkout-page-address-heading">{el.name}</h2>
-                    <p className="checkout-page-address-para">
-                      {el.house_no}, {el.street_address}, {el.address_type},
-                      {el.address}, {el.pincode}
-                    </p>
-                    <p className="checkout-page-address-mbl-no">
-                      {el.mobile_no}
-                    </p>
-                    {el.is_primary && (
-                      <p className="checkout-is-primary">Primary</p>
-                    )}
-                  </div>
-                </>
-              ))}
-              <form className="checkout-page-billing-form-container">
+            {!userid ? (
+              <div style={{ width: "80%" }}>
+                <h1>Please Login To Place Order</h1>
+                <button
+                  className="checkout-page-apply-now-button"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </button>
+              </div>
+            ) : (
+              <div className="checkout-page-left-container">
+                <h1 className="checkout-page-form-heading">Saved Locations</h1>{" "}
+                {savedAddresses.map((el) => (
+                  <>
+                    {" "}
+                    <div className="checkout-page-address-card-container">
+                      <h2 className="checkout-page-address-heading">
+                        {el.name}
+                      </h2>
+                      <p className="checkout-page-address-para">
+                        {el.house_no}, {el.street_address}, {el.address_type},
+                        {el.address}, {el.pincode}
+                      </p>
+                      <p className="checkout-page-address-mbl-no">
+                        {el.mobile_no}
+                      </p>
+                      {el.is_primary && (
+                        <p className="checkout-is-primary">Primary</p>
+                      )}
+                    </div>
+                  </>
+                ))}
                 <h3
                   className="checkout-page-form-add-heading"
                   onClick={() => setShowAddAddress(!showAdd)}
@@ -205,132 +337,202 @@ function CheckoutPage() {
                   Add New Address <TbSquareRoundedPlusFilled />
                 </h3>
                 {showAdd && (
-                  <>
-                    <div className="checkout-page-input-container">
-                      <label className="checkout-page-form-label">
-                        First name *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        className="checkout-page-form-input"
-                        name="firstName"
-                        onChange={handleBillingInputChange}
-                        value={billingDetails.firstName}
-                      />
-                    </div>
-                    <div className="checkout-page-input-container">
-                      <label className="checkout-page-form-label">
-                        Street address *
-                      </label>
-                      <input
-                        required
-                        type="text"
-                        className="checkout-page-form-input"
-                        placeholder="House number and street name"
-                        name="streetAddress"
-                        onChange={handleBillingInputChange}
-                        value={billingDetails.streetAddress}
-                      />
-                      <input
-                        type="text"
-                        className="checkout-page-form-input"
-                        placeholder="Appartment,suite,unit (optional)"
-                        name="appartment"
-                        onChange={handleBillingInputChange}
-                        value={billingDetails.companyName}
-                      />
-                    </div>
+                  <form
+                    className="checkout-page-billing-form-container"
+                    onSubmit={postAddress}
+                  >
+                    <>
+                      <div className="checkout-page-input-container">
+                        <label className="checkout-page-form-label">
+                          First name *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          className="checkout-page-form-input"
+                          name="name"
+                          onChange={handleBillingInputChange}
+                          value={billingDetails.name}
+                        />
+                      </div>
+                      <div className="checkout-page-input-container">
+                        <label className="checkout-page-form-label">
+                          Mobile No*
+                        </label>
+                        <input
+                          type="number"
+                          required
+                          className="checkout-page-form-input"
+                          name="mobile_no"
+                          onChange={handleBillingInputChange}
+                          value={billingDetails.mobile_no}
+                        />
+                      </div>
+                      <div className="checkout-page-input-container">
+                        <label className="checkout-page-form-label">
+                          Address *
+                        </label>
+                        <input
+                          required
+                          type="text"
+                          className="checkout-page-form-input"
+                          placeholder="House number and street name"
+                          name="address"
+                          onChange={handleBillingInputChange}
+                          value={billingDetails.address}
+                        />
+                      </div>
+                      <div className="checkout-page-input-container">
+                        <label className="checkout-page-form-label">
+                          Street Address *
+                        </label>
+                        <input
+                          type="text"
+                          className="checkout-page-form-input"
+                          placeholder="Appartment,suite,unit (optional)"
+                          name="street_address"
+                          onChange={handleBillingInputChange}
+                          value={billingDetails.street_address}
+                        />
+                      </div>
+                      <div className="checkout-page-input-container">
+                        <label className="checkout-page-form-label">
+                          PIN Code *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          className="checkout-page-form-input"
+                          name="pincode"
+                          onChange={handleBillingInputChange}
+                          value={billingDetails.pincode}
+                        />
+                      </div>
+                      <div className="checkout-page-input-container">
+                        <label className="checkout-page-form-label">
+                          House No *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          className="checkout-page-form-input"
+                          name="house_no"
+                          onChange={handleBillingInputChange}
+                          value={billingDetails.house_no}
+                        />
+                      </div>
+                      <div className="checkout-page-input-container">
+                        <label className="checkout-page-form-label">
+                          Address Type *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          className="checkout-page-form-input"
+                          name="address_type"
+                          onChange={handleBillingInputChange}
+                          value={billingDetails.address_type}
+                        />
+                      </div>
+                      <div className="checkout-page-input-container">
+                        <label className="checkout-page-form-label">
+                          State *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          className="checkout-page-form-input"
+                          name="state"
+                          onChange={handleBillingInputChange}
+                          value={billingDetails.state}
+                        />
+                      </div>
 
-                    <div className="checkout-page-input-container">
-                      <label className="checkout-page-form-label">
-                        PIN Code *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        className="checkout-page-form-input"
-                        name="zipCode"
-                        onChange={handleBillingInputChange}
-                        value={billingDetails.zipCode}
-                      />
+                      <div className="checkout-page-input-container">
+                        <label className="checkout-page-form-label">
+                          City *
+                        </label>
+                        <input
+                          type="text"
+                          name="city"
+                          required
+                          className="checkout-page-form-input"
+                          onChange={handleBillingInputChange}
+                          value={billingDetails.city}
+                        />
+                      </div>
+                      <div className="checkout-page-input-container">
+                        <label className="checkout-page-form-label">
+                          Email address*
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          className="checkout-page-form-input"
+                          name="email"
+                          onChange={handleBillingInputChange}
+                          value={billingDetails.email}
+                        />
+                      </div>
+                    </>
+
+                    {/* <div className="checkout-page-input-container">
+              <label className="checkout-page-form-label">
+                Town / city *
+              </label>
+              <input
+                type="text"
+                required
+                className="checkout-page-form-input"
+                name="town"
+                onChange={handleBillingInputChange}
+                value={billingDetails.town}
+              />
+            </div> */}
+                    {/* <div className="checkout-page-input-container">
+              <label className="checkout-page-form-label">State *</label>
+              <select
+                required
+                className="checkout-page-form-select"
+                name="state"
+                onChange={handleBillingInputChange}
+                value={billingDetails.state}
+              >
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+            </div> */}
+                    {/* <div className="checkout-page-input-container">
+              <label className="checkout-page-form-label">
+                Country / Region *
+              </label>
+              <select
+                required
+                className="checkout-page-form-select"
+                name="country"
+                onChange={handleBillingInputChange}
+                value={billingDetails.country}
+              >
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+            </div> */}
+                    <div>
+                      <button
+                        className="checkout-page-apply-now-button"
+                        type="submit"
+                      >
+                        Submit
+                      </button>
                     </div>
-                    <div className="checkout-page-input-container">
-                      <label className="checkout-page-form-label">
-                        Phone *
-                      </label>
-                      <input
-                        type="number"
-                        name="phoneNumber"
-                        required
-                        className="checkout-page-form-input"
-                        onChange={handleBillingInputChange}
-                        value={billingDetails.phoneNumber}
-                      />
-                    </div>
-                    <div className="checkout-page-input-container">
-                      <label className="checkout-page-form-label">
-                        Email address*
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        className="checkout-page-form-input"
-                        name="email"
-                        onChange={handleBillingInputChange}
-                        value={billingDetails.email}
-                      />
-                    </div>
-                  </>
+                  </form>
                 )}
-
-                {/* <div className="checkout-page-input-container">
-                  <label className="checkout-page-form-label">
-                    Town / city *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    className="checkout-page-form-input"
-                    name="town"
-                    onChange={handleBillingInputChange}
-                    value={billingDetails.town}
-                  />
-                </div> */}
-                {/* <div className="checkout-page-input-container">
-                  <label className="checkout-page-form-label">State *</label>
-                  <select
-                    required
-                    className="checkout-page-form-select"
-                    name="state"
-                    onChange={handleBillingInputChange}
-                    value={billingDetails.state}
-                  >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </select>
-                </div> */}
-                {/* <div className="checkout-page-input-container">
-                  <label className="checkout-page-form-label">
-                    Country / Region *
-                  </label>
-                  <select
-                    required
-                    className="checkout-page-form-select"
-                    name="country"
-                    onChange={handleBillingInputChange}
-                    value={billingDetails.country}
-                  >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </select>
-                </div> */}
-              </form>
-            </div>
+              </div>
+            )}
             <div className="checkout-page-right-container">
               <h2 className="checkout-page-form-heading ">Your Order</h2>
               <div className="checkout-page-pricing-container">
@@ -382,7 +584,10 @@ function CheckoutPage() {
                 described in our privacy policy.
               </p>
               <div className="checkout-page-button-container">
-                <button className="checkout-page-apply-now-button">
+                <button
+                  className="checkout-page-apply-now-button"
+                  onClick={() => chechUserLogin()}
+                >
                   Place order
                 </button>
               </div>
