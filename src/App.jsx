@@ -14,6 +14,7 @@ import ForgotPassword from "./Pages/LoginPage/ForgotPassword";
 import CartPage from "./Pages/CartPage";
 import Wishlist from "./Pages/Wishlist";
 import AboutUs from "./Pages/AboutUs";
+import OrdersList from "./Pages/OrdersList";
 
 function App() {
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
@@ -31,6 +32,7 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/orders" element={<OrdersList />} />
         </Routes>
         <Footer />
         {isMobileScreen && <SimpleBottomNavigation />}

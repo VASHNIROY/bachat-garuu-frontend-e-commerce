@@ -3,7 +3,8 @@ import { useAppContext } from "../../Context";
 import "./index.css";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { useNavigate } from "react-router";
-import { axios } from "axios";
+import axios from 'axios';
+
 const logo = "";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
