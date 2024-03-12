@@ -15,7 +15,6 @@ const BannerCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const { bannerData } = useAppContext();
-  console.log("banner data", bannerData);
 
   // const bannerData = useMemo(
   //   () => [
