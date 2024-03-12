@@ -153,11 +153,16 @@ const Login = () => {
       }
 
       const data = await response.json();
-      Cookies.set("userid", data.user_id);
-
-      setLogin("");
-      setPassword("");
-      navigate("/checkout");
+      console.log("Received user data:", data); // Log received data
+      if (data.status == true) {
+        Cookies.set("userid", data.user_id);
+        console.log("Userid cookie set to:", Cookies.get("userid")); // Log the set cookie value
+        setLogin("");
+        setPassword("");
+        navigate("/checkout");
+      } else {
+        alert("Please enter valid credentials");
+      }
     } catch (error) {
       console.error("Error submitting login details:", error);
       setError("An error occurred. Please try again.");
