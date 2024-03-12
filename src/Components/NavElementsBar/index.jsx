@@ -9,11 +9,13 @@ import { Scrollbars } from "react-custom-scrollbars";
 import { useEffect, useState } from "react";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
+import { CgProfile } from "react-icons/cg";
 import { useAppContext } from "../../Context/index.jsx";
 import CategorySlider from "../CategorySlider/categorySlider.jsx";
 import Popup from "reactjs-popup";
 import CartPopup from "../../Pages/CartPopup/index.jsx";
 import CategoryItem from "../CategoryItem/CategoryItem.jsx";
+import Profile from "../../Pages/ProfilePage/index.jsx";
 import { useNavigate } from "react-router";
 
 export const NavElementsBar = () => {
@@ -180,6 +182,27 @@ export const NavElementsBar = () => {
                 position="bottom right"
               >
                 <CartPopup onClose={handleCloseClick} />
+              </Popup>
+            </li>
+            <li>
+              <Popup
+                closeOnDocumentClick={true}
+                open={isPopupOpen}
+                onClose={handleCloseClick}
+                contentStyle={{
+                  width: "350px",
+                  padding: "5px",
+                }}
+                trigger={
+                  <Tooltip title="profile">
+                    <IconButton>
+                      <CgProfile className="nav-ele-bar-icon" />
+                    </IconButton>
+                  </Tooltip>
+                }
+                position="bottom right"
+              >
+                <Profile onClose={handleCloseClick} />
               </Popup>
             </li>
           </ul>
