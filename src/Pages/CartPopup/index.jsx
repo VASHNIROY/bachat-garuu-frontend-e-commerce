@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./index.css";
-import { Link } from "react-router-dom";
+
 import { HiMiniXMark } from "react-icons/hi2";
 import { useAppContext } from "../../Context";
 
@@ -42,14 +42,13 @@ const CartPopup = () => {
           >
             View Cart
           </button>
-          <Link to="/cart">
-            <button
-              className="cart-pop-up-page-button"
-              onClick={() => navigate("/checkout")}
-            >
-              Check out
-            </button>
-          </Link>
+
+          <button
+            className="cart-pop-up-page-button"
+            onClick={() => navigate("/checkout")}
+          >
+            Check out
+          </button>
         </div>
       </div>
     </div>

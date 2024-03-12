@@ -160,8 +160,6 @@ export const AppProvider = ({ children }) => {
           (each) => each.type === "category_list"
         );
 
-        console.log(categoryList, "context category List");
-
         setCategoryList(categorysList[0].data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -242,23 +240,24 @@ export const AppProvider = ({ children }) => {
     FetchRecentlyViewdata(dashboardFormData);
   }, []);
 
-  useEffect(() => {
-    const FetchCartDetails = async () => {
-      const api = `${baseUrl}viewCart`;
-      const options = {
-        method: "POST",
-        body: cartDetailsformData,
-      };
-
-      try {
-        const response = await fetch(api, options);
-        const data = await response.json();
-
-        setCartDetails(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+  const FetchCartDetails = async () => {
+    const api = `${baseUrl}viewCart`;
+    const options = {
+      method: "POST",
+      body: cartDetailsformData,
     };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+
+      setCartDetails(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
     FetchCartDetails();
   }, []);
 
@@ -297,39 +296,32 @@ export const AppProvider = ({ children }) => {
     setProductId(id);
   };
 
-  async function addToCart(props) {
-    const addToCartBody = {
-      vendor_id: "4d544d3d",
+  const addToWishlist = async (id) => {
+    const wishlistBody = {
+      vendor_id: "4d513d3d",
       user_id: "1",
-      product_id: productId,
-      unit: productData.productDetails.unit_details[0].unit,
-      unit_id: productData.productDetails.unit_details[0].unit_id,
-      unit_value: productData.productDetails.unit_details[0].unit_value,
-      type: props,
-      product_type: productData.productDetails.product_type,
-      cart_type: "ecommerce",
+      product_id: id,
     };
-    console.log("fetching product data ", addToCartBody, "type", props);
-    const addToCartformData = new FormData();
 
-    Object.entries(addToCartBody).forEach(([key, value]) => {
-      addToCartformData.append(key, value);
+    const wishlistFormData = new FormData();
+
+    Object.entries(wishlistBody).forEach(([key, value]) => {
+      wishlistFormData.append(key, value);
     });
-    const api = `${baseUrl}addToCart`;
-    const options = {
-      method: "POST",
-      body: addToCartformData,
-    };
 
     try {
+      const api = `${baseUrl}addToWishList`;
+      const options = {
+        method: "POST",
+        body: wishlistFormData,
+      };
+
       const response = await fetch(api, options);
       const data = await response.json();
-
-      console.log(data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.log(error);
     }
-  }
+  };
 
   AppProvider.propTypes = {
     children: PropTypes.node,
@@ -347,10 +339,13 @@ export const AppProvider = ({ children }) => {
         localCartCount,
         setproductid,
         productData,
-        addToCart,
+
         bannerData,
+        FetchCartDetails,
         cartDetails,
         wishList,
+        addToWishlist,
+        fetchWishlist,
       }}
     >
       {children}

@@ -2,13 +2,12 @@ import { useAppContext } from "../../Context";
 import "./index.css";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { useNavigate } from "react-router";
-import { axios } from "axios";
-const logo = "";
+// import { axios } from "axios";
+// const logo = "";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function CartPage() {
-  const { cartDetails } = useAppContext();
-  const { setproductid, productData } = useAppContext();
+  const { cartDetails, setproductid, productData } = useAppContext();
   const navigate = useNavigate();
 
   const addToCartbtn = async (id) => {
@@ -85,55 +84,55 @@ function CartPage() {
   // };
   // console.log(process.env.REACT_APP_PAYMENT_KEY);
 
-  const initPayment = (data, packageId) => {
-    console.log("init payment called");
-    const options = {
-      key: import.meta.env.REACT_APP_PAYMENT_KEY,
-      // key: "rzp_test_BSbNIdfoV3nkDf",
-      amount: data.amount,
-      currency: data.currency,
-      name: "XpenseFlow",
-      description: "Payment for XpenseFlow",
-      image: { logo },
-      order_id: data.id,
-      handler: async (response) => {
-        console.log(response, "response before callin verify api");
-        try {
-          const verifyUrl = `${baseUrl}/paymentverify`;
-          const { data1 } = await axios.post(verifyUrl, {
-            ...response,
-            amount: data.amount,
-            // packageId: packageId,
-            // organizationId: organizationId,
-          });
-          console.log(data1);
-          await success(packageId);
-        } catch (error) {
-          console.log(error);
-        }
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
-  };
+  // const initPayment = (data, packageId) => {
+  //   console.log("init payment called");
+  //   const options = {
+  //     key: import.meta.env.REACT_APP_PAYMENT_KEY,
+  //     // key: "rzp_test_BSbNIdfoV3nkDf",
+  //     amount: data.amount,
+  //     currency: data.currency,
+  //     name: "XpenseFlow",
+  //     description: "Payment for XpenseFlow",
+  //     image: { logo },
+  //     order_id: data.id,
+  //     handler: async (response) => {
+  //       console.log(response, "response before callin verify api");
+  //       try {
+  //         const verifyUrl = `${baseUrl}/paymentverify`;
+  //         const { data1 } = await axios.post(verifyUrl, {
+  //           ...response,
+  //           amount: data.amount,
+  //           // packageId: packageId,
+  //           // organizationId: organizationId,
+  //         });
+  //         console.log(data1);
+  //         await success(packageId);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     },
+  //     theme: {
+  //       color: "#3399cc",
+  //     },
+  //   };
+  //   const rzp1 = new window.Razorpay(options);
+  //   rzp1.open();
+  // };
 
-  const handlePayment = async (id, price) => {
-    console.log("handle called", price);
-    try {
-      const orderUrl = `${baseUrl}/orders`;
-      const { data } = await axios.post(orderUrl, {
-        amount: parseInt(price),
-      });
-      console.log(data, "first data console");
-      console.log(data.data, "payment data");
-      initPayment(data.data, id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handlePayment = async (id, price) => {
+  //   console.log("handle called", price);
+  //   try {
+  //     const orderUrl = `${baseUrl}/orders`;
+  //     const { data } = await axios.post(orderUrl, {
+  //       amount: parseInt(price),
+  //     });
+  //     console.log(data, "first data console");
+  //     console.log(data.data, "payment data");
+  //     initPayment(data.data, id);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   if (cartDetails && cartDetails.data && cartDetails.data.length > 0) {
     return (

@@ -4,7 +4,6 @@ import BasicCard from "../BasicCard/basiccard.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -225,12 +224,12 @@ export default function FeaturedProducts() {
   // });
 
   return (
-    <div style={{ width: "100%",padding:"0 9% 0 9%" }}>
-       <h1 className="product-curosal-heading">Featured Products</h1>
-    <div className="feature-curosal-arrow-button">
-    <button
-      className="feature-curosal-arrow-right"
-      onClick={() => slider?.current?.slickPrev()}
+    <div style={{ width: "100%", padding: "0 9% 0 9%" }}>
+      <h1 className="product-curosal-heading">Featured Products</h1>
+      <div className="feature-curosal-arrow-button">
+        <button
+          className="feature-curosal-arrow-right"
+          onClick={() => slider?.current?.slickPrev()}
         >
           <IoIosArrowBack className="feature-curosal-arrow" />
         </button>
@@ -244,10 +243,7 @@ export default function FeaturedProducts() {
       </div>
       <Slider ref={slider} {...settings}>
         {featuredProductsList.map((item) => (
-          <Link className="basic-card-link" to={`/product/${item.id}`} key={item.id}>
-            {" "}
-            <BasicCard item={item} key={item.id} />
-          </Link>
+          <BasicCard item={item} key={item.id} />
         ))}
       </Slider>
     </div>
