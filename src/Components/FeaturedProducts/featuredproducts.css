@@ -34,7 +34,7 @@
   display: flex;
   text-align: right;
   justify-content: right;
-  margin-right: 55px !important;
+  /* margin-right: 55px !important; */
 }
 .feature-curosal-arrow-right {
   background-color: #fff;
