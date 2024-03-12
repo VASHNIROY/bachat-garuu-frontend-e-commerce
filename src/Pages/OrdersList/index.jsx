@@ -1,5 +1,6 @@
 import "./index.css";
 import { HiMiniXMark } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 
 const OrdersList = () => {
   const cartList = [
@@ -28,6 +29,7 @@ const OrdersList = () => {
         <div className="orders-list-container">
           {cartList.map((each) => (
             <div key={each.id} className="orders-list-card">
+            <Link to="/ordersdetail/:id">
               <div className="orders-list-image-container">
                 <img
                   src="https://ecom.taxoguru.com/image/product/PRO88-12.jpeg"
@@ -35,6 +37,7 @@ const OrdersList = () => {
                   className="orders-list-image"
                 />
               </div>
+            </Link>
               <div className="orders-list-heading-container">
                 <div className="orders-list-heading">
                   <p className="orders-list-heading-hidden">
