@@ -25,7 +25,7 @@ const OrdersList = () => {
       <div className="orders-list-container">
         {cartList.map((each) => (
           <div key={each.id} className="orders-list-card">
-            <Link to="/orderdeail">
+            <Link to="/ordersdetail/:id">
             <div className="orders-list-image-container">
               <img
                 src="https://ecom.taxoguru.com/image/product/PRO88-12.jpeg"

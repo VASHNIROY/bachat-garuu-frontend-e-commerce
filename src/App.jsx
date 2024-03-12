@@ -5,7 +5,7 @@ import HomePage from "./Pages/HomePage";
 import Navbar from "./Components/Navbar/navbar";
 import Footer from "./Components/Footer/footer";
 import SimpleBottomNavigation from "./Components/BottomNavbar/bottomnavbar";
-import { AppProvider, useAppContext } from "./Context";
+import { AppProvider } from "./Context";
 import { useMediaQuery } from "@material-ui/core";
 import ContactUs from "./Pages/ContactusPage/ContactUs";
 import ProductViewdetail from "./Components/ProductViewdetail/ProductViewdetail";
@@ -35,7 +35,7 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="orders" element={<OrdersList />} />
-          <Route path="/orderdeail" element={<OrdersDetail />} />
+          <Route path="/ordersdetail/:id" element={<OrdersDetail />} />
         </Routes>
         <Footer />
         {isMobileScreen && <SimpleBottomNavigation />}
