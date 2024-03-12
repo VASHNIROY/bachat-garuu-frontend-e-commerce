@@ -4,10 +4,46 @@ import "./index.css";
 import { HiMiniXMark } from "react-icons/hi2";
 
 import { FaRupeeSign } from "react-icons/fa";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const Wishlist = () => {
-  const { wishList } = useAppContext();
-  console.log(wishList, "wishlist");
+  const { wishList, FetchCartDetails } = useAppContext();
+
+  const addToCartbtn = async (id) => {
+    const productDetails = wishList.filter((el) => el.id === id);
+
+    const addToCartBody = {
+      vendor_id: "4d544d3d",
+      user_id: "1",
+      product_id: productDetails[0].id,
+      unit: productDetails[0].unit,
+      unit_id: productDetails[0].unit_details[0].unit_id,
+      unit_value: productDetails[0].unit_details[0].unit_value,
+      type: "add",
+      product_type: productDetails[0].product_type,
+      cart_type: "ecommerce",
+    };
+
+    const addToCartformData = new FormData();
+
+    Object.entries(addToCartBody).forEach(([key, value]) => {
+      addToCartformData.append(key, value);
+    });
+    const api = `${baseUrl}addToCart`;
+    const options = {
+      method: "POST",
+      body: addToCartformData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+
+      const data = await response.json();
+      FetchCartDetails();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
     <div className="wish-list-main-container">
@@ -34,7 +70,12 @@ const Wishlist = () => {
                     </span>
                     {each.unit_sales_price}
                   </p>
-                  <button className="wish-list-page-button">Add to Cart</button>
+                  <button
+                    className="wish-list-page-button"
+                    onClick={() => addToCartbtn(each.id)}
+                  >
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             </div>

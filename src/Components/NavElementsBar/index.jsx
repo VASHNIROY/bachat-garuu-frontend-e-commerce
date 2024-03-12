@@ -6,7 +6,7 @@ import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { Scrollbars } from "react-custom-scrollbars";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 import { useAppContext } from "../../Context/index.jsx";
@@ -22,20 +22,22 @@ export const NavElementsBar = () => {
 
   const [isShowbyCategoryTrue, setShowbyCategoryTrue] = useState(false);
 
+  const [count, setCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const { categoryList, localCartCount, serverCartCount } = useAppContext();
+  const { categoryList, wishList, cartDetails } = useAppContext();
 
-  const cartCount =
-    parseInt(localCartCount) || 0 + parseInt(serverCartCount) || 0;
+  useEffect(() => {
+    // Check if cartDetails.data is not null or undefined before using its length
+    if (cartDetails.data && Array.isArray(cartDetails.data)) {
+      setCount(cartDetails.data.length);
+    }
+  }, [cartDetails.data]);
+
   const initialActiveElId =
     categoryList && categoryList.length > 0 ? categoryList[0].category_id : "";
 
   const [activeElId, setActivedropEle] = useState(initialActiveElId);
-
-  console.log(activeElId, "actsmdvksmd");
-
-  console.log(categoryList, "nbvskmljpewifodvkl");
 
   const handleMouseMove = (e) => {
     // Get the horizontal and vertical position of the mouse
@@ -71,7 +73,6 @@ export const NavElementsBar = () => {
         <Scrollbars style={{ width: 300, height: 480 }}>
           <ul className="nav-dropdown-ul-container">
             {categoryList.map((each) => {
-              console.log(activeElId, "active Id");
               return (
                 <li
                   key={each.category_id}
@@ -145,7 +146,7 @@ export const NavElementsBar = () => {
             <li>
               <Tooltip title="Wishlist">
                 <IconButton>
-                  <Badge badgeContent={4} color="primary">
+                  <Badge badgeContent={wishList.length} color="primary">
                     <FaRegHeart
                       className="nav-ele-bar-icon"
                       onClick={() => navigate("/wishlist")}
@@ -166,9 +167,13 @@ export const NavElementsBar = () => {
                 trigger={
                   <Tooltip title="Cart">
                     <IconButton>
-                      <Badge badgeContent={cartCount} color="primary">
+                      {count > 0 ? (
+                        <Badge badgeContent={count} color="primary">
+                          <RiShoppingCart2Line className="nav-ele-bar-icon" />
+                        </Badge>
+                      ) : (
                         <RiShoppingCart2Line className="nav-ele-bar-icon" />
-                      </Badge>
+                      )}
                     </IconButton>
                   </Tooltip>
                 }
