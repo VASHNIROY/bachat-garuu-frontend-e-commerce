@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 import "./CheckoutPage.css";
 import { useAppContext } from "../../Context";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../Components/Loader/Loader";
+import axios from "axios";
 
 const typesOfTransfer = [
   {
@@ -57,7 +59,7 @@ function CheckoutPage() {
   const [enterCoupon, setEnterCoupon] = useState(false);
 
   const [showAdd, setShowAddAddress] = useState(false);
-
+  const [isLoading, setLoading] = useState(true);
   const [savedAddresses, setAddresses] = useState([]);
 
   const { cartDetails } = useAppContext();
@@ -94,10 +96,33 @@ function CheckoutPage() {
       const response = await fetch(api, options);
       const data = await response.json();
       setAddresses(data.data);
+      console.log(response, "response");
+      if (response.ok == true) {
+        setLoading(false);
+      }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const mappedProducts =
+    cartDetails.data && cartDetails.data.length > 0 ? (
+      cartDetails.data.map((product) => {
+        const truncatedTitle =
+          product.title.length > 20
+            ? `${product.title.slice(0, 20)}...`
+            : product.title;
+        const productAmount = product.qty * product.unit_sales_price;
+        return (
+          <div key={product.id} className="checkout-page-pricing-header-1">
+            <h5>{`${truncatedTitle} * ${product.qty}`}</h5>
+            <h5>${productAmount}</h5>
+          </div>
+        );
+      })
+    ) : (
+      <p>Your cart is empty.</p>
+    );
 
   useEffect(() => {
     getAllAddress();
@@ -123,20 +148,6 @@ function CheckoutPage() {
   //   const productAmount = product.quantity * product.price;
   //   return total + productAmount;
   // }, 0);
-
-  const mappedProducts = cartDetails.data.map((product) => {
-    const truncatedTitle =
-      product.title.length > 20
-        ? `${product.title.slice(0, 20)}...`
-        : product.title;
-    const productAmount = product.qty * product.unit_sales_price;
-    return (
-      <div key={product.id} className="checkout-page-pricing-header-1">
-        <h5>{`${truncatedTitle} * ${product.qty}`}</h5>
-        <h5>${productAmount}</h5>
-      </div>
-    );
-  });
 
   const postAddress = async (e) => {
     e.preventDefault();
@@ -176,10 +187,7 @@ function CheckoutPage() {
   //         organizationId: organizationId,
   //       }),
   //     };
-  //     const response = await fetch(
-  //       `${process.env}/postsubcriptionid`,
-  //       options
-  //     );
+  //     const response = await fetch(`${process.env}/postsubcriptionid`, options);
   //     const data = await response.json();
   //     if (response.ok === true) {
   //       Toast.fire({
@@ -234,33 +242,49 @@ function CheckoutPage() {
   //   rzp1.open();
   // };
 
+  const handlePayment = async () => {
+    try {
+      const orderUrl = `${baseUrl}/addSalesDetails`;
 
-  
-  // const handlePayment = async (id, price) => {
-  //   console.log("handle called", price);
-  //   try {
-  //     const orderUrl = `${baseUrl}/orders`;
-  //     const { data } = await axios.post(orderUrl, {
-  //       amount: parseInt(price),
-  //     });
-  //     console.log(data, "first data console");
-  //     console.log(data.data, "payment data");
-  //     initPayment(data.data, id);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+      const orderbodydata = {
+        vendor_id: "4d513d3d",
+        user_id: userid,
+        address_id: 25,
+        payment_mode: "online",
+        order_from: "web",
+        delivery_type: "1",
+        cart_type: "ecommerce",
+      };
+
+      const placeOrderFormData = new FormData();
+
+      Object.entries(orderbodydata).forEach(([key, value]) => {
+        placeOrderFormData.append(key, value);
+      });
+      const { data } = await axios.post(orderUrl, placeOrderFormData);
+      console.log(data, "first data console");
+      console.log(data.data, "payment data");
+      // initPayment(data.data, id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const chechUserLogin = () => {
     console.log("userid", typeof userid);
-    if (userid == undefined || userid == null) {
-      console.log("entered");
-      return navigate("/login");
+    console.log(userid);
+    if (userid === undefined || userid === "undefined" || userid == null) {
+      console.log("User is not logged in. Redirecting to login page.");
+      navigate("/login");
+    } else {
+      console.log("User is logged in. Proceeding with payment.");
+      handlePayment();
     }
-    return null;
   };
 
-  return (
+  return isLoading == true ? (
+    <Loader />
+  ) : (
     <>
       <div className="checkout-page-main-container">
         <div className="checkout-page-sub-container">
@@ -541,7 +565,8 @@ function CheckoutPage() {
                   <h5 className="checkout-page-pricing-label">Subtotal</h5>
                 </div>
                 <div className="checkout-page-items-container">
-                  {mappedProducts}
+                  {mappedProducts.length > 0 && mappedProducts}
+                  {/* {mappedProducts} */}
 
                   <div className="checkout-page-pricing-header-1">
                     <h5 className="checkout-page-pricing-label">Total</h5>
