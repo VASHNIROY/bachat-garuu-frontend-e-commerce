@@ -5,7 +5,7 @@ import HomePage from "./Pages/HomePage";
 import Navbar from "./Components/Navbar/navbar";
 import Footer from "./Components/Footer/footer";
 import SimpleBottomNavigation from "./Components/BottomNavbar/bottomnavbar";
-import { AppProvider, useAppContext } from "./Context";
+import { AppProvider } from "./Context";
 import { useMediaQuery } from "@material-ui/core";
 import ContactUs from "./Pages/ContactusPage/ContactUs";
 import ProductViewdetail from "./Components/ProductViewdetail/ProductViewdetail";
@@ -16,6 +16,8 @@ import Wishlist from "./Pages/Wishlist";
 import AboutUs from "./Pages/AboutUs";
 import CheckoutPage from "./Pages/CheckoutPage/CheckoutPage";
 import OrdersList from "./Pages/OrdersList";
+import OrdersDetail from "./Pages/OrdersList/OrdersDetail";
+import CategoryPage from "./Pages/CategoryPage/categoryPage";
 
 function App() {
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
@@ -32,7 +34,12 @@ function App() {
           <Route path="/product/:id" element={<ProductViewdetail />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="orders" element={<OrdersList />} />
+          <Route path="/ordersdetail/:id" element={<OrdersDetail />} />
+          <Route path="/orderlist" element={<OrdersList />} />
+          <Route path="/category" element={<CategoryPage />} />
         </Routes>
         <Footer />
         {isMobileScreen && <SimpleBottomNavigation />}

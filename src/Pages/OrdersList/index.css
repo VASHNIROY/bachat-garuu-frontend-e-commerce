@@ -37,6 +37,7 @@
   
   .orders-list-card {
     display: flex;
+    position: relative;
     padding: 20px;
     gap: 20px;
     border-radius: 10px;
@@ -76,6 +77,10 @@
     text-overflow: ellipsis;
   }
   .orders-list-cancel-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px;
     cursor: pointer;
     font-size: 25px;
   }
