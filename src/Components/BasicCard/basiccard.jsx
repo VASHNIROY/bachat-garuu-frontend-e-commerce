@@ -1,19 +1,22 @@
 import "./basiccard.css";
-import { FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 // import { Rating } from "react-simple-star-rating";
 import "../MedicineCard/medicinecard.css";
 import { useAppContext } from "../../Context";
+import { useState } from "react";
 
 function BasicCard(item) {
   const { addToWishlist, fetchWishlist } = useAppContext();
+  const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
   const items = item.item;
 
   const addToWish = () => {
     addToWishlist(items.id);
     fetchWishlist();
+    setIsAddedToWishlist(!isAddedToWishlist);
   };
 
   return (
@@ -30,7 +33,11 @@ function BasicCard(item) {
         </div>
         <div className="medicines-cards-icons-container">
           <div className="medicines-cards-icons">
-            <FaRegHeart onClick={addToWish} />
+            {isAddedToWishlist ? (
+              <FaHeart color="#ef233c" onClick={addToWish} />
+            ) : (
+              <FaRegHeart onClick={addToWish} />
+            )}
           </div>
         </div>
         <div className="medicines-cards-image-container">
