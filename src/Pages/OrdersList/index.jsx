@@ -29,15 +29,15 @@ const OrdersList = () => {
         <div className="orders-list-container">
           {cartList.map((each) => (
             <div key={each.id} className="orders-list-card">
-            <Link to="/ordersdetail/:id">
-              <div className="orders-list-image-container">
-                <img
-                  src="https://ecom.taxoguru.com/image/product/PRO88-12.jpeg"
-                  alt=""
-                  className="orders-list-image"
-                />
-              </div>
-            </Link>
+              <Link to="/ordersdetail/:id">
+                <div className="orders-list-image-container">
+                  <img
+                    src="https://ecom.taxoguru.com/image/product/PRO88-12.jpeg"
+                    alt=""
+                    className="orders-list-image"
+                  />
+                </div>
+              </Link>
               <div className="orders-list-heading-container">
                 <div className="orders-list-heading">
                   <p className="orders-list-heading-hidden">

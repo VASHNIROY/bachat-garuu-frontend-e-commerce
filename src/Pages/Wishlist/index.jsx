@@ -39,6 +39,7 @@ const Wishlist = () => {
       const response = await fetch(api, options);
 
       const data = await response.json();
+
       FetchCartDetails();
     } catch (error) {
       console.error("Error fetching data:", error);
