@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import "./ProductViewdetail.css";
 //
-import { FiShoppingCart } from "react-icons/fi";
+
 import {
   FaRegHeart,
   FaFacebookF,
@@ -11,7 +11,10 @@ import {
   FaRupeeSign,
   FaTelegramPlane,
   FaCheck,
+  FaHeart,
 } from "react-icons/fa";
+import { BsCheckLg, BsFillCartPlusFill } from "react-icons/bs";
+
 import { FaGreaterThan } from "react-icons/fa6";
 import { LuMail } from "react-icons/lu";
 // import { BiSolidDiscount } from "react-icons/bi";
@@ -28,33 +31,36 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import PropTypes from "prop-types";
 import Loader from "../Loader/Loader";
+import { FiShoppingCart } from "react-icons/fi";
 
 const bannerImages = [
   {
     id: 6,
     category: "Baby",
     name: "MooGoo Baby & Child Cradle",
-    image:
+    home_image:
       "https://enovathemes.com/propharm/wp-content/uploads/product22-300x300.jpg",
-    price: "$16.50",
+    unit_sales_price: "$16.50",
+    originalPrice: "$24.95",
     rating: 4,
   },
   {
     id: 7,
     category: "Health Topics",
     name: "Insulin Lispo Kwilpen",
-    image:
+    home_image:
       "https://enovathemes.com/propharm/wp-content/uploads/product74-300x300.jpg",
-    price: "$18.88 - $32.88",
+    unit_sales_price: "$18.88 - $32.88",
+    originalPrice: "$35.95",
     rating: 3,
   },
   {
     id: 8,
     category: "Baby",
     name: "Promethazine",
-    image:
+    home_image:
       "https://enovathemes.com/propharm/wp-content/uploads/product1-300x300.jpg",
-    price: "$22.00",
+    unit_sales_price: "$22.00",
     originalPrice: "$31.95",
     rating: "",
   },
@@ -147,9 +153,10 @@ const ProductViewdetail = () => {
   const [selectActive, setSelectActive] = useState("des");
   const [productDetails, setProductDetails] = useState({});
   const [similarProducts, setSimilarProducts] = useState([]);
-
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { FetchCartDetails } = useAppContext();
+  const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
+  const { FetchCartDetails, addToWishlist } = useAppContext();
   const slider = useRef(null);
   const { id } = useParams();
   const getProductBody = {
@@ -215,9 +222,15 @@ const ProductViewdetail = () => {
       const response = await fetch(api, options);
       const data = await response.json();
       FetchCartDetails();
+      setIsAddedToCart(true);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+
+  const addtoWish = async () => {
+    const data = await addToWishlist(id);
+    setIsAddedToWishlist(!isAddedToWishlist);
   };
 
   useEffect(() => {
@@ -417,23 +430,43 @@ const ProductViewdetail = () => {
                       +
                     </button>
                   </div> */}
-                    <button
-                      className="product-add-to-cart-button"
-                      onClick={() => {
-                        addToCart();
-                      }}
-                    >
-                      <FiShoppingCart /> Add to Cart
-                    </button>
+                    {isAddedToCart ? (
+                      <button className="product-added-to-cart-button">
+                        <BsCheckLg /> Added To Cart
+                      </button>
+                    ) : (
+                      <button
+                        className="product-add-to-cart-button"
+                        onClick={() => {
+                          addToCart();
+                        }}
+                      >
+                        <BsFillCartPlusFill /> Add to Cart
+                      </button>
+                    )}
+
                     <button className="product-buy-now-button">
                       <FiShoppingCart /> Buy now
                     </button>
                   </div>
                   <div className="product-add-to-categories-container">
-                    <p className="product-view-details-category">
-                      {" "}
-                      <FaRegHeart /> Add to wishlist
-                    </p>
+                    {isAddedToWishlist ? (
+                      <p
+                        className="product-view-details-category-addet-to-wish"
+                        onClick={addtoWish}
+                      >
+                        {" "}
+                        <FaHeart color="#ef233c" /> Remove
+                      </p>
+                    ) : (
+                      <p
+                        className="product-view-details-category"
+                        onClick={addtoWish}
+                      >
+                        {" "}
+                        <FaRegHeart /> Add to wishlist
+                      </p>
+                    )}
 
                     {/* <p className="product-view-details-category">
                     <LuRepeat2 /> Add to compare

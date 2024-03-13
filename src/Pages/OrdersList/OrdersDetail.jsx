@@ -13,13 +13,11 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import { FaGreaterThan } from "react-icons/fa6";
-import { LuMail } from "react-icons/lu";
-// import { BiSolidDiscount } from "react-icons/bi";
 import Slider from "react-slick";
 import { useAppContext } from "../../Context";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-
+import { Stepper } from 'react-form-stepper';
 import BasicCard from "../../Components/BasicCard/basiccard";
 import Cookies from "js-cookie";
 import "slick-carousel/slick/slick.css";
@@ -143,7 +141,6 @@ const userid = Cookies.get("userid");
 
 const OrderViewDetail = () => {
   const [selectedProduct, setProduct] = useState("");
-  // const [numberOfProducts, setNumberOfProducts] = useState(0);
 
   const [selectActive, setSelectActive] = useState("des");
   const [productDetails, setProductDetails] = useState({});
@@ -190,6 +187,7 @@ const OrderViewDetail = () => {
       setProductDetails(productDetails);
       setSimilarProducts(similarProducts);
       setIsLoading(false);
+      setDeliveryEndDate(endDate.toLocaleDateString());
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -229,6 +227,18 @@ const OrderViewDetail = () => {
       console.error("Error fetching data:", error);
     }
   };
+  const DeliveryTracking = () => {
+    const steps = [
+      { label: 'Order Placed' },
+      { label: 'Processing' },
+      { label: 'Out for Delivery' },
+      { label: 'Delivered' }
+    ];
+    const activeStep = 2; 
+    return (
+      <Stepper steps={steps} activeStep={activeStep} />
+    );
+  };
 
   const addToCart = async () => {
     const addToCartBody = {
@@ -261,7 +271,6 @@ const OrderViewDetail = () => {
       console.error("Error fetching data:", error);
     }
   };
-
   useEffect(() => {
     fetchProductDetailsData();
     fetchProductOrderDetailsData();
@@ -457,14 +466,6 @@ const OrderViewDetail = () => {
                   <h1 className="product-view-detail-heading">
                     {productDetails.name}
                   </h1>
-                  {/* <div className="product-view-detail-review-container">
-                  {" "}
-                  <Rating size={20} initialValue={3.2} />{" "}
-                  <p className="product-view-detail-review">
-                    {" "}
-                    (3 customer reviews)
-                  </p>
-                </div> */}
                 </div>
                 <hr />
                 <div className="product-view-details-second-container">
@@ -484,6 +485,11 @@ const OrderViewDetail = () => {
                       for 1 user
                     </li>
                   </ul>
+                 
+                  <div>
+                  { DeliveryTracking()}
+                </div>
+                   
                 </div>
                 <hr />
                 <div className="product-view-details-third-container">
@@ -491,80 +497,6 @@ const OrderViewDetail = () => {
                     <FaRupeeSign size={19} />
                     {productDetails.unit_details[0].unit_sales_price}
                   </h2>
-                </div>
-                <div className="product-view-details-four-container">
-                  <div className="product-add-to-cart-container">
-                    {/* <div className="product-add-button-container">
-                    <button
-                      className="product-add-button"
-                      onClick={() => {
-                        setNumberOfProducts(numberOfProducts - 1);
-                        // addToCartbtn("remove");
-                      }}
-                    >
-                      -
-                    </button>
-                    <input
-                      type="number"
-                      value={numberOfProducts}
-                      className="product-view-detail-input"
-                    />
-                    <button
-                      className="product-add-button"
-                      onClick={() => {
-                        setNumberOfProducts(numberOfProducts + 1);
-                        // addToCartbtn("add");
-                      }}
-                    >
-                      +
-                    </button>
-                  </div> */}
-                    <button
-                      className="product-add-to-cart-button"
-                      onClick={() => {
-                        addToCart();
-                      }}
-                    >
-                      <FiShoppingCart /> Add to Cart
-                    </button>
-                    <button className="product-buy-now-button">
-                      <FiShoppingCart /> Buy now
-                    </button>
-                  </div>
-                  <div className="product-add-to-categories-container">
-                    <p className="product-view-details-category">
-                      {" "}
-                      <FaRegHeart /> Add to wishlist
-                    </p>
-
-                    {/* <p className="product-view-details-category">
-                    <LuRepeat2 /> Add to compare
-                  </p> */}
-                    <p className="product-view-details-category">
-                      <LuMail /> Ask about product
-                    </p>
-                  </div>
-                  {/* <div className="product-discount-banner">
-                  <BiSolidDiscount className="discount-icon" /> Add 15 products
-                  to cart and get 10$ discount
-                </div> */}
-                  <div className="product-view-detail-icons-container">
-                    <button className="product-view-detail-icon-button-f">
-                      <FaFacebookF />
-                    </button>
-                    <button className="product-view-detail-icon-button-l">
-                      <FaLinkedinIn />
-                    </button>
-                    <button className="product-view-detail-icon-button-p">
-                      <FaPinterestP />
-                    </button>
-                    <button className="product-view-detail-icon-button-w">
-                      <FaWhatsapp />
-                    </button>
-                    <button className="product-view-detail-icon-button-t">
-                      <FaTelegramPlane />
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>

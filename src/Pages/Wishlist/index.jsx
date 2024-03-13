@@ -7,7 +7,8 @@ import { FaRupeeSign } from "react-icons/fa";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const Wishlist = () => {
-  const { wishList, FetchCartDetails } = useAppContext();
+  const { wishList, FetchCartDetails, addToWishlist, fetchWishlist } =
+    useAppContext();
 
   const addToCartbtn = async (id) => {
     const productDetails = wishList.filter((el) => el.id === id);
@@ -46,6 +47,11 @@ const Wishlist = () => {
     }
   };
 
+  const addToWish = async (id) => {
+    const data = await addToWishlist(id);
+    fetchWishlist();
+  };
+
   return (
     <div className="wish-list-main-container">
       <h1 className="wish-list-main-heading">My Wishlist</h1>
@@ -81,7 +87,10 @@ const Wishlist = () => {
               </div>
             </div>
             <p>
-              <HiMiniXMark className="wish-list-cancel-icon" />
+              <HiMiniXMark
+                className="wish-list-cancel-icon"
+                onClick={() => addToWish(each.id)}
+              />
             </p>
           </div>
         ))}
