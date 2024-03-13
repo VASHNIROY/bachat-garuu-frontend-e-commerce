@@ -100,9 +100,11 @@ const BannerCarousel = () => {
                 className="main-banner"
                 style={{
                   backgroundImage: `url(${card.image})`,
-                  backgroundSize: "cover",
+                  backgroundSize: "auto",
                   backgroundPosition: "center",
                   display: "flex",
+
+                  backgoundColor: "red",
                   justifyContent: "center",
                   alignItems: "center",
                 }}

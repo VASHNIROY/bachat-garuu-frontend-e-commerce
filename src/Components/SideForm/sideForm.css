@@ -116,7 +116,10 @@
       align-items: center; */
       padding: 8px;
       border-radius: 8px;
-      background-color: #15a9e3;
+      background-color: red!important;
+      height:45px;
+      width:100px;
+      border-radius:8px;
         color: #edf4f6;
     }
     /* .close-form-button:hover{
