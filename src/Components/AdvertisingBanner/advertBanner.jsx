@@ -15,7 +15,7 @@ const AdvertBanner = () => {
         </div>
         <div>
           <p className="adve-promo-heading">Newest Products</p>
-          <p className="adve-heading">
+          <p className="adve-heading" style={{ fontSize: "18px" }}>
             Save unto 10% extra enjoy{" "}
             <span className="adve-span-element">FREE</span> delivery with{" "}
             <span className="adve-span-element">PLUS</span> membership
