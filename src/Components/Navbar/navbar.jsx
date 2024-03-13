@@ -13,13 +13,54 @@ import Sidebar from "./Sidebar/sidebar";
 import NavElementsBar from "../NavElementsBar";
 import logo from "../../Utils/logo.png";
 import { useNavigate } from "react-router";
+import SlideDown from "react-slidedown";
+import SearchItem from "../SearchItem/SearchItem";
+import Scrollbars from "react-custom-scrollbars";
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const Navbar = () => {
   const [isPopupOpen, setPopup] = useState(false);
   const [isMenuopen, setMenubar] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
+  const [searchValue, setSearchValue] = useState("");
   const isWebScreen = useMediaQuery("(min-width: 1250px)");
   const navigate = useNavigate();
+
+  const getSearchData = async (event) => {
+    const inputValue = event.target.value;
+    setSearchValue(inputValue);
+    const searchBody = {
+      text: inputValue,
+      cart_type: "ecommerce",
+    };
+
+    const searchFormData = new FormData();
+
+    Object.entries(searchBody).forEach(([key, value]) => {
+      searchFormData.append(key, value);
+    });
+
+    const api = `${baseUrl}searchData`;
+    const options = {
+      method: "POST",
+      body: searchFormData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+      setSearchResults(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const emptySearch = () => {
+    setSearchValue("");
+    console.log("empty searcj called ");
+  };
 
   return (
     <>
@@ -92,9 +133,26 @@ const Navbar = () => {
                   placeholder="What are you looking for ?"
                   style={{ padding: "20px" }}
                   type="search"
+                  value={searchValue}
+                  onChange={(event) => getSearchData(event)}
                 />
                 <button className="mbl-search-btn">Search</button>
               </div>
+              {searchResults && searchValue && (
+                <SlideDown className="navbar-search-slide-down-container">
+                  <Scrollbars>
+                    {searchResults.map((el) => (
+                      <>
+                        <SearchItem
+                          details={el}
+                          emptySearch={emptySearch}
+                          key={el.id}
+                        />
+                      </>
+                    ))}
+                  </Scrollbars>
+                </SlideDown>
+              )}
             </Popup>
           </div>
         </div>
@@ -129,14 +187,18 @@ const Navbar = () => {
                 <p style={{ margin: 0 }}>ISSE SASTA AUR KAHAN</p>
               </div>
             </div>
-            <div className="navbar-icons-container">
-              <input
-                className="category-search"
-                type="search"
-                placeholder="What are you looking for ?"
-              />
-              <div className="navbar-search-icon-container">
-                <CiSearch className="navbar-icons" />
+            <div className="search-bar-container">
+              <div className="navbar-icons-container">
+                <input
+                  className="category-search"
+                  type="search"
+                  placeholder="What are you looking for ?"
+                  value={searchValue}
+                  onChange={(event) => getSearchData(event)}
+                />
+                <div className="navbar-search-icon-container">
+                  <CiSearch className="navbar-icons" />
+                </div>
               </div>
             </div>
             <div className="contact-details-container">
@@ -151,6 +213,17 @@ const Navbar = () => {
               </div>
             </div>
           </div>
+          {searchResults && searchValue && (
+            <SlideDown className="navbar-search-slide-down-container">
+              <Scrollbars>
+                {searchResults.map((el) => (
+                  <>
+                    <SearchItem details={el} emptySearch={emptySearch} />
+                  </>
+                ))}
+              </Scrollbars>
+            </SlideDown>
+          )}
           <hr className="navbar-hr-line" />
           <NavElementsBar />
         </div>

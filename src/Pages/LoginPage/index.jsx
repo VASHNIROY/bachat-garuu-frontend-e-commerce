@@ -116,10 +116,60 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [login, setLogin] = useState("");
+  const [vendorId, updateVendorId] = useState("");
+  const [gender, updateGender] = useState("");
+  const [RegistrationError, updateRegistrationError] = useState("");
+  const [fullName, updateFullName] = useState("");
+  const [email, updateEmail] = useState("");
+  const [mobileNumber, updateMobileNumber] = useState("");
+  const [DOB, updateDOB] = useState("");
+  const [registrationPassword, updatePassword] = useState("");
+
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const baseUrl = import.meta.env.VITE_BASE_URL;
+
+  const submitRegistration = async (e) => {
+    try {
+      e.preventDefault();
+      const formData = new FormData();
+
+      formData.append("vendor_id", vendorId);
+      formData.append("gender", gender);
+      formData.append("full_name", fullName);
+      formData.append("email", email);
+      formData.append("mobile_no", mobileNumber);
+      formData.append("dob", DOB);
+      formData.append("password", registrationPassword);
+
+      const response = await fetch(`${baseUrl}signup`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      console.log(data, response);
+
+      if (data.status) {
+        navigate("/login");
+        updateVendorId("");
+        updateGender("");
+        updateEmail("");
+        updateFullName("");
+        updateMobileNumber("");
+        updatePassword("");
+        updateDOB("");
+        updateRegistrationError("");
+      } else {
+        updateRegistrationError(data.message);
+      }
+    } catch (error) {
+      console.error("Error submitting Registration details:", error);
+      setError("An error occurred. Please try again.");
+    }
+  };
 
   const submitLoginDetails = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -170,7 +220,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page-main-container">
+    <div className="login-page-main-container" style={{ minHeight: "100vh" }}>
       <form className="login-page-container1" onSubmit={submitLoginDetails}>
         <h4 className="login-page-heading">Login</h4>
         <div className="login-page-input-container">
@@ -207,9 +257,76 @@ const Login = () => {
       <div className="login-page-container1">
         <h4 className="login-page-heading">Register</h4>
         <div className="login-page-input-container">
-          <label className="login-page-label">Email *</label>
-          <input className="login-page-input" required />
+          <label className="login-page-label">vendor_id *</label>
+          <input
+            className="login-page-input"
+            value={vendorId}
+            type="text"
+            onChange={(e) => updateVendorId(e.target.value)}
+            required
+          />
         </div>
+        <div className="login-page-input-container">
+          <label className="login-page-label">mobile_no *</label>
+          <input
+            value={mobileNumber}
+            type="text"
+            className="login-page-input"
+            onChange={(e) => updateMobileNumber(e.target.value)}
+            required
+          />
+        </div>
+        <div className="login-page-input-container">
+          <label className="login-page-label">full_name*</label>
+          <input
+            type="text"
+            value={fullName}
+            className="login-page-input"
+            onChange={(e) => updateFullName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="login-page-input-container">
+          <label className="login-page-label">email*</label>
+          <input
+            type="email"
+            value={email}
+            className="login-page-input"
+            onChange={(e) => updateEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="login-page-input-container">
+          <label className="login-page-label">gender*</label>
+          <input
+            type="text"
+            value={gender}
+            className="login-page-input"
+            onChange={(e) => updateGender(e.target.value)}
+            required
+          />
+        </div>
+        <div className="login-page-input-container">
+          <label className="login-page-label">Date of Birth(DOB)</label>
+          <input
+            className="login-page-input"
+            type="date"
+            value={DOB}
+            onChange={(e) => updateDOB(e.target.value)}
+            required
+          />
+        </div>
+        <div className="login-page-input-container">
+          <label className="login-page-label">Password*</label>
+          <input
+            className="login-page-input"
+            type="password"
+            value={registrationPassword}
+            onChange={(e) => updatePassword(e.target.value)}
+            required
+          />
+        </div>
+
         <p className="login-page-text">
           A link to set a new password will be sent to your email address.
         </p>
@@ -218,7 +335,14 @@ const Login = () => {
           this website, to manage access to your account, and for other purposes
           described in our privacy policy.
         </p>
-        <button className="login-page-button">Register</button>
+        <button onClick={submitRegistration} className="login-page-button">
+          Register
+        </button>
+        {RegistrationError && (
+          <p className="error-message" style={{ color: "red" }}>
+            {RegistrationError}
+          </p>
+        )}
       </div>
     </div>
   );

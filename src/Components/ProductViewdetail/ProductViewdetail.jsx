@@ -178,6 +178,7 @@ const ProductViewdetail = () => {
       const productDetails = data.data;
 
       const similarProducts = data.similar_product;
+      console.log(productDetails, "product details");
 
       setProductDetails(productDetails);
       setSimilarProducts(similarProducts);
@@ -221,7 +222,7 @@ const ProductViewdetail = () => {
 
   useEffect(() => {
     fetchProductDetailsData();
-  }, []);
+  }, [id]);
 
   const settings = {
     dots: false,
