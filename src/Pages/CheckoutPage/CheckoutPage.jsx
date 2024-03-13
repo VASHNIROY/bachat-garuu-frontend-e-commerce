@@ -6,6 +6,7 @@ import "./CheckoutPage.css";
 import { useAppContext } from "../../Context";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
+import logo from "../../Utils/logo.png";
 import axios from "axios";
 
 const typesOfTransfer = [
@@ -53,6 +54,7 @@ const addressBody = {
 };
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
+const keyUrl = import.meta.env.VITE_PAYMENT_KEY;
 
 function CheckoutPage() {
   const [selectedType, setSelectedType] = useState(typesOfTransfer[0].id);
@@ -207,40 +209,41 @@ function CheckoutPage() {
   // };
   // console.log(process.env.REACT_APP_PAYMENT_KEY);
 
-  // const initPayment = (data, packageId) => {
-  //   console.log("init payment called");
-  //   const options = {
-  //     key: import.meta.env.REACT_APP_PAYMENT_KEY,
-  //     // key: "rzp_test_BSbNIdfoV3nkDf",
-  //     amount: data.amount,
-  //     currency: data.currency,
-  //     name: "XpenseFlow",
-  //     description: "Payment for XpenseFlow",
-  //     image: { logo },
-  //     order_id: data.id,
-  //     handler: async (response) => {
-  //       console.log(response, "response before callin verify api");
-  //       try {
-  //         const verifyUrl = `${baseUrl}/paymentverify`;
-  //         const { data1 } = await axios.post(verifyUrl, {
-  //           ...response,
-  //           amount: data.amount,
-  //           // packageId: packageId,
-  //           // organizationId: organizationId,
-  //         });
-  //         console.log(data1);
-  //         await success(packageId);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     },
-  //     theme: {
-  //       color: "#3399cc",
-  //     },
-  //   };
-  //   const rzp1 = new window.Razorpay(options);
-  //   rzp1.open();
-  // };
+  const initPayment = (data, packageId) => {
+    console.log("data:", data, packageId, "init payment called");
+
+    const options = {
+      key: keyUrl,
+      // key: "rzp_test_BSbNIdfoV3nkDf",
+      amount: data.amount,
+      currency: data.currency,
+      name: "Bachat Guru",
+      description: "Payment for Bachat Guru",
+      image: { logo },
+      order_id: data.id,
+      handler: async (response) => {
+        console.log(response, "response before callin verify api");
+        try {
+          const verifyUrl = `${baseUrl}/paymentverify`;
+          const { data1 } = await axios.post(verifyUrl, {
+            ...response,
+            amount: data.amount,
+            packageId: packageId,
+            // organizationId: organizationId,
+          });
+          console.log(data1);
+          // await success(packageId);
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
 
   const handlePayment = async () => {
     try {
@@ -263,8 +266,7 @@ function CheckoutPage() {
       });
       const { data } = await axios.post(orderUrl, placeOrderFormData);
       console.log(data, "first data console");
-      console.log(data.data, "payment data");
-      // initPayment(data.data, id);
+      initPayment(data, data.order_id);
     } catch (error) {
       console.log(error);
     }
