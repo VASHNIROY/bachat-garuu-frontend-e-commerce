@@ -82,7 +82,7 @@ export const AppProvider = ({ children }) => {
 
   const fetchWishlist = async () => {
     const wishlistFormData = new FormData();
-
+    console.log("fwtch wish list called ");
     Object.entries(getWishlistData).forEach(([key, value]) => {
       wishlistFormData.append(key, value);
     });
@@ -168,29 +168,27 @@ export const AppProvider = ({ children }) => {
     FetchCategorydata(dashboardFormData);
   }, []);
 
-  useEffect(() => {
-    const FetchFeaturedProductsdata = async (dashboardFormData) => {
-      const api = `${baseUrl}dashboard`;
-      const options = {
-        method: "POST",
-        body: dashboardFormData,
-      };
-
-      try {
-        const response = await fetch(api, options);
-        const data = await response.json();
-
-        const featuredProducts = data.data.filter(
-          (each) => each.type === "product"
-        );
-
-        setFeaturedProductsList(featuredProducts[0].data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+  const FetchFeaturedProductsdata = async () => {
+    const api = `${baseUrl}dashboard`;
+    const options = {
+      method: "POST",
+      body: dashboardFormData,
     };
-    FetchFeaturedProductsdata(dashboardFormData);
-  }, []);
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+
+      const featuredProducts = data.data.filter(
+        (each) => each.type === "product"
+      );
+
+      console.log(featuredProducts[0].data, "new list from contexrt");
+      setFeaturedProductsList(featuredProducts[0].data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
     const FetchRecentlyViewdata = async (dashboardFormData) => {
@@ -259,6 +257,7 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     FetchCartDetails();
+    FetchFeaturedProductsdata();
   }, []);
 
   useEffect(() => {
@@ -318,6 +317,7 @@ export const AppProvider = ({ children }) => {
 
       const response = await fetch(api, options);
       const data = await response.json();
+      console.log(data, "sdkmdsmdslmmldsfdmf");
       return data;
     } catch (error) {
       console.log(error);
@@ -347,6 +347,7 @@ export const AppProvider = ({ children }) => {
         wishList,
         addToWishlist,
         fetchWishlist,
+        FetchFeaturedProductsdata,
       }}
     >
       {children}
