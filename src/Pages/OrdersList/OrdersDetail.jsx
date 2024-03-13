@@ -21,11 +21,10 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import BasicCard from "../../Components/BasicCard/basiccard";
-
+import Cookies from "js-cookie";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-
 import PropTypes from "prop-types";
 import Loader from "../../Components/Loader/Loader";
 
@@ -140,18 +139,27 @@ SamplePrevArrow.propTypes = {
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
-const ProductViewdetail = () => {
+const userid = Cookies.get("userid");
+
+const OrderViewDetail = () => {
   const [selectedProduct, setProduct] = useState("");
   // const [numberOfProducts, setNumberOfProducts] = useState(0);
 
   const [selectActive, setSelectActive] = useState("des");
   const [productDetails, setProductDetails] = useState({});
   const [similarProducts, setSimilarProducts] = useState([]);
+  const [addressDetails, setAddressDetails] = useState([]);
+  const [paymentDetails, setPaymentDetails] = useState([]);
+
+  const [orderProductDetails, setOrderProductDetails] = useState([]);
+
+  const [orderStatusDetails, setOrderStatusDetails] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const { FetchCartDetails } = useAppContext();
   const slider = useRef(null);
   const { id } = useParams();
+
   const getProductBody = {
     vendor_id: "4d513d3d",
     user_id: "1",
@@ -181,6 +189,41 @@ const ProductViewdetail = () => {
 
       setProductDetails(productDetails);
       setSimilarProducts(similarProducts);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchProductOrderDetailsData = async () => {
+    const getProductOrderBody = {
+      vendor_id: "4d513d3d",
+      user_id: userid,
+      order_id: id,
+    };
+
+    const productOrderFormData = new FormData();
+
+    Object.entries(getProductOrderBody).forEach(([key, value]) => {
+      productOrderFormData.append(key, value);
+    });
+
+    const api = `${baseUrl}getOrderDetail`;
+    const options = {
+      method: "POST",
+      body: productOrderFormData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+      setAddressDetails(data.data.address_detail);
+      setPaymentDetails(data.data.payment_details);
+
+      setOrderProductDetails(data.data.products[0]);
+
+      setOrderStatusDetails(data.data.statusArr);
+      console.log(data);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -221,6 +264,7 @@ const ProductViewdetail = () => {
 
   useEffect(() => {
     fetchProductDetailsData();
+    fetchProductOrderDetailsData();
   }, []);
 
   const settings = {
@@ -320,6 +364,65 @@ const ProductViewdetail = () => {
               <div className="product-view-detail-view-container">
                 <div className="product-view-detail-save-container">
                   <p className="product-view-detail-save-text">Save $5</p>
+                </div>
+                <div>
+                  <p>{addressDetails.address}</p>
+                  <p>{addressDetails.address_type}</p>
+
+                  <p>{addressDetails.city}</p>
+
+                  <p>{addressDetails.delivery_type}</p>
+
+                  <p>{addressDetails.email}</p>
+
+                  <p>{addressDetails.house_no}</p>
+
+                  <p>{addressDetails.mobile_no}</p>
+
+                  <p>{addressDetails.name}</p>
+
+                  <p>{addressDetails.pincode}</p>
+
+                  <p>{addressDetails.state}</p>
+                  <p>{addressDetails.street_address}</p>
+                </div>
+                <div>
+                  <p>{paymentDetails.delivery_charge}</p>
+                  <p>{paymentDetails.gst_price}</p>
+
+                  <p>{paymentDetails.order_date}</p>
+
+                  <p>{paymentDetails.order_no}</p>
+
+                  <p>{paymentDetails.payment_color}</p>
+
+                  <p>{paymentDetails.payment_mode}</p>
+
+                  <p>{paymentDetails.payment_status}</p>
+
+                  <p>{paymentDetails.slot_details}</p>
+
+                  <p>{paymentDetails.status_color}</p>
+
+                  <p>{paymentDetails.status_text}</p>
+                  <p>{paymentDetails.sub_total}</p>
+                  <p>{paymentDetails.total}</p>
+
+                  <p>{paymentDetails.total_discount}</p>
+
+                  <p>{paymentDetails.total_mrp}</p>
+                </div>
+                <div>
+                  <img src={orderProductDetails.home_image} />
+                  <p>{orderProductDetails.name}</p>
+
+                  <p>{orderProductDetails.product_id}</p>
+
+                  <p>{orderProductDetails.qty}</p>
+
+                  <p>{orderProductDetails.total}</p>
+
+                  <p>{orderProductDetails.unit}</p>
                 </div>
                 <div className="product-view-detail-big-img-container">
                   <img
@@ -646,4 +749,4 @@ const ProductViewdetail = () => {
   );
 };
 
-export default ProductViewdetail;
+export default OrderViewDetail;

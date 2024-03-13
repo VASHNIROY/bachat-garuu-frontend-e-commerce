@@ -16,7 +16,7 @@ import Wishlist from "./Pages/Wishlist";
 import AboutUs from "./Pages/AboutUs";
 import CheckoutPage from "./Pages/CheckoutPage/CheckoutPage";
 import OrdersList from "./Pages/OrdersList";
-import OrdersDetail from "./Pages/OrdersList/OrdersDetail";
+import OrderViewDetail from "./Pages/OrdersList/OrdersDetail";
 import CategoryPage from "./Pages/CategoryPage/categoryPage";
 
 function App() {
@@ -36,8 +36,7 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/about-us" element={<AboutUs />} />
-          <Route path="orders" element={<OrdersList />} />
-          <Route path="/ordersdetail/:id" element={<OrdersDetail />} />
+          <Route path="/ordersdetail/:id" element={<OrderViewDetail />} />
           <Route path="/orderlist" element={<OrdersList />} />
           <Route path="/category" element={<CategoryPage />} />
         </Routes>

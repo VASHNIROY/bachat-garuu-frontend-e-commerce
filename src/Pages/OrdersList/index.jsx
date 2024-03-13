@@ -1,24 +1,56 @@
+import { useState, useEffect } from "react";
 import "./index.css";
 import { HiMiniXMark } from "react-icons/hi2";
+import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import Loader from "../../Components/Loader/Loader";
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const OrdersList = () => {
-  const cartList = [
-    {
-      id: 1,
-    },
-    {
-      id: 2,
-    },
-    {
-      id: 3,
-    },
-    {
-      id: 4,
-    },
-  ];
+  const [orderDetailsData, setOrderDetailsData] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  return (
+  useEffect(() => {
+    const userid = Cookies.get("userid");
+
+    console.log("userid", userid);
+
+    const ordersListData = {
+      vendor_id: "4d513d3d",
+      user_id: userid,
+    };
+
+    const ordersListformData = new FormData();
+
+    Object.entries(ordersListData).forEach(([key, value]) => {
+      ordersListformData.append(key, value);
+    });
+
+    const FetchOrderDetails = async (ordersListformData) => {
+      const api = `${baseUrl}getUserOrders`;
+      const options = {
+        method: "POST",
+        body: ordersListformData,
+      };
+
+      try {
+        const response = await fetch(api, options);
+        const data = await response.json();
+        setOrderDetailsData(data.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    FetchOrderDetails(ordersListformData);
+  }, []);
+
+  console.log("render", orderDetailsData);
+
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className="orders-list-main-container">
       <div className="orders-list-mini-container">
         <img
@@ -27,38 +59,38 @@ const OrdersList = () => {
           alt=""
         />
         <div className="orders-list-container">
-          {cartList.map((each) => (
-            <div key={each.id} className="orders-list-card">
-              <Link to="/ordersdetail/:id">
+          {orderDetailsData.map((each) => (
+            <Link to={`/ordersdetail/${each.id}`} key={each.id} style={{textDecoration: "none"}}>
+              <div key={each.id} className="orders-list-card">
                 <div className="orders-list-image-container">
                   <img
-                    src="https://ecom.taxoguru.com/image/product/PRO88-12.jpeg"
+                    src={each.product_image}
                     alt=""
                     className="orders-list-image"
                   />
                 </div>
-              </Link>
-              <div className="orders-list-heading-container">
-                <div className="orders-list-heading">
-                  <p className="orders-list-heading-hidden">
-                    Women's Cotton Printed Unstitiched Dress Material
-                  </p>
+                <div className="orders-list-heading-container">
+                  <div className="orders-list-heading">
+                    <p className="orders-list-heading-hidden">
+                      {each.product_name}
+                    </p>
+
+                    <p className="orders-list-quantity-text">
+                      Delivery Charges:Free
+                    </p>
+                    <p className="orders-list-quantity-text">
+                      Status: {each.status_text}
+                    </p>
+                    <p className="orders-list-quantity-text">
+                      Price: {each.total_amount}
+                    </p>
+                  </div>
                   <p className="orders-list-quantity-text">
-                    Color: lightseagreen
-                  </p>
-                  <p className="orders-list-quantity-text">Size: s</p>
-                  <p className="orders-list-quantity-text">
-                    Delivery Charges:Free
+                    {each.slot_details}
                   </p>
                 </div>
-                <p className="orders-list-quantity-text">
-                  Delivered on Mar-16, 2024
-                </p>
               </div>
-              <p>
-                <HiMiniXMark className="orders-list-cancel-icon" />
-              </p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
