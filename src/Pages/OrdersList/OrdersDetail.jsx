@@ -13,19 +13,16 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import { FaGreaterThan } from "react-icons/fa6";
-import { LuMail } from "react-icons/lu";
-// import { BiSolidDiscount } from "react-icons/bi";
 import Slider from "react-slick";
 import { useAppContext } from "../../Context";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-
+import { Stepper } from 'react-form-stepper';
 import BasicCard from "../../Components/BasicCard/basiccard";
-
+import Cookies from "js-cookie";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-
 import PropTypes from "prop-types";
 import Loader from "../../Components/Loader/Loader";
 
@@ -140,18 +137,26 @@ SamplePrevArrow.propTypes = {
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
-const ProductViewdetail = () => {
+const userid = Cookies.get("userid");
+
+const OrderViewDetail = () => {
   const [selectedProduct, setProduct] = useState("");
-  // const [numberOfProducts, setNumberOfProducts] = useState(0);
 
   const [selectActive, setSelectActive] = useState("des");
   const [productDetails, setProductDetails] = useState({});
   const [similarProducts, setSimilarProducts] = useState([]);
+  const [addressDetails, setAddressDetails] = useState([]);
+  const [paymentDetails, setPaymentDetails] = useState([]);
+
+  const [orderProductDetails, setOrderProductDetails] = useState([]);
+
+  const [orderStatusDetails, setOrderStatusDetails] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const { FetchCartDetails } = useAppContext();
   const slider = useRef(null);
   const { id } = useParams();
+
   const getProductBody = {
     vendor_id: "4d513d3d",
     user_id: "1",
@@ -182,9 +187,57 @@ const ProductViewdetail = () => {
       setProductDetails(productDetails);
       setSimilarProducts(similarProducts);
       setIsLoading(false);
+      setDeliveryEndDate(endDate.toLocaleDateString());
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+
+  const fetchProductOrderDetailsData = async () => {
+    const getProductOrderBody = {
+      vendor_id: "4d513d3d",
+      user_id: userid,
+      order_id: id,
+    };
+
+    const productOrderFormData = new FormData();
+
+    Object.entries(getProductOrderBody).forEach(([key, value]) => {
+      productOrderFormData.append(key, value);
+    });
+
+    const api = `${baseUrl}getOrderDetail`;
+    const options = {
+      method: "POST",
+      body: productOrderFormData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+      setAddressDetails(data.data.address_detail);
+      setPaymentDetails(data.data.payment_details);
+
+      setOrderProductDetails(data.data.products[0]);
+
+      setOrderStatusDetails(data.data.statusArr);
+      console.log(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const DeliveryTracking = () => {
+    const steps = [
+      { label: 'Order Placed' },
+      { label: 'Processing' },
+      { label: 'Out for Delivery' },
+      { label: 'Delivered' }
+    ];
+    const activeStep = 2; 
+    return (
+      <Stepper steps={steps} activeStep={activeStep} />
+    );
   };
 
   const addToCart = async () => {
@@ -218,9 +271,9 @@ const ProductViewdetail = () => {
       console.error("Error fetching data:", error);
     }
   };
-
   useEffect(() => {
     fetchProductDetailsData();
+    fetchProductOrderDetailsData();
   }, []);
 
   const settings = {
@@ -321,6 +374,65 @@ const ProductViewdetail = () => {
                 <div className="product-view-detail-save-container">
                   <p className="product-view-detail-save-text">Save $5</p>
                 </div>
+                <div>
+                  <p>{addressDetails.address}</p>
+                  <p>{addressDetails.address_type}</p>
+
+                  <p>{addressDetails.city}</p>
+
+                  <p>{addressDetails.delivery_type}</p>
+
+                  <p>{addressDetails.email}</p>
+
+                  <p>{addressDetails.house_no}</p>
+
+                  <p>{addressDetails.mobile_no}</p>
+
+                  <p>{addressDetails.name}</p>
+
+                  <p>{addressDetails.pincode}</p>
+
+                  <p>{addressDetails.state}</p>
+                  <p>{addressDetails.street_address}</p>
+                </div>
+                <div>
+                  <p>{paymentDetails.delivery_charge}</p>
+                  <p>{paymentDetails.gst_price}</p>
+
+                  <p>{paymentDetails.order_date}</p>
+
+                  <p>{paymentDetails.order_no}</p>
+
+                  <p>{paymentDetails.payment_color}</p>
+
+                  <p>{paymentDetails.payment_mode}</p>
+
+                  <p>{paymentDetails.payment_status}</p>
+
+                  <p>{paymentDetails.slot_details}</p>
+
+                  <p>{paymentDetails.status_color}</p>
+
+                  <p>{paymentDetails.status_text}</p>
+                  <p>{paymentDetails.sub_total}</p>
+                  <p>{paymentDetails.total}</p>
+
+                  <p>{paymentDetails.total_discount}</p>
+
+                  <p>{paymentDetails.total_mrp}</p>
+                </div>
+                <div>
+                  <img src={orderProductDetails.home_image} />
+                  <p>{orderProductDetails.name}</p>
+
+                  <p>{orderProductDetails.product_id}</p>
+
+                  <p>{orderProductDetails.qty}</p>
+
+                  <p>{orderProductDetails.total}</p>
+
+                  <p>{orderProductDetails.unit}</p>
+                </div>
                 <div className="product-view-detail-big-img-container">
                   <img
                     className="product-view-big-image"
@@ -354,14 +466,6 @@ const ProductViewdetail = () => {
                   <h1 className="product-view-detail-heading">
                     {productDetails.name}
                   </h1>
-                  {/* <div className="product-view-detail-review-container">
-                  {" "}
-                  <Rating size={20} initialValue={3.2} />{" "}
-                  <p className="product-view-detail-review">
-                    {" "}
-                    (3 customer reviews)
-                  </p>
-                </div> */}
                 </div>
                 <hr />
                 <div className="product-view-details-second-container">
@@ -381,6 +485,11 @@ const ProductViewdetail = () => {
                       for 1 user
                     </li>
                   </ul>
+                 
+                  <div>
+                  { DeliveryTracking()}
+                </div>
+                   
                 </div>
                 <hr />
                 <div className="product-view-details-third-container">
@@ -388,80 +497,6 @@ const ProductViewdetail = () => {
                     <FaRupeeSign size={19} />
                     {productDetails.unit_details[0].unit_sales_price}
                   </h2>
-                </div>
-                <div className="product-view-details-four-container">
-                  <div className="product-add-to-cart-container">
-                    {/* <div className="product-add-button-container">
-                    <button
-                      className="product-add-button"
-                      onClick={() => {
-                        setNumberOfProducts(numberOfProducts - 1);
-                        // addToCartbtn("remove");
-                      }}
-                    >
-                      -
-                    </button>
-                    <input
-                      type="number"
-                      value={numberOfProducts}
-                      className="product-view-detail-input"
-                    />
-                    <button
-                      className="product-add-button"
-                      onClick={() => {
-                        setNumberOfProducts(numberOfProducts + 1);
-                        // addToCartbtn("add");
-                      }}
-                    >
-                      +
-                    </button>
-                  </div> */}
-                    <button
-                      className="product-add-to-cart-button"
-                      onClick={() => {
-                        addToCart();
-                      }}
-                    >
-                      <FiShoppingCart /> Add to Cart
-                    </button>
-                    <button className="product-buy-now-button">
-                      <FiShoppingCart /> Buy now
-                    </button>
-                  </div>
-                  <div className="product-add-to-categories-container">
-                    <p className="product-view-details-category">
-                      {" "}
-                      <FaRegHeart /> Add to wishlist
-                    </p>
-
-                    {/* <p className="product-view-details-category">
-                    <LuRepeat2 /> Add to compare
-                  </p> */}
-                    <p className="product-view-details-category">
-                      <LuMail /> Ask about product
-                    </p>
-                  </div>
-                  {/* <div className="product-discount-banner">
-                  <BiSolidDiscount className="discount-icon" /> Add 15 products
-                  to cart and get 10$ discount
-                </div> */}
-                  <div className="product-view-detail-icons-container">
-                    <button className="product-view-detail-icon-button-f">
-                      <FaFacebookF />
-                    </button>
-                    <button className="product-view-detail-icon-button-l">
-                      <FaLinkedinIn />
-                    </button>
-                    <button className="product-view-detail-icon-button-p">
-                      <FaPinterestP />
-                    </button>
-                    <button className="product-view-detail-icon-button-w">
-                      <FaWhatsapp />
-                    </button>
-                    <button className="product-view-detail-icon-button-t">
-                      <FaTelegramPlane />
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -646,4 +681,4 @@ const ProductViewdetail = () => {
   );
 };
 
-export default ProductViewdetail;
+export default OrderViewDetail;

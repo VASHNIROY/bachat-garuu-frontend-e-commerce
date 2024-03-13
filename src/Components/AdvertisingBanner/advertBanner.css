@@ -16,10 +16,13 @@
 .adve-promo-heading {
   color: #fff;
   font-size: 12px;
-  background-color: goldenrod;
-  width: max-content;
-  padding: 5px;
-  border-radius: 8px;
+  font-weight: 700;
+  background-color: #f2971f;
+  width:max-content ;
+  text-align: center;
+  display: inline-block;                                                                                             
+  border-radius: 10px;
+  padding: 3px;
 }
 .adve-span-element {
   font-weight: bold;
@@ -29,8 +32,9 @@
   color: #fff;
   padding: 10px;
   background-color: #184363;
-  border-radius: 10px;
-  border-color: #184363;
+  border-radius: 50px;
+  /* border-color: #184363; */
+  border: none;
 }
 
 @keyframes slideInFromTop {
@@ -54,5 +58,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+}
+@media screen and (max-width:320px){
+  .advertising-banner-container{
+    padding: 20px;
   }
 }

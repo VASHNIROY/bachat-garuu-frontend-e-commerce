@@ -109,6 +109,11 @@
     }
     
   }
+  @media screen and (max-width:320px){
+    .medicine-banner-sub-container{
+        width: 90%;
+      }
+  }
   @media screen and (max-width:512px) {
     .medicine-banner-input-container{
         display: block;

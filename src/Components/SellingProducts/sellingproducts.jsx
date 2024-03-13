@@ -13,11 +13,11 @@ function SellingProducts() {
         <h1 className="medicines-categories-heading">
           Recently Viewed Products
         </h1>
-        <div className="medicines-categories-button-container">
+        {/* <div className="medicines-categories-button-container">
           <button className="medicines-categories-button">Supplements</button>
           <button className="medicines-categories-button">Medicines</button>
           <button className="medicines-categories-button">Herbs</button>
-        </div>
+        </div> */}
       </div>
       <div className="medicines-card-main-container">
         <div className="medicines-cards-mini-container">

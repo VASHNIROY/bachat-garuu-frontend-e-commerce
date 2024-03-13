@@ -92,12 +92,12 @@ function CategorySlider() {
   return (
     <div className="slider-main-container">
       <div className="slider-container-2">
-        <Slider {...settings}>
+        <Slider {...settings} className="slider-start">
           {categoryList.map((slide) => {
             return (
               <div key={slide.id} className="icon-content-container">
                 <img className="icon-slider" src={slide.image} />
-                <p>{slide.name}</p>
+                <p style={{ margin: 0 }}>{slide.name}</p>
               </div>
             );
           })}

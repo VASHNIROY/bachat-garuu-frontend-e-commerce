@@ -15,7 +15,7 @@ import CategorySlider from "../CategorySlider/categorySlider.jsx";
 import Popup from "reactjs-popup";
 import CartPopup from "../../Pages/CartPopup/index.jsx";
 import CategoryItem from "../CategoryItem/CategoryItem.jsx";
-import Profile from "../../Pages/ProfilePage/index.jsx";
+import Profiledropdown from "../Profiledropdown/Profiledropdown.jsx";
 import { useNavigate } from "react-router";
 import CustomSlider from "../customSlider/customslider.jsx";
 
@@ -265,7 +265,7 @@ export const NavElementsBar = () => {
                 open={isPopupOpen}
                 onClose={handleCloseClick}
                 contentStyle={{
-                  width: "350px",
+                  // width: "250px",
                   padding: "5px",
                 }}
                 trigger={
@@ -277,7 +277,7 @@ export const NavElementsBar = () => {
                 }
                 position="bottom right"
               >
-                <Profile onClose={handleCloseClick} />
+                <Profiledropdown onClose={handleCloseClick} />
               </Popup>
             </li>
           </ul>
