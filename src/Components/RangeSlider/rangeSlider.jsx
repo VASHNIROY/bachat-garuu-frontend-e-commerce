@@ -10,13 +10,18 @@ const PriceSlider = () => {
     <div
       style={{
         padding: "20px",
+        textAlign: "center",
         border: "1px solid #ddd",
         borderRadius: "5px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+
+        width: "300px",
         boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
       }}
     >
-      {/* <h2>Price Range</h2>
-      <p>Use the slider to select a price range:</p> */}
       <Slider
         className="slider pb-3 mb-3"
         value={values}
@@ -26,7 +31,6 @@ const PriceSlider = () => {
       />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
-          <label htmlFor="minPrice"></label>
           <input
             className="slider-input"
             type="number"
@@ -36,7 +40,6 @@ const PriceSlider = () => {
           />
         </div>
         <div>
-          <label htmlFor="maxPrice"></label>
           <input
             className="slider-input"
             type="number"
