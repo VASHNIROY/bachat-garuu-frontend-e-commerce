@@ -2,23 +2,35 @@
 import "./basiccard.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // import { Rating } from "react-simple-star-rating";
 import "../MedicineCard/medicinecard.css";
 import { useAppContext } from "../../Context";
+import { RotatingLines } from "react-loader-spinner";
+import { useState } from "react";
+import Cookies from "js-cookie";
 
 const BasicCard = ({ item, addWishClicked }) => {
   const { addToWishlist, fetchWishlist } = useAppContext();
   const { id, wishlist_status, home_image, name, unit_mrp, unit_sales_price } =
     item;
 
-  const addToWish = async () => {
-    addToWishlist(id);
+  const userid = Cookies.get("userid");
 
-    addWishClicked();
-    console.log(wishlist_status, "wishlist status ");
-    fetchWishlist();
+  const navigate = useNavigate();
+
+  const [addingToWishlist, setAddingToWishlist] = useState(false);
+  const addToWish = async () => {
+    if (userid) {
+      setAddingToWishlist(true);
+      await addToWishlist(id);
+      await addWishClicked();
+      await fetchWishlist();
+      setAddingToWishlist(false);
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -36,7 +48,22 @@ const BasicCard = ({ item, addWishClicked }) => {
         <div className="medicines-cards-icons-container">
           <div className="medicines-cards-icons">
             {wishlist_status === 1 ? (
-              <FaHeart color="#ef233c" onClick={() => addToWish()} />
+              <>
+                {addingToWishlist ? (
+                  <RotatingLines
+                    visible={true}
+                    height="20"
+                    width="20"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    ariaLabel="rotating-lines-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                ) : (
+                  <FaHeart color="#ef233c" onClick={() => addToWish()} />
+                )}
+              </>
             ) : (
               <FaRegHeart onClick={() => addToWish()} />
             )}

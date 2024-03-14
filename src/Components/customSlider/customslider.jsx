@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import { MdBiotech, MdMilitaryTech } from "react-icons/md";
 import { GiTechnoHeart } from "react-icons/gi";
@@ -14,6 +14,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./customslider.css";
+import { useAppContext } from "../../Context";
 
 const slides = [
   { image: <MdBiotech size={64} />, name: "Nagesh" },
@@ -31,6 +32,7 @@ const slides = [
 
 function CustomSlider() {
   const [isHovered, setIsHovered] = useState(false);
+  const { brandList } = useAppContext();
 
   const settings = {
     dots: false,
@@ -54,6 +56,7 @@ function CustomSlider() {
         onMouseLeave={() => setIsHovered(false)}
       />
     ),
+
     speed: 500,
     infinite: true,
     slidesToShow: 6,
@@ -113,10 +116,12 @@ function CustomSlider() {
     <div className="slider-main-container">
       <div className="slider-container-2">
         <Slider {...settings}>
-          {slides.map((slide, index) => (
-            <div key={index} className="brand-icon-content-container">
-              <div className="icon-slider">{slide.image} </div>
-              <p>{slide.name}</p>
+          {brandList.map((slide) => (
+            <div key={slide.brand_id} className="brand-icon-content-container">
+              <div className="icon-slider">
+                <img className="brand-image" src={slide.brand_logo} />
+              </div>
+              <p className="brand-name">{slide.brand_name}</p>
             </div>
           ))}
         </Slider>

@@ -83,10 +83,12 @@
   width: 60px;
   object-fit: contain;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .product-view-detail-products-image.active {
   border: 1px solid #15a9e3;
+  cursor: pointer;
 }
 
 .product-view-detail-container {
@@ -103,6 +105,13 @@
   margin: 0px 8px 0px 0px;
   font-weight: 700;
   color: #184363;
+}
+
+.product-view-mrp-price {
+  margin-left: 10px;
+  text-decoration: line-through;
+  color: #ababab;
+  font-size: 16px;
 }
 
 .product-view-detail-review-container {

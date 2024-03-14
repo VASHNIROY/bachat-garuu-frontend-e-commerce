@@ -85,6 +85,7 @@
   overflow: hidden;
   max-height: 20px;
   margin-top: 10px;
+  cursor: pointer;
 }
 .medicines-cards-paragraph:hover {
   color: #1589e3;

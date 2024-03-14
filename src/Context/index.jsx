@@ -9,6 +9,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const AppProvider = ({ children }) => {
   const [categoryList, setCategoryList] = useState([]);
+  const [brandList, setBrandList] = useState([]);
   const [serverCartCount, setServerCartCount] = useState();
   const [localCartCount, setlocalCartCount] = useState(0);
   const [featuredProductsList, setFeaturedProductsList] = useState([]);
@@ -165,7 +166,35 @@ export const AppProvider = ({ children }) => {
         console.error("Error fetching data:", error);
       }
     };
+
+    const getBrandBody = {
+      dashboard_type: "ecommerce",
+    };
+
+    const getBrandFormData = new FormData();
+
+    Object.entries(getBrandBody).forEach(([key, value]) => {
+      getBrandFormData.append(key, value);
+    });
+
+    const api = `${baseUrl}getBrand`;
+    const options = {
+      method: "POST",
+      body: getBrandFormData,
+    };
+
+    const getBrandData = async () => {
+      try {
+        const response = await fetch(api, options);
+        const data = await response.json();
+        console.log(data, "get brand name ");
+        setBrandList(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     FetchCategorydata(dashboardFormData);
+    getBrandData();
   }, []);
 
   const FetchFeaturedProductsdata = async () => {
@@ -348,6 +377,7 @@ export const AppProvider = ({ children }) => {
         addToWishlist,
         fetchWishlist,
         FetchFeaturedProductsdata,
+        brandList,
       }}
     >
       {children}

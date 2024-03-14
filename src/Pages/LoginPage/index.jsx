@@ -203,13 +203,12 @@ const Login = () => {
       }
 
       const data = await response.json();
-      console.log("Received user data:", data); // Log received data
       if (data.status == true) {
         Cookies.set("userid", data.user_id);
-        console.log("Userid cookie set to:", Cookies.get("userid")); // Log the set cookie value
+
         setLogin("");
         setPassword("");
-        navigate("/checkout");
+        navigate("/");
       } else {
         alert("Please enter valid credentials");
       }

@@ -1,9 +1,10 @@
 import { DNA } from "react-loader-spinner";
 import "./Loader.css";
 
-function Loader() {
+function Loader({ value }) {
+  console.log(value, "height value ");
   return (
-    <div className="loader-container">
+    <div className="loader-container" style={{ height: `${value}vh` }}>
       <DNA
         visible={true}
         height="80"

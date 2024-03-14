@@ -33,6 +33,7 @@ const bottonNavIcons = [
 export default function SimpleBottomNavigation() {
   const [bottomNaviconActive, setBottomNaviconActive] = useState("Home");
   const { cartDetails, wishList } = useAppContext();
+  const [wishListCount, setWishlistCount] = useState(0);
 
   const [count, setCount] = useState(0);
 
@@ -42,6 +43,13 @@ export default function SimpleBottomNavigation() {
       setCount(cartDetails.data.length);
     }
   }, [cartDetails.data]);
+
+  useEffect(() => {
+    // Check if wishList.data is not null or undefined before using its length
+    if (wishList && Array.isArray(wishList)) {
+      setWishlistCount(wishList.length);
+    }
+  }, [wishList]);
 
   return (
     <div className="bottomnav-main-container">
@@ -77,7 +85,7 @@ export default function SimpleBottomNavigation() {
                     return (
                       <>
                         <Link to={each.route}>
-                          <Badge badgeContent={wishList.length} color="primary">
+                          <Badge badgeContent={wishListCount} color="primary">
                             {each.icon}
                           </Badge>
                         </Link>

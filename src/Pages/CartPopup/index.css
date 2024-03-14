@@ -71,3 +71,10 @@
   font-weight: 600;
   width: max-content;
 }
+
+.cart-pop-up-cart-empty {
+  font-weight: 600;
+  color: #184363;
+  font-size: 20px;
+  text-align: center;
+}
