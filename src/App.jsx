@@ -18,6 +18,9 @@ import CheckoutPage from "./Pages/CheckoutPage/CheckoutPage";
 import OrdersList from "./Pages/OrdersList";
 import OrderViewDetail from "./Pages/OrdersList/OrdersDetail";
 import CategoryPage from "./Pages/CategoryPage/categoryPage";
+import Register from "./Pages/Register/Register";
+import ProductsList from "./Components/ProductsList/ProductsList";
+import CategoryProductList from "./Components/CategoryProductList/CategoryProductList";
 
 function App() {
   const isMobileScreen = useMediaQuery("(max-width: 1250px)");
@@ -27,6 +30,7 @@ function App() {
       <AppProvider>
         <Navbar />
         <Routes>
+          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/" Component={HomePage} />
@@ -37,6 +41,8 @@ function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/ordersdetail/:id" element={<OrderViewDetail />} />
+          <Route path="/productslist/:id" element={<ProductsList />} />
+          <Route path="/products/:id" element={<CategoryProductList />} />
           <Route path="/orderlist" element={<OrdersList />} />
           <Route path="/category" element={<CategoryPage />} />
         </Routes>

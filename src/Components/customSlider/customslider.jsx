@@ -15,6 +15,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./customslider.css";
 import { useAppContext } from "../../Context";
+import { useNavigate } from "react-router-dom";
 
 const slides = [
   { image: <MdBiotech size={64} />, name: "Nagesh" },
@@ -33,6 +34,8 @@ const slides = [
 function CustomSlider() {
   const [isHovered, setIsHovered] = useState(false);
   const { brandList } = useAppContext();
+
+  const navigate = useNavigate();
 
   const settings = {
     dots: false,
@@ -117,7 +120,11 @@ function CustomSlider() {
       <div className="slider-container-2">
         <Slider {...settings}>
           {brandList.map((slide) => (
-            <div key={slide.brand_id} className="brand-icon-content-container">
+            <div
+              key={slide.brand_id}
+              className="brand-icon-content-container"
+              onClick={() => navigate(`/productslist/${slide.brand_id}`)}
+            >
               <div className="icon-slider">
                 <img className="brand-image" src={slide.brand_logo} />
               </div>

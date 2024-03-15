@@ -1,8 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./Profiledropdown.css";
+import Cookies from "js-cookie";
 
 export default function Profiledropdown() {
+  const navigate = useNavigate();
+
+  const removeUser = () => {
+    Cookies.remove("userid");
+    navigate("/login");
+  };
   return (
     <div className="profileContainer">
       <ul className="profileListContainer">
@@ -18,6 +25,8 @@ export default function Profiledropdown() {
         </Link>
         <li>Gift Cards</li>
         <li>Rewards</li>
+
+        <li onClick={removeUser}>Log out</li>
       </ul>
     </div>
   );

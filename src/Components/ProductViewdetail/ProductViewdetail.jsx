@@ -235,8 +235,9 @@ const ProductViewdetail = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+    } else {
+      navigate("/login");
     }
-    navigate("/login");
   };
 
   const addtoWish = async () => {
