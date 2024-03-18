@@ -7,6 +7,7 @@ import { useAppContext } from "../../Context";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import logo from "../../Utils/logo.png";
+import coupon from "../../Utils/couponicon.png";
 import axios from "axios";
 
 const typesOfTransfer = [
@@ -59,12 +60,15 @@ const keyUrl = import.meta.env.VITE_PAYMENT_KEY;
 function CheckoutPage() {
   const [selectedType, setSelectedType] = useState(typesOfTransfer[0].id);
   const [enterCoupon, setEnterCoupon] = useState(false);
-
+  const [coupons, setCoupons] = useState([]);
   const [showAdd, setShowAddAddress] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [savedAddresses, setAddresses] = useState([]);
-
-  const { cartDetails } = useAppContext();
+  const [appliedCoupon, setAppliedCoupon] = useState({
+    message: "",
+    couponid: "",
+  });
+  const { cartDetails, FetchCartDetails } = useAppContext();
   const navigate = useNavigate();
   const userid = Cookies.get("userid");
 
@@ -128,6 +132,7 @@ function CheckoutPage() {
 
   useEffect(() => {
     getAllAddress();
+    getCoupons();
   }, []);
 
   const handleBillingInputChange = (e) => {
@@ -150,6 +155,38 @@ function CheckoutPage() {
   //   const productAmount = product.quantity * product.price;
   //   return total + productAmount;
   // }, 0);
+
+  const getCoupons = async () => {
+    const getcouponsdata = {
+      vendor_id: "4d513d3d",
+      user_id: "1",
+    };
+    const getcouponsdataformData = new FormData();
+    Object.entries(getcouponsdata).forEach(([key, value]) => {
+      getcouponsdataformData.append(key, value);
+    });
+
+    const api = `${baseUrl}getCoupon`;
+    const options = {
+      method: "POST",
+      body: getcouponsdataformData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+      for (const coupon of data.data) {
+        if (coupon.applied_status === true) {
+          setAppliedCoupon({ couponid: coupon.coupon_id });
+        }
+      }
+
+      setCoupons(data.data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const postAddress = async (e) => {
     e.preventDefault();
@@ -284,6 +321,69 @@ function CheckoutPage() {
     }
   };
 
+  const applyCoupon = async (couponid) => {
+    console.log("applyCoupon id", couponid);
+    const coupondata = {
+      vendor_id: "4d513d3d",
+      user_id: "1",
+      coupon_id: couponid,
+    };
+    const coupondataformData = new FormData();
+    Object.entries(coupondata).forEach(([key, value]) => {
+      coupondataformData.append(key, value);
+    });
+
+    const api = `${baseUrl}setCoupon`;
+    const options = {
+      method: "POST",
+      body: coupondataformData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+      if (data.status == true) {
+        setAppliedCoupon({ message: data.message, couponid: couponid });
+        FetchCartDetails();
+        console.log("applied details", data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const removeCoupon = async (coupon_id) => {
+    const removecoupondata = {
+      vendor_id: "4d513d3d",
+      user_id: "1",
+      coupon_id: coupon_id,
+    };
+    const removecoupondataformData = new FormData();
+    Object.entries(removecoupondata).forEach(([key, value]) => {
+      removecoupondataformData.append(key, value);
+    });
+
+    const api = `${baseUrl}removeCoupon`;
+    const options = {
+      method: "POST",
+      body: removecoupondataformData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+      if (data.status == true) {
+        setAppliedCoupon({ message: "", couponid: "" });
+        FetchCartDetails();
+        console.log("applied details", data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  console.log("coupon list", appliedCoupon);
+
   return isLoading == true ? (
     <Loader />
   ) : (
@@ -304,23 +404,188 @@ function CheckoutPage() {
                 </span>
               </p>
             </div>
-            {enterCoupon && (
-              <div className="checkout-page-coupon-code-container">
-                <p className="checkout-page-coupon-label">
-                  If you have a coupon code, please apply it below
-                </p>
-                <div className="checkout-page-apply-coupon-container">
-                  <input
-                    type="text"
-                    placeholder="Enter Code"
-                    className="checkout-page-input"
-                  />
-                  <button className="checkout-page-apply-now-button">
-                    Apply Coupon
-                  </button>
+            {enterCoupon &&
+              (appliedCoupon.couponid === "" ? (
+                <div className="checkout-page-coupon-code-container">
+                  <p className="checkout-page-coupon-label">
+                    If you have a coupon code, please apply it below
+                  </p>
+                  <div className="checkout-page-apply-coupon-container">
+                    <input
+                      type="text"
+                      placeholder="Enter Code"
+                      className="checkout-page-input"
+                    />
+                    <button className="checkout-page-apply-now-button">
+                      Apply Coupon
+                    </button>
+                  </div>
+                  <ul className="checkout-page-coupons-ul-list">
+                    {coupons.map((each) => (
+                      <li
+                        key={each.coupon_id}
+                        className="checkout-page-coupon-li-card"
+                      >
+                        <div className="checkout-page-coupon-li-card-img-contianer">
+                          <img
+                            style={{ height: "80px", width: "100px" }}
+                            src={coupon}
+                            alt="coupon"
+                          />
+                        </div>
+                        <div
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            paddingLeft: "5%",
+                          }}
+                        >
+                          <h6
+                            style={{
+                              fontSize: "14px",
+                            }}
+                          >
+                            {each.apply_message}
+                          </h6>
+
+                          <p
+                            style={{
+                              fontStyle: "italic",
+                              fontWeight: "bold",
+                              marginBottom: "0",
+                            }}
+                          >
+                            {" "}
+                            {each.coupon_code}
+                          </p>
+                          <p
+                            style={{
+                              marginBottom: "0",
+                            }}
+                          >
+                            {each.discount_percent}%
+                          </p>
+                          <p
+                            style={{
+                              marginBottom: "0",
+                              fontSize: "10px",
+                            }}
+                          >
+                            min order value: {each.minimum_order_value}
+                          </p>
+                          <p
+                            style={{
+                              marginBottom: "0",
+                              fontSize: "10px",
+                            }}
+                          >
+                            max coupon value: {each.maximum_coupon_value}
+                          </p>
+                          <div className="checkout-page-coupon-apply-btn-container">
+                            {each.apply_status === true ? (
+                              <button
+                                style={{ color: "#007bca" }}
+                                className="checkout-page-coupon-apply-btn"
+                                onClick={() => applyCoupon(each.coupon_id)}
+                              >
+                                Apply
+                              </button>
+                            ) : (
+                              <button
+                                style={{ color: "#007bca" }}
+                                className="checkout-page-coupon-apply-btn"
+                              >
+                                Not Applicaple
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-            )}
+              ) : (
+                <div>
+                  {coupons
+                    .filter((each) => each.coupon_id === appliedCoupon.couponid)
+                    .map((filteredCoupon) => (
+                      <li
+                        key={filteredCoupon.coupon_id}
+                        className="checkout-page-coupon-li-card"
+                      >
+                        <div className="checkout-page-coupon-li-card-img-contianer">
+                          <img
+                            style={{ height: "80px", width: "100px" }}
+                            src={coupon}
+                            alt="coupon"
+                          />
+                        </div>
+                        <div
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            paddingLeft: "5%",
+                          }}
+                        >
+                          <h6
+                            style={{
+                              fontSize: "14px",
+                            }}
+                          >
+                            {filteredCoupon.apply_message}
+                          </h6>
+
+                          <p
+                            style={{
+                              fontStyle: "italic",
+                              fontWeight: "bold",
+                              marginBottom: "0",
+                            }}
+                          >
+                            {" "}
+                            {filteredCoupon.coupon_code}
+                          </p>
+                          <p
+                            style={{
+                              marginBottom: "0",
+                            }}
+                          >
+                            {filteredCoupon.discount_percent}%
+                          </p>
+                          <p
+                            style={{
+                              marginBottom: "0",
+                              fontSize: "10px",
+                            }}
+                          >
+                            min order value:{" "}
+                            {filteredCoupon.minimum_order_value}
+                          </p>
+                          <p
+                            style={{
+                              marginBottom: "0",
+                              fontSize: "10px",
+                            }}
+                          >
+                            max coupon value:{" "}
+                            {filteredCoupon.maximum_coupon_value}
+                          </p>
+                          <div className="checkout-page-coupon-apply-btn-container">
+                            <button
+                              style={{ color: "#007bca" }}
+                              className="checkout-page-coupon-apply-btn"
+                              onClick={() =>
+                                removeCoupon(filteredCoupon.coupon_id)
+                              }
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                </div>
+              ))}
           </div>
           <div className="checkout-page-bottom-container">
             {!userid ? (
@@ -337,7 +602,7 @@ function CheckoutPage() {
               <div className="checkout-page-left-container">
                 <h1 className="checkout-page-form-heading">Saved Locations</h1>{" "}
                 {savedAddresses.map((el) => (
-                  <>
+                  <div key={el.id}>
                     {" "}
                     <div className="checkout-page-address-card-container">
                       <h2 className="checkout-page-address-heading">
@@ -354,7 +619,7 @@ function CheckoutPage() {
                         <p className="checkout-is-primary">Primary</p>
                       )}
                     </div>
-                  </>
+                  </div>
                 ))}
                 <h3
                   className="checkout-page-form-add-heading"

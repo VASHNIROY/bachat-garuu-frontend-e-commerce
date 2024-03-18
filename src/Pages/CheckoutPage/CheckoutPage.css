@@ -32,7 +32,7 @@
 }
 .checkout-page-coupon-code-container {
   padding: 20px;
-  width: 30%;
+  width: 100%;
 }
 
 .checkout-page-coupon-label {
@@ -52,7 +52,47 @@
   background-color: #eef2fb;
   border: none;
   outline: none;
-  width: 90%;
+  width: 31%;
+}
+
+.checkout-page-coupons-ul-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  list-style-type: none;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.checkout-page-coupon-li-card {
+  display: flex;
+  min-height: 100px;
+  min-width: 350px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+  margin-top: 3%;
+  margin-right: 10%;
+}
+
+.checkout-page-coupon-li-card-img-contianer {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+}
+
+.checkout-page-coupon-apply-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  align-self: flex-end;
+}
+
+.checkout-page-coupon-apply-btn {
+  color: "#007bca";
+  border: none;
+  outline: none;
+  background-color: transparent;
 }
 
 .checkout-page-input:focus {
@@ -239,6 +279,9 @@
 }
 
 @media screen and (max-width: 1279px) {
+  .checkout-page-coupon-li-card {
+    min-width: 280px;
+  }
   .checkout-page-sub-container {
     width: 95%;
   }
@@ -291,6 +334,15 @@
     padding-right: 0px;
     padding-top: 10px;
   }
+
+  .checkout-page-input {
+    padding: 8px;
+    border-radius: 8px;
+    background-color: #eef2fb;
+    border: none;
+    outline: none;
+    width: 90%;
+  }
 }
 
 @media screen and (min-width: 512px) and (max-width: 1279px) {
@@ -300,6 +352,6 @@
     background-color: #eef2fb;
     border: none;
     outline: none;
-    width: 35%;
+    width: 40%;
   }
 }
