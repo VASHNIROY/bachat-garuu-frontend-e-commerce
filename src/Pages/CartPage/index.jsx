@@ -240,7 +240,10 @@ function CartPage() {
               >
                 Proceed to checkout
               </button>
-              <button className="cart-page-continue-button">
+              <button
+                className="cart-page-continue-button"
+                onClick={() => navigate("/")}
+              >
                 Continue Shopping
               </button>
             </div>
@@ -250,7 +253,13 @@ function CartPage() {
     );
   }
 
-  return <NotFound image={EmptyaCart} title={"Your Cart is Empty"} />;
+  return (
+    <NotFound
+      image={EmptyaCart}
+      title={"Your Cart is Empty"}
+      buttonText={"Explore Products"}
+    />
+  );
 }
 
 export default CartPage;

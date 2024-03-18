@@ -10,11 +10,20 @@ import { useAppContext } from "../../Context";
 import { RotatingLines } from "react-loader-spinner";
 import { useState } from "react";
 import Cookies from "js-cookie";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const BasicCard = ({ item, addWishClicked }) => {
-  const { addToWishlist, fetchWishlist } = useAppContext();
-  const { id, wishlist_status, home_image, name, unit_mrp, unit_sales_price } =
-    item;
+  const { addToWishlist, fetchWishlist, FetchCartDetails } = useAppContext();
+  const {
+    id,
+    wishlist_status,
+    home_image,
+    name,
+    unit_mrp,
+    unit_sales_price,
+    unit_details,
+    product_type,
+  } = item;
 
   const userid = Cookies.get("userid");
 
@@ -28,6 +37,44 @@ const BasicCard = ({ item, addWishClicked }) => {
       await addWishClicked();
       await fetchWishlist();
       setAddingToWishlist(false);
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const addToCart = async () => {
+    if (userid) {
+      const addToCartBody = {
+        vendor_id: "4d544d3d",
+        user_id: userid,
+        product_id: id,
+        unit: unit_details[0].unit,
+        unit_id: unit_details[0].unit_id,
+        unit_value: unit_details[0].unit_value,
+        type: "add",
+        product_type: product_type,
+        cart_type: "ecommerce",
+      };
+      const addToCartformData = new FormData();
+
+      Object.entries(addToCartBody).forEach(([key, value]) => {
+        addToCartformData.append(key, value);
+      });
+      const api = `${baseUrl}addToCart`;
+      const options = {
+        method: "POST",
+        body: addToCartformData,
+      };
+
+      try {
+        const response = await fetch(api, options);
+        const data = await response.json();
+        FetchCartDetails();
+        // setIsAddedToCart(true);
+        console.log(data, "from basic card");
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     } else {
       navigate("/login");
     }
@@ -95,13 +142,19 @@ const BasicCard = ({ item, addWishClicked }) => {
               )}{" "}
               {unit_sales_price}
             </p>
-            <button className="medicines-cards-cart-button">
-              {" "}
-              <MdOutlineShoppingCart />
-              Select Options{" "}
-            </button>
           </div>
         </Link>
+        <div>
+          {" "}
+          <button
+            className="medicines-cards-cart-button"
+            onClick={() => addToCart()}
+          >
+            {" "}
+            <MdOutlineShoppingCart />
+            Add to Cart
+          </button>
+        </div>
       </div>
     </div>
   );

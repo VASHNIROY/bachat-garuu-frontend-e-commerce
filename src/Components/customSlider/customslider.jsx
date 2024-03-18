@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Slider from "react-slick";
 import { MdBiotech, MdMilitaryTech } from "react-icons/md";
 import { GiTechnoHeart } from "react-icons/gi";

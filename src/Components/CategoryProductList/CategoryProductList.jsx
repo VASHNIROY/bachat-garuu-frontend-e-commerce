@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BasicCard from "../BasicCard/basiccard";
+import NotFound from "../NotFound/NotFound";
+import dataNotFound from "../../Utils/datanotfound.jpg";
+import Loader from "../Loader/Loader";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -10,6 +13,8 @@ const CategoryProductList = () => {
   console.log(id, "category id");
 
   const [productsData, setProducts] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const getPoductsBody = {
     category_id: id,
@@ -29,9 +34,11 @@ const CategoryProductList = () => {
 
   const getProducts = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(api, options);
       const data = await response.json();
       setProducts(data.data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -42,19 +49,37 @@ const CategoryProductList = () => {
   }, [id]);
   return (
     <div className="product-list-main-container">
-      {productsData && productsData.length > 0 ? (
+      {isLoading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <Loader value={80} />
+        </div>
+      ) : (
         <>
           {" "}
-          {productsData.map((el) => (
+          {productsData && productsData.length > 0 ? (
             <>
-              <BasicCard item={el} />
+              {" "}
+              {productsData.map((el) => (
+                <>
+                  <BasicCard item={el} />
+                </>
+              ))}
             </>
-          ))}
+          ) : (
+            <NotFound
+              image={dataNotFound}
+              title={"Data Not Found"}
+              buttonText={"Go Home"}
+            />
+          )}
         </>
-      ) : (
-        <div>
-          <h4>No Data Found</h4>
-        </div>
       )}
     </div>
   );

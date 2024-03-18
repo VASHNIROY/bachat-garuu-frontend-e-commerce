@@ -3,12 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Profiledropdown.css";
 import Cookies from "js-cookie";
 
-export default function Profiledropdown() {
+export default function Profiledropdown({ handleLogout }) {
   const navigate = useNavigate();
 
   const removeUser = () => {
     Cookies.remove("userid");
     navigate("/login");
+    handleLogout();
   };
   return (
     <div className="profileContainer">

@@ -105,7 +105,11 @@ const OrdersList = () => {
           <p className="orders-list-sub-total-text">SubTotal : $80</p>
         </div>
       ) : (
-        <NotFound image={noOrderImage} title={"No Orders Found"} />
+        <NotFound
+          image={noOrderImage}
+          title={"No Orders Found"}
+          buttonText={"Order Now"}
+        />
       )}
     </>
   );

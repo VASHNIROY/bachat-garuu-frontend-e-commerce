@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import Cookies from "js-cookie";
 
 const AppContext = createContext();
 
@@ -25,15 +26,15 @@ export const AppProvider = ({ children }) => {
     similarProducts: [],
   });
 
+  const userid = Cookies.get("userid");
+
   const dashboardBodyData = {
-    vendor_id: "4d513d3d",
-    user_id: "1",
     dashboard_type: "ecommerce",
+    user_id: userid,
   };
 
   const cartBodyData = {
-    vendor_id: "4d513d3d",
-    user_id: "1",
+    user_id: userid,
     cart_type: "ecommerce",
   };
 
@@ -44,14 +45,8 @@ export const AppProvider = ({ children }) => {
   };
 
   const getProductBody = {
-    vendor_id: "4d513d3d",
-    user_id: "1",
+    user_id: userid,
     product_id: productId,
-  };
-
-  const getWishlistData = {
-    vendor_id: "4d513d3d",
-    user_id: "1",
   };
 
   const FetchProductDetailsData = async () => {
@@ -82,6 +77,11 @@ export const AppProvider = ({ children }) => {
   };
 
   const fetchWishlist = async () => {
+    const userid = Cookies.get("userid");
+    const getWishlistData = {
+      user_id: userid,
+    };
+
     const wishlistFormData = new FormData();
     console.log("fwtch wish list called ");
     Object.entries(getWishlistData).forEach(([key, value]) => {
@@ -147,7 +147,7 @@ export const AppProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const FetchCategorydata = async (dashboardFormData) => {
+    const FetchCategorydata = async () => {
       const api = `${baseUrl}dashboard`;
       const options = {
         method: "POST",
@@ -193,7 +193,7 @@ export const AppProvider = ({ children }) => {
         console.log(error);
       }
     };
-    FetchCategorydata(dashboardFormData);
+    FetchCategorydata();
     getBrandData();
   }, []);
 
@@ -211,40 +211,46 @@ export const AppProvider = ({ children }) => {
       const featuredProducts = data.data.filter(
         (each) => each.type === "product"
       );
-
-      console.log(featuredProducts[0].data, "new list from contexrt");
       setFeaturedProductsList(featuredProducts[0].data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  useEffect(() => {
-    const FetchRecentlyViewdata = async (dashboardFormData) => {
-      const api = `${baseUrl}dashboard`;
-      const options = {
-        method: "POST",
-        body: dashboardFormData,
-      };
+  const recntlyViewedBody = {
+    user_id: userid,
+    dashboard_type: "ecommerce",
+  };
 
-      try {
-        const response = await fetch(api, options);
-        const data = await response.json();
+  const recentlyViewdformData = new FormData();
 
-        const recentlyViewedProductsList = data.data.filter(
-          (each) => each.type === "recently_viewed"
-        );
+  Object.entries(recntlyViewedBody).forEach(([key, value]) => {
+    recentlyViewdformData.append(key, value);
+  });
 
-        setRecentlyViewedProducts(recentlyViewedProductsList[0].data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+  const FetchRecentlyViewdata = async () => {
+    const api = `${baseUrl}dashboard`;
+    const options = {
+      method: "POST",
+      body: recentlyViewdformData,
     };
-    FetchRecentlyViewdata(dashboardFormData);
-  }, []);
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+
+      const recentlyViewedProductsList = data.data.filter(
+        (each) => each.type === "recently_viewed"
+      );
+
+      setRecentlyViewedProducts(recentlyViewedProductsList[0].data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
-    const FetchRecentlyViewdata = async (dashboardFormData) => {
+    const FetchRecentlyViewdata = async () => {
       const api = `${baseUrl}dashboard`;
       const options = {
         method: "POST",
@@ -264,7 +270,7 @@ export const AppProvider = ({ children }) => {
         console.error("Error fetching data:", error);
       }
     };
-    FetchRecentlyViewdata(dashboardFormData);
+    FetchRecentlyViewdata();
   }, []);
 
   const FetchCartDetails = async () => {
@@ -287,10 +293,11 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     FetchCartDetails();
     FetchFeaturedProductsdata();
+    FetchRecentlyViewdata();
   }, []);
 
   useEffect(() => {
-    const FetchBannerCarouseldata = async (dashboardFormData) => {
+    const FetchBannerCarouseldata = async () => {
       const api = `${baseUrl}dashboard`;
       const options = {
         method: "POST",
@@ -307,7 +314,7 @@ export const AppProvider = ({ children }) => {
         console.error("Error fetching data:", error);
       }
     };
-    FetchBannerCarouseldata(dashboardFormData);
+    FetchBannerCarouseldata();
   }, []);
 
   useEffect(() => {
@@ -326,10 +333,11 @@ export const AppProvider = ({ children }) => {
 
   const addToWishlist = async (id) => {
     const wishlistBody = {
-      vendor_id: "4d513d3d",
-      user_id: "1",
+      user_id: userid,
       product_id: id,
     };
+
+    console.log(id, "product id from wish list ");
 
     const wishlistFormData = new FormData();
 
@@ -369,7 +377,7 @@ export const AppProvider = ({ children }) => {
         localCartCount,
         setproductid,
         productData,
-
+        FetchRecentlyViewdata,
         bannerData,
         FetchCartDetails,
         cartDetails,

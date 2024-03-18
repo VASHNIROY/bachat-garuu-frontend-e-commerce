@@ -168,7 +168,7 @@ const ProductViewdetail = () => {
   const { id } = useParams();
   const getProductBody = {
     vendor_id: "4d513d3d",
-    user_id: "1",
+    user_id: userid,
     product_id: id,
   };
 
@@ -254,6 +254,7 @@ const ProductViewdetail = () => {
 
   useEffect(() => {
     fetchProductDetailsData();
+    setIsAddedToCart(false);
   }, [id]);
 
   const settings = {
@@ -639,7 +640,11 @@ const ProductViewdetail = () => {
                 </div>
                 <Slider ref={slider} {...settings2}>
                   {similarProducts.map((item) => (
-                    <BasicCard item={item} key={item.id} />
+                    <BasicCard
+                      addWishClicked={addtoWish}
+                      item={item}
+                      key={item.id}
+                    />
                   ))}
                 </Slider>
               </div>

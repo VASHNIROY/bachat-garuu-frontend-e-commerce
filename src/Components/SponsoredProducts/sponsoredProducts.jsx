@@ -34,16 +34,14 @@ function SponsoredProducts() {
                   <div
                     key={item.brand_id}
                     className="medicine-cursoal-row1-container"
+                    onClick={() => navigate(`/product/${item.id}`)}
                   >
                     <img
                       src={item.home_image}
                       alt={item.name}
                       className="medcine-cursal-image"
                     />
-                    <div
-                      className="medicine-curosal-content-container"
-                      onClick={() => navigate(`/product/${item.id}`)}
-                    >
+                    <div className="medicine-curosal-content-container">
                       {/* <Rating size={25} initialValue={item.rating} /> */}
                       <h5 className="medicine-curosal-heading">{item.name}</h5>
                       <p className="medicine-curosal-price">

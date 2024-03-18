@@ -97,7 +97,6 @@ function CategorySlider() {
       <div className="slider-container-2">
         <Slider {...settings} className="slider-start">
           {categoryList.map((slide) => {
-            console.log(slide, "category list");
             return (
               <div
                 key={slide.category_id}

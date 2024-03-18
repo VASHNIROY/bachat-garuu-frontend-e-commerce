@@ -21,6 +21,8 @@ import CustomSlider from "../customSlider/customslider.jsx";
 import Cookies from "js-cookie";
 
 export const NavElementsBar = () => {
+  const userid = Cookies.get("userid");
+
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
   const navigate = useNavigate();
 
@@ -32,21 +34,42 @@ export const NavElementsBar = () => {
   const [count, setCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const { categoryList, wishList, cartDetails } = useAppContext();
+  const {
+    categoryList,
+    wishList,
+    cartDetails,
+    fetchWishlist,
+    FetchCartDetails,
+  } = useAppContext();
+
+  const logOutUser = async () => {
+    Cookies.remove("userid");
+    setCount(0);
+    setWishlistCount(0);
+    console.log(userid, "after logout venu");
+  };
 
   useEffect(() => {
-    // Check if cartDetails.data is not null or undefined before using its length
-    if (cartDetails.data && Array.isArray(cartDetails.data)) {
-      setCount(cartDetails.data.length);
-    }
-  }, [cartDetails.data]);
+    fetchWishlist();
+    FetchCartDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
-    // Check if wishList.data is not null or undefined before using its length
-    if (wishList && Array.isArray(wishList)) {
-      setWishlistCount(wishList.length);
+    if (userid) {
+      if (cartDetails.data && Array.isArray(cartDetails.data) && userid) {
+        setCount(cartDetails.data.length);
+      }
     }
-  }, [wishList]);
+  }, [cartDetails.data, userid]);
+
+  useEffect(() => {
+    if (userid) {
+      if (wishList && Array.isArray(wishList)) {
+        setWishlistCount(wishList.length);
+      }
+    }
+  }, [wishList, userid]);
 
   const initialActiveElId =
     categoryList && categoryList.length > 0 ? categoryList[0].category_id : "";
@@ -189,7 +212,6 @@ export const NavElementsBar = () => {
     setIsPopupOpen(false);
   };
 
-  const userid = Cookies.get("userid");
   return (
     <>
       <div className="navbar-ele">
@@ -288,7 +310,10 @@ export const NavElementsBar = () => {
                   }
                   position="bottom right"
                 >
-                  <Profiledropdown onClose={handleCloseClick} />
+                  <Profiledropdown
+                    handleLogout={logOutUser}
+                    onClose={handleCloseClick}
+                  />
                 </Popup>
               ) : (
                 <button

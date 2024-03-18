@@ -24,7 +24,7 @@ const Wishlist = () => {
 
       const addToCartBody = {
         vendor_id: "4d544d3d",
-        user_id: "1",
+        user_id: userid,
         product_id: productDetails[0].id,
         unit: productDetails[0].unit,
         unit_id: productDetails[0].unit_details[0].unit_id,
@@ -110,7 +110,11 @@ const Wishlist = () => {
         </div>
       ) : (
         <>
-          <NotFound image={emptyWishList} title={"Your Wishlist is Empty"} />
+          <NotFound
+            image={emptyWishList}
+            title={"Your Wishlist is Empty"}
+            buttonText={"Add Now"}
+          />
         </>
       )}
       {/* <div className="wish-list-subtotal-container">
