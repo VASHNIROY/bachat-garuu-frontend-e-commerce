@@ -94,10 +94,10 @@ const Footer = () => {
           <p className="footer-side-headings">Account</p>
           <ul className="footer-info-acc-ul-container">
             <li>Dashboard</li>
-            <li>My Orders</li>
+            <li onClick={() => navigate("/orderlist")}>My Orders</li>
             <li>Account Details</li>
             <li>Returns</li>
-            <li>Wishlist</li>
+            <li onClick={() => navigate("/wishlist")}>Wishlist</li>
           </ul>
         </div>
       </div>

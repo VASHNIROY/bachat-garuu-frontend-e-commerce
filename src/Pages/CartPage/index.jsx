@@ -1,6 +1,8 @@
+import NotFound from "../../Components/NotFound/NotFound";
 import { useAppContext } from "../../Context";
 import "./index.css";
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import EmptyaCart from "../../Utils/emptycart.jpg";
 import { useNavigate } from "react-router";
 // import { axios } from "axios";
 // const logo = "";
@@ -248,7 +250,7 @@ function CartPage() {
     );
   }
 
-  return null;
+  return <NotFound image={EmptyaCart} title={"Your Cart is Empty"} />;
 }
 
 export default CartPage;

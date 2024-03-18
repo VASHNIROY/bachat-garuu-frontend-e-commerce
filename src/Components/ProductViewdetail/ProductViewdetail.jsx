@@ -21,7 +21,7 @@ import { LuMail } from "react-icons/lu";
 import Slider from "react-slick";
 import { useAppContext } from "../../Context";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import BasicCard from "../BasicCard/basiccard";
 
@@ -32,6 +32,8 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import PropTypes from "prop-types";
 import Loader from "../Loader/Loader";
 import { FiShoppingCart } from "react-icons/fi";
+import { RotatingLines } from "react-loader-spinner";
+import Cookies from "js-cookie";
 
 const bannerImages = [
   {
@@ -157,6 +159,11 @@ const ProductViewdetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
   const { FetchCartDetails, addToWishlist } = useAppContext();
+
+  const [addingToWishlist, setAddingToWishlist] = useState(false);
+
+  const navigate = useNavigate();
+  const userid = Cookies.get("userid");
   const slider = useRef(null);
   const { id } = useParams();
   const getProductBody = {
@@ -188,6 +195,7 @@ const ProductViewdetail = () => {
       console.log(productDetails, "product details");
 
       setProductDetails(productDetails);
+      setProduct(productDetails.gallery_image[0]);
       setSimilarProducts(similarProducts);
       setIsLoading(false);
     } catch (error) {
@@ -196,41 +204,52 @@ const ProductViewdetail = () => {
   };
 
   const addToCart = async () => {
-    const addToCartBody = {
-      vendor_id: "4d544d3d",
-      user_id: "1",
-      product_id: id,
-      unit: productDetails.unit_details[0].unit,
-      unit_id: productDetails.unit_details[0].unit_id,
-      unit_value: productDetails.unit_details[0].unit_value,
-      type: "add",
-      product_type: productDetails.product_type,
-      cart_type: "ecommerce",
-    };
-    const addToCartformData = new FormData();
+    if (userid) {
+      const addToCartBody = {
+        vendor_id: "4d544d3d",
+        user_id: "1",
+        product_id: id,
+        unit: productDetails.unit_details[0].unit,
+        unit_id: productDetails.unit_details[0].unit_id,
+        unit_value: productDetails.unit_details[0].unit_value,
+        type: "add",
+        product_type: productDetails.product_type,
+        cart_type: "ecommerce",
+      };
+      const addToCartformData = new FormData();
 
-    Object.entries(addToCartBody).forEach(([key, value]) => {
-      addToCartformData.append(key, value);
-    });
-    const api = `${baseUrl}addToCart`;
-    const options = {
-      method: "POST",
-      body: addToCartformData,
-    };
+      Object.entries(addToCartBody).forEach(([key, value]) => {
+        addToCartformData.append(key, value);
+      });
+      const api = `${baseUrl}addToCart`;
+      const options = {
+        method: "POST",
+        body: addToCartformData,
+      };
 
-    try {
-      const response = await fetch(api, options);
-      const data = await response.json();
-      FetchCartDetails();
-      setIsAddedToCart(true);
-    } catch (error) {
-      console.error("Error fetching data:", error);
+      try {
+        const response = await fetch(api, options);
+        const data = await response.json();
+        FetchCartDetails();
+        setIsAddedToCart(true);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    } else {
+      navigate("/login");
     }
   };
 
   const addtoWish = async () => {
-    const data = await addToWishlist(id);
-    setIsAddedToWishlist(!isAddedToWishlist);
+    if (userid) {
+      setAddingToWishlist(true);
+      const data = await addToWishlist(id);
+      setIsAddedToWishlist(!isAddedToWishlist);
+      await fetchProductDetailsData();
+      setAddingToWishlist(false);
+    } else {
+      navigate("/login");
+    }
   };
 
   useEffect(() => {
@@ -326,7 +345,7 @@ const ProductViewdetail = () => {
   return (
     <div className="product-view-detail-main-container">
       {isLoading ? (
-        <Loader />
+        <Loader value={70} />
       ) : (
         <div className="product-view-detail-sub-container">
           <div className="product-view-detail-left-side-container">
@@ -395,12 +414,20 @@ const ProductViewdetail = () => {
                       for 1 user
                     </li>
                   </ul>
+                  {/* <p
+                    dangerouslySetInnerHTML={{
+                      __html: productDetails.additional_detaiils,
+                    }}
+                  /> */}
                 </div>
                 <hr />
                 <div className="product-view-details-third-container">
                   <h2 className="product-view-detail-price">
                     <FaRupeeSign size={19} />
                     {productDetails.unit_details[0].unit_sales_price}
+                    <span className="product-view-mrp-price">
+                      {productDetails.unit_details[0].unit_mrp}
+                    </span>
                   </h2>
                 </div>
                 <div className="product-view-details-four-container">
@@ -450,7 +477,7 @@ const ProductViewdetail = () => {
                     </button>
                   </div>
                   <div className="product-add-to-categories-container">
-                    {isAddedToWishlist ? (
+                    {productDetails.wishlist_status === 1 ? (
                       <p
                         className="product-view-details-category-addet-to-wish"
                         onClick={addtoWish}
@@ -459,13 +486,28 @@ const ProductViewdetail = () => {
                         <FaHeart color="#ef233c" /> Remove
                       </p>
                     ) : (
-                      <p
-                        className="product-view-details-category"
-                        onClick={addtoWish}
-                      >
-                        {" "}
-                        <FaRegHeart /> Add to wishlist
-                      </p>
+                      <>
+                        {addingToWishlist ? (
+                          <RotatingLines
+                            visible={true}
+                            height="20"
+                            width="20"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            ariaLabel="rotating-lines-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                          />
+                        ) : (
+                          <p
+                            className="product-view-details-category"
+                            onClick={addtoWish}
+                          >
+                            {" "}
+                            <FaRegHeart /> Add to wishlist
+                          </p>
+                        )}
+                      </>
                     )}
 
                     {/* <p className="product-view-details-category">

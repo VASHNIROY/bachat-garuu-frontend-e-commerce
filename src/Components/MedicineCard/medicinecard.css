@@ -46,7 +46,7 @@
   justify-content: center;
   flex-direction: row;
   align-items: center;
-  width: 100%;
+
   border-radius: 15px;
 }
 .medicines-cards-main-category-container {
@@ -85,6 +85,7 @@
   overflow: hidden;
   max-height: 20px;
   margin-top: 10px;
+  cursor: pointer;
 }
 .medicines-cards-paragraph:hover {
   color: #1589e3;

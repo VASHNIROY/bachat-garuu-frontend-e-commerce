@@ -17,7 +17,7 @@ import Slider from "react-slick";
 import { useAppContext } from "../../Context";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Stepper } from 'react-form-stepper';
+import { Stepper } from "react-form-stepper";
 import BasicCard from "../../Components/BasicCard/basiccard";
 import Cookies from "js-cookie";
 import "slick-carousel/slick/slick.css";
@@ -187,7 +187,6 @@ const OrderViewDetail = () => {
       setProductDetails(productDetails);
       setSimilarProducts(similarProducts);
       setIsLoading(false);
-      setDeliveryEndDate(endDate.toLocaleDateString());
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -215,6 +214,7 @@ const OrderViewDetail = () => {
     try {
       const response = await fetch(api, options);
       const data = await response.json();
+      console.log(data, "order details from ");
       setAddressDetails(data.data.address_detail);
       setPaymentDetails(data.data.payment_details);
 
@@ -229,15 +229,13 @@ const OrderViewDetail = () => {
   };
   const DeliveryTracking = () => {
     const steps = [
-      { label: 'Order Placed' },
-      { label: 'Processing' },
-      { label: 'Out for Delivery' },
-      { label: 'Delivered' }
+      { label: "Order Placed" },
+      { label: "Processing" },
+      { label: "Out for Delivery" },
+      { label: "Delivered" },
     ];
-    const activeStep = 2; 
-    return (
-      <Stepper steps={steps} activeStep={activeStep} />
-    );
+    const activeStep = 2;
+    return <Stepper steps={steps} activeStep={activeStep} />;
   };
 
   const addToCart = async () => {
@@ -485,19 +483,16 @@ const OrderViewDetail = () => {
                       for 1 user
                     </li>
                   </ul>
-                 
-                  <div>
-                  { DeliveryTracking()}
-                </div>
-                   
+
+                  <div>{DeliveryTracking()}</div>
                 </div>
                 <hr />
-                <div className="product-view-details-third-container">
+                {/* <div className="product-view-details-third-container">
                   <h2 className="product-view-detail-price">
                     <FaRupeeSign size={19} />
                     {productDetails.unit_details[0].unit_sales_price}
                   </h2>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="product-view-detail-bottom-container">

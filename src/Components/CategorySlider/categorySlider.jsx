@@ -6,11 +6,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./categorySlider.css";
 import { useAppContext } from "../../Context";
+import { useNavigate } from "react-router-dom";
 
 function CategorySlider() {
   const [isHovered, setIsHovered] = useState(false);
 
   const { categoryList } = useAppContext();
+
+  const navigate = useNavigate();
 
   const settings = {
     dots: false,
@@ -94,8 +97,13 @@ function CategorySlider() {
       <div className="slider-container-2">
         <Slider {...settings} className="slider-start">
           {categoryList.map((slide) => {
+            console.log(slide, "category list");
             return (
-              <div key={slide.id} className="icon-content-container">
+              <div
+                key={slide.category_id}
+                className="icon-content-container"
+                onClick={() => navigate(`/products/${slide.category_id}`)}
+              >
                 <img className="icon-slider" src={slide.image} />
                 <p style={{ margin: 0 }}>{slide.name}</p>
               </div>

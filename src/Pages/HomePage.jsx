@@ -8,20 +8,41 @@ import CategorySlider from "../Components/CategorySlider/categorySlider";
 import SponsoredProducts from "../Components/SponsoredProducts/sponsoredProducts";
 import AdvertBanner from "../Components/AdvertisingBanner/advertBanner";
 import BannerCarousel from "../Components/BannerCarousel/bannerCarousel";
+import Loader from "../Components/Loader/Loader";
+import { useEffect, useState } from "react";
 const HomePage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const disableLoader = () => {
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  };
+
+  useEffect(() => {
+    disableLoader();
+  });
+
   return (
     <>
-      <BannerCarousel />
-      <FeaturedProducts />
-      <CategorySlider />
-      <Layout title={"ALl Products - Best offers "}>
-        <NewSeltterBanner />
-        {/* <MedicineCard /> */}
-        <SponsoredProducts />
-        <OfferCards />
-        <SellingProducts />
-        <AdvertBanner />
-      </Layout>
+      {isLoading ? (
+        <Loader value={75} />
+      ) : (
+        <>
+          <BannerCarousel />
+          <FeaturedProducts />
+          <CategorySlider />
+          <Layout title={"ALl Products - Best offers "}>
+            <NewSeltterBanner />
+            {/* <MedicineCard /> */}
+            <SponsoredProducts />
+            <OfferCards />
+            <SellingProducts />
+            <AdvertBanner />
+          </Layout>
+        </>
+      )}
     </>
   );
 };

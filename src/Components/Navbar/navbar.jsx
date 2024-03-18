@@ -213,14 +213,20 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          {searchResults && searchValue && (
+          {searchValue && (
             <SlideDown className="navbar-search-slide-down-container">
               <Scrollbars>
-                {searchResults.map((el) => (
+                {searchResults && searchResults.length > 0 ? (
                   <>
-                    <SearchItem details={el} emptySearch={emptySearch} />
+                    {searchResults.map((el) => (
+                      <>
+                        <SearchItem details={el} emptySearch={emptySearch} />
+                      </>
+                    ))}
                   </>
-                ))}
+                ) : (
+                  <p style={{ textAlign: "center" }}>No Results Found</p>
+                )}
               </Scrollbars>
             </SlideDown>
           )}

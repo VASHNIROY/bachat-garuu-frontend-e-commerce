@@ -18,6 +18,7 @@ import CategoryItem from "../CategoryItem/CategoryItem.jsx";
 import Profiledropdown from "../Profiledropdown/Profiledropdown.jsx";
 import { useNavigate } from "react-router";
 import CustomSlider from "../customSlider/customslider.jsx";
+import Cookies from "js-cookie";
 
 export const NavElementsBar = () => {
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
@@ -26,6 +27,7 @@ export const NavElementsBar = () => {
   const [isShowbyCategoryTrue, setShowbyCategoryTrue] = useState(false);
 
   const [isShowbyBrandTrue, setShowbyBrandTrue] = useState(false);
+  const [wishListCount, setWishlistCount] = useState(0);
 
   const [count, setCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -38,6 +40,13 @@ export const NavElementsBar = () => {
       setCount(cartDetails.data.length);
     }
   }, [cartDetails.data]);
+
+  useEffect(() => {
+    // Check if wishList.data is not null or undefined before using its length
+    if (wishList && Array.isArray(wishList)) {
+      setWishlistCount(wishList.length);
+    }
+  }, [wishList]);
 
   const initialActiveElId =
     categoryList && categoryList.length > 0 ? categoryList[0].category_id : "";
@@ -180,6 +189,7 @@ export const NavElementsBar = () => {
     setIsPopupOpen(false);
   };
 
+  const userid = Cookies.get("userid");
   return (
     <>
       <div className="navbar-ele">
@@ -223,7 +233,7 @@ export const NavElementsBar = () => {
             <li>
               <Tooltip title="Wishlist">
                 <IconButton>
-                  <Badge badgeContent={wishList.length} color="primary">
+                  <Badge badgeContent={wishListCount} color="primary">
                     <FaRegHeart
                       className="nav-ele-bar-icon"
                       onClick={() => navigate("/wishlist")}
@@ -260,25 +270,34 @@ export const NavElementsBar = () => {
               </Popup>
             </li>
             <li>
-              <Popup
-                closeOnDocumentClick={true}
-                open={isPopupOpen}
-                onClose={handleCloseClick}
-                contentStyle={{
-                  // width: "250px",
-                  padding: "5px",
-                }}
-                trigger={
-                  <Tooltip title="profile">
-                    <IconButton>
-                      <CgProfile className="nav-ele-bar-icon" />
-                    </IconButton>
-                  </Tooltip>
-                }
-                position="bottom right"
-              >
-                <Profiledropdown onClose={handleCloseClick} />
-              </Popup>
+              {userid ? (
+                <Popup
+                  closeOnDocumentClick={true}
+                  open={isPopupOpen}
+                  onClose={handleCloseClick}
+                  contentStyle={{
+                    // width: "250px",
+                    padding: "5px",
+                  }}
+                  trigger={
+                    <Tooltip title="profile">
+                      <IconButton>
+                        <CgProfile className="nav-ele-bar-icon" />
+                      </IconButton>
+                    </Tooltip>
+                  }
+                  position="bottom right"
+                >
+                  <Profiledropdown onClose={handleCloseClick} />
+                </Popup>
+              ) : (
+                <button
+                  className="nav-login-page-button"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </button>
+              )}
             </li>
           </ul>
         </div>
