@@ -227,8 +227,8 @@
   height: 40px;
   text-align: center;
   border: none;
-  background-color: orange;
-  color: white;
+  background-color: #d3d3d3;
+  color: #b4b4b4;
   font-size: 16px;
   font-weight: 700;
 }
@@ -576,8 +576,8 @@
     height: 40px;
     text-align: center;
     border: none;
-    background-color: orange;
-    color: white;
+    background-color: #d3d3d3;
+    color: #b4b4b4;
     font-size: 14px;
     font-weight: 700;
   }
@@ -713,8 +713,8 @@
     text-align: center;
     width: auto;
     border: none;
-    background-color: orange;
-    color: white;
+    background-color: #d3d3d3;
+    color: #b4b4b4;
     font-size: 16px;
     font-weight: 700;
     margin: 10px;

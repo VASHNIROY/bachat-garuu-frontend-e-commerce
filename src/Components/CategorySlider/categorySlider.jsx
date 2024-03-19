@@ -10,12 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 function CategorySlider() {
   const [isHovered, setIsHovered] = useState(false);
-
   const { categoryList } = useAppContext();
-
   const navigate = useNavigate();
 
-  const settings = {
+  const sliderSettings = {
     dots: false,
     prevArrow: (
       <IoIosArrowBack
@@ -95,19 +93,17 @@ function CategorySlider() {
   return (
     <div className="slider-main-container">
       <div className="slider-container-2">
-        <Slider {...settings} className="slider-start">
-          {categoryList.map((slide) => {
-            return (
-              <div
-                key={slide.category_id}
-                className="icon-content-container"
-                onClick={() => navigate(`/products/${slide.category_id}`)}
-              >
-                <img className="icon-slider" src={slide.image} />
-                <p style={{ margin: 0 }}>{slide.name}</p>
-              </div>
-            );
-          })}
+        <Slider {...sliderSettings} className="slider-start">
+          {categoryList.map((slide) => (
+            <div
+              key={slide.category_id}
+              className="icon-content-container"
+              onClick={() => navigate(`/products/${slide.category_id}`)}
+            >
+              <img className="icon-slider" src={slide.image} alt={slide.name} />
+              <p style={{ margin: 0 }}>{slide.name}</p>
+            </div>
+          ))}
         </Slider>
       </div>
     </div>

@@ -160,11 +160,9 @@
     width: 90%;
   }
   .cart-page-proceed-button {
-    width: max-content;
     padding: 10px 24px;
   }
   .cart-page-continue-button {
-    width: max-content;
     padding: 10px 24px;
   }
 }

@@ -115,8 +115,6 @@ export default function FeaturedProducts() {
 
   const clickedAddWish = async () => {
     await FetchFeaturedProductsdata();
-    console.log("fetured products called ");
-    console.log(featuredProductsList, "new list ");
   };
 
   return (

@@ -32,7 +32,7 @@ function SponsoredProducts() {
               <div className="medicine-curosal-sub-container">
                 {sponsoredProducts.map((item) => (
                   <div
-                    key={item.brand_id}
+                    key={item.id}
                     className="medicine-cursoal-row1-container"
                     onClick={() => navigate(`/product/${item.id}`)}
                   >

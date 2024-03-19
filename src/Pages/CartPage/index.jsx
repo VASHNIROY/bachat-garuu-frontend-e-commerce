@@ -10,25 +10,24 @@ import Cookies from "js-cookie";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function CartPage() {
-  const { cartDetails, setproductid, productData } = useAppContext();
+  const { cartDetails, FetchCartDetails } = useAppContext();
   const navigate = useNavigate();
 
   const addToCartbtn = async (id) => {
     const userid = Cookies.get("userid");
-    setproductid(id);
 
-    const { productDetails } = productData;
-    console.log("fetching product data ", productData);
+    const productDetails = cartDetails.data.filter((el) => el.id === id);
+    console.log(productDetails);
 
     const addToCartBody = {
       vendor_id: "4d544d3d",
       user_id: userid,
-      product_id: productDetails.productId,
-      unit: productData.productDetails.unit_details[0].unit,
-      unit_id: productData.productDetails.unit_details[0].unit_id,
-      unit_value: productData.productDetails.unit_details[0].unit_value,
+      product_id: productDetails[0].product_id,
+      unit: productDetails[0].unit,
+      unit_id: productDetails[0].unit_id,
+      unit_value: productDetails[0].unit_value,
       type: "add",
-      product_type: productData.productDetails.product_type,
+      product_type: productDetails[0].product_type,
       cart_type: "ecommerce",
     };
 
@@ -46,8 +45,45 @@ function CartPage() {
     try {
       const response = await fetch(api, options);
       const data = await response.json();
+      FetchCartDetails();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-      console.log(data);
+  const removeFromCart = async (id) => {
+    const userid = Cookies.get("userid");
+
+    const productDetails = cartDetails.data.filter((el) => el.id === id);
+    console.log(productDetails);
+
+    const addToCartBody = {
+      vendor_id: "4d544d3d",
+      user_id: userid,
+      product_id: productDetails[0].product_id,
+      unit: productDetails[0].unit,
+      unit_id: productDetails[0].unit_id,
+      unit_value: productDetails[0].unit_value,
+      type: "remove",
+      product_type: productDetails[0].product_type,
+      cart_type: "ecommerce",
+    };
+
+    const addToCartformData = new FormData();
+
+    Object.entries(addToCartBody).forEach(([key, value]) => {
+      addToCartformData.append(key, value);
+    });
+    const api = `${baseUrl}addToCart`;
+    const options = {
+      method: "POST",
+      body: addToCartformData,
+    };
+
+    try {
+      const response = await fetch(api, options);
+      const data = await response.json();
+      FetchCartDetails();
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -164,7 +200,13 @@ function CartPage() {
                 <p className="cart-page-product m-0">{each.name}</p>
                 <p className="cart-page-price m-0">{each.unit_sales_price}</p>
                 <div className="cart-page-quantity m-0">
-                  <button className="quantity-button">-</button> {each.qty}
+                  <button
+                    className="quantity-button"
+                    onClick={() => removeFromCart(each.id)}
+                  >
+                    -
+                  </button>{" "}
+                  {each.qty}
                   <button
                     className="quantity-button"
                     onClick={() => addToCartbtn(each.id)}
@@ -209,8 +251,19 @@ function CartPage() {
                 <div className="cart-page-responsive-flex">
                   <p className="cart-page-responsive-heading">Quantity:</p>
                   <div className="m-0">
-                    <button className="quantity-button">-</button> {each.qty}{" "}
-                    <button className="quantity-button">+</button>
+                    <button
+                      className="quantity-button"
+                      onClick={() => removeFromCart(each.id)}
+                    >
+                      -
+                    </button>{" "}
+                    {each.qty}{" "}
+                    <button
+                      className="quantity-button"
+                      onClick={() => addToCartbtn(each.id)}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
                 <div className="cart-page-responsive-flex">
@@ -227,12 +280,16 @@ function CartPage() {
           <p className="cart-page-total-text">Cart Totals</p>
           <div className="cart-page-amount-display-container">
             <div className="cart-page-amount-flex">
-              <p className="m-0">Subtotal</p>
-              <p className="m-0">{cartDetails.sub_total}</p>
-            </div>
-            <div className="cart-page-amount-flex">
               <p className="m-0">Total</p>
               <p className="m-0">{cartDetails.total_mrp}</p>
+            </div>
+            <div className="cart-page-amount-flex">
+              <p className="m-0">Discount</p>
+              <p className="m-0">-{cartDetails.total_discount}</p>
+            </div>
+            <div className="cart-page-amount-flex">
+              <p className="m-0">Subtotal</p>
+              <p className="m-0">{cartDetails.sub_total}</p>
             </div>
             <br />
             <div className="cart-page-button-container">

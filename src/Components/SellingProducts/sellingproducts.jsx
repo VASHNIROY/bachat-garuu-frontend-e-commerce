@@ -142,7 +142,7 @@ function SellingProducts() {
                 {" "}
                 {recentlyViewedProducts.map((el) => (
                   <>
-                    <BasicCard item={el} />
+                    <BasicCard key={el.id} item={el} />
                   </>
                 ))}
               </>

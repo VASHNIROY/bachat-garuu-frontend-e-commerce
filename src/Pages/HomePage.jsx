@@ -27,7 +27,7 @@ const HomePage = () => {
     fetchWishlist();
     FetchCartDetails();
     disableLoader();
-  });
+  }, []);
 
   return (
     <>
