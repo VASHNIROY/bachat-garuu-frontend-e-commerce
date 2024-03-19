@@ -4,6 +4,7 @@ import "./index.css";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import EmptyaCart from "../../Utils/emptycart.jpg";
 import { useNavigate } from "react-router";
+import Cookies from "js-cookie";
 // import { axios } from "axios";
 // const logo = "";
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -13,6 +14,7 @@ function CartPage() {
   const navigate = useNavigate();
 
   const addToCartbtn = async (id) => {
+    const userid = Cookies.get("userid");
     setproductid(id);
 
     const { productDetails } = productData;
@@ -20,7 +22,7 @@ function CartPage() {
 
     const addToCartBody = {
       vendor_id: "4d544d3d",
-      user_id: "1",
+      user_id: userid,
       product_id: productDetails.productId,
       unit: productData.productDetails.unit_details[0].unit,
       unit_id: productData.productDetails.unit_details[0].unit_id,

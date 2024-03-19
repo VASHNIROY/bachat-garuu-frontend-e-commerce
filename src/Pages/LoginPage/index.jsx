@@ -124,7 +124,7 @@ const Login = () => {
 
   useEffect(() => {
     const userId = Cookies.get("userid");
-
+    console.log(userId, "login ");
     if (userId) {
       navigate("/");
     }

@@ -207,7 +207,7 @@ const ProductViewdetail = () => {
     if (userid) {
       const addToCartBody = {
         vendor_id: "4d544d3d",
-        user_id: "1",
+        user_id: userid,
         product_id: id,
         unit: productDetails.unit_details[0].unit,
         unit_id: productDetails.unit_details[0].unit_id,
@@ -240,6 +240,10 @@ const ProductViewdetail = () => {
     }
   };
 
+  const buyNow = () => {
+    return !userid && navigate("/login");
+  };
+
   const addtoWish = async () => {
     if (userid) {
       setAddingToWishlist(true);
@@ -253,8 +257,8 @@ const ProductViewdetail = () => {
   };
 
   useEffect(() => {
-    fetchProductDetailsData();
     setIsAddedToCart(false);
+    fetchProductDetailsData();
   }, [id]);
 
   const settings = {
@@ -473,7 +477,10 @@ const ProductViewdetail = () => {
                       </button>
                     )}
 
-                    <button className="product-buy-now-button">
+                    <button
+                      className="product-buy-now-button"
+                      onClick={() => buyNow()}
+                    >
                       <FiShoppingCart /> Buy now
                     </button>
                   </div>

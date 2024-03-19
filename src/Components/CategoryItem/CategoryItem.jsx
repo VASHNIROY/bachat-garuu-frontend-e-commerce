@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import "./CategoryItem.css";
 import { useNavigate } from "react-router";
+import Loader from "../../Components/Loader/Loader";
+import NotFound from "../../Components/NotFound/NotFound";
+import notfound from "../../Utils/datanotfound.jpg";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const CategoryItem = ({ categoryId }) => {
   const [productsList, setProductsList] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const [noData, setError] = useState(false);
@@ -36,6 +40,7 @@ const CategoryItem = ({ categoryId }) => {
       const data = await response.json();
       if (data.status) {
         setProductsList(data.data);
+        setLoading(false);
         setError(false);
       } else {
         setError(true);
@@ -48,19 +53,28 @@ const CategoryItem = ({ categoryId }) => {
   return (
     <div className="category-item-main-container">
       {noData ? (
-        <p>Data Not Found</p>
+        <NotFound image={notfound} title={"Data Not Found"} />
       ) : (
         <>
-          {productsList.map((el) => (
-            <div
-              key={el.id}
-              className="category-item-card"
-              onClick={() => navigate(`/product/${el.id}`)}
-            >
-              <img src={el.home_image} className="category-item-image" />
-              <p className="category-item-name">{el.name}</p>
+          {" "}
+          {isLoading ? (
+            <div className="category-loader-container">
+              <Loader value={50} />
             </div>
-          ))}
+          ) : (
+            <>
+              {productsList.map((el) => (
+                <div
+                  key={el.id}
+                  className="category-item-card"
+                  onClick={() => navigate(`/product/${el.id}`)}
+                >
+                  <img src={el.home_image} className="category-item-image" />
+                  <p className="category-item-name">{el.name}</p>
+                </div>
+              ))}
+            </>
+          )}
         </>
       )}
     </div>

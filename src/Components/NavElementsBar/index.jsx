@@ -16,7 +16,7 @@ import Popup from "reactjs-popup";
 import CartPopup from "../../Pages/CartPopup/index.jsx";
 import CategoryItem from "../CategoryItem/CategoryItem.jsx";
 import Profiledropdown from "../Profiledropdown/Profiledropdown.jsx";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import CustomSlider from "../customSlider/customslider.jsx";
 import Cookies from "js-cookie";
 
@@ -24,6 +24,7 @@ export const NavElementsBar = () => {
   const userid = Cookies.get("userid");
 
   const [isCategoryTrue, setIsCateogrytrue] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [isShowbyCategoryTrue, setShowbyCategoryTrue] = useState(false);
@@ -46,14 +47,16 @@ export const NavElementsBar = () => {
     Cookies.remove("userid");
     setCount(0);
     setWishlistCount(0);
-    console.log(userid, "after logout venu");
   };
 
   useEffect(() => {
     fetchWishlist();
     FetchCartDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (location.pathname === "/login") {
+      setCount(0);
+      setWishlistCount(0);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     if (userid) {
