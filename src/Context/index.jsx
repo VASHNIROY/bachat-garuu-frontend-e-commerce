@@ -1,12 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
+import { postData } from "../CustomAPIs/customposthook";
 
 const AppContext = createContext();
 
 export const useAppContext = () => useContext(AppContext);
-
-const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const AppProvider = ({ children }) => {
   const [categoryList, setCategoryList] = useState([]);
@@ -28,49 +27,63 @@ export const AppProvider = ({ children }) => {
 
   const userid = Cookies.get("userid");
 
+  useEffect(() => {
+    FetchCartCountdata();
+    fetchWishlist();
+    FetchCategorydata();
+    getBrandData();
+    FetchSponsoredProductsdata();
+    FetchCartDetails();
+    FetchFeaturedProductsdata();
+    FetchRecentlyViewdata();
+    FetchBannerCarouseldata();
+  }, []);
+
+  useEffect(() => {
+    if (productId !== null) {
+      FetchProductDetailsData();
+    }
+  }, [productId]);
+
   const dashboardBodyData = {
     dashboard_type: "ecommerce",
     ...(userid && { user_id: userid }),
   };
 
-  const cartBodyData = {
-    user_id: userid,
-    cart_type: "ecommerce",
-  };
-
-  const cartCountBody = {
-    vendor_id: "4d544d3d",
-    user_id: "1",
-    cart_type: "ecommerce",
-  };
-
-  const getProductBody = {
-    user_id: userid,
-    product_id: productId,
-  };
-
   const FetchProductDetailsData = async () => {
-    const productFormData = new FormData();
-
-    Object.entries(getProductBody).forEach(([key, value]) => {
-      productFormData.append(key, value);
-    });
-
-    const api = `${baseUrl}getProductDetails`;
-    const options = {
-      method: "POST",
-      body: productFormData,
+    const getProductBody = {
+      user_id: userid,
+      product_id: productId,
     };
 
     try {
-      const response = await fetch(api, options);
-      const data = await response.json();
+      const { responseData } = await postData(
+        "getProductDetails",
+        getProductBody
+      );
 
-      const productDetails = data.data;
+      const productDetails = responseData.data;
 
-      const similarProducts = data.similar_product;
+      const similarProducts = responseData.similar_product;
 
       SetProductDetails({ productDetails, similarProducts });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const FetchCartCountdata = async () => {
+    const cartCountBody = {
+      vendor_id: "4d544d3d",
+      user_id: userid,
+      cart_type: "ecommerce",
+    };
+
+    try {
+      const { responseData } = await postData("getCartCount", cartCountBody);
+
+      const count = responseData.data.count;
+      setServerCartCount(count);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -82,23 +95,10 @@ export const AppProvider = ({ children }) => {
       user_id: userid,
     };
 
-    const wishlistFormData = new FormData();
-
-    Object.entries(getWishlistData).forEach(([key, value]) => {
-      wishlistFormData.append(key, value);
-    });
-
-    const api = `${baseUrl}wishList`;
-    const options = {
-      method: "POST",
-      body: wishlistFormData,
-    };
-
     try {
-      const response = await fetch(api, options);
+      const { responseData } = await postData("wishList", getWishlistData);
 
-      const data = await response.json();
-      const wishlist = data.data;
+      const wishlist = responseData.data;
 
       setWishList(wishlist);
     } catch (error) {
@@ -106,142 +106,30 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const dashboardFormData = new FormData();
-
-  Object.entries(dashboardBodyData).forEach(([key, value]) => {
-    dashboardFormData.append(key, value);
-  });
-
-  const cartformData = new FormData();
-
-  Object.entries(cartCountBody).forEach(([key, value]) => {
-    cartformData.append(key, value);
-  });
-
-  const cartDetailsformData = new FormData();
-
-  Object.entries(cartBodyData).forEach(([key, value]) => {
-    cartDetailsformData.append(key, value);
-  });
-
-  useEffect(() => {
-    const FetchCartCountdata = async (cartformData) => {
-      const api = `${baseUrl}getCartCount`;
-      const options = {
-        method: "POST",
-        body: cartformData,
-      };
-
-      try {
-        const response = await fetch(api, options);
-        const data = await response.json();
-
-        const count = data.data.count;
-        setServerCartCount(count);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    FetchCartCountdata(cartformData);
-    fetchWishlist();
-  }, []);
-
-  useEffect(() => {
-    const FetchCategorydata = async () => {
-      const api = `${baseUrl}dashboard`;
-      const options = {
-        method: "POST",
-        body: dashboardFormData,
-      };
-
-      try {
-        const response = await fetch(api, options);
-        const data = await response.json();
-        const categorysList = data.data.filter(
-          (each) => each.type === "category_list"
-        );
-
-        setCategoryList(categorysList[0].data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    const getBrandBody = {
-      dashboard_type: "ecommerce",
-    };
-
-    const getBrandFormData = new FormData();
-
-    Object.entries(getBrandBody).forEach(([key, value]) => {
-      getBrandFormData.append(key, value);
-    });
-
-    const api = `${baseUrl}getBrand`;
-    const options = {
-      method: "POST",
-      body: getBrandFormData,
-    };
-
-    const getBrandData = async () => {
-      try {
-        const response = await fetch(api, options);
-        const data = await response.json();
-        console.log(data, "get brand name ");
-        setBrandList(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    FetchCategorydata();
-    getBrandData();
-  }, []);
-
   const FetchFeaturedProductsdata = async () => {
-    const api = `${baseUrl}dashboard`;
-    const options = {
-      method: "POST",
-      body: dashboardFormData,
-    };
-
-    console.log(dashboardFormData, "from contextr");
-
     try {
-      const response = await fetch(api, options);
-      const data = await response.json();
+      const { responseData } = await postData("dashboard", dashboardBodyData);
 
-      const featuredProducts = data.data.filter(
+      const featuredProducts = responseData.data.filter(
         (each) => each.type === "product"
       );
+
       setFeaturedProductsList(featuredProducts[0].data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  const recntlyViewedBody = {
-    user_id: userid,
-    dashboard_type: "ecommerce",
-  };
-
-  const recentlyViewdformData = new FormData();
-
-  Object.entries(recntlyViewedBody).forEach(([key, value]) => {
-    recentlyViewdformData.append(key, value);
-  });
-
   const FetchRecentlyViewdata = async () => {
-    const api = `${baseUrl}dashboard`;
-    const options = {
-      method: "POST",
-      body: recentlyViewdformData,
-    };
-
     try {
-      const response = await fetch(api, options);
-      const data = await response.json();
+      const recntlyViewedBody = {
+        ...(userid && { user_id: userid }),
+        dashboard_type: "ecommerce",
+      };
 
-      const recentlyViewedProductsList = data.data.filter(
+      const { responseData } = await postData("dashboard", recntlyViewedBody);
+
+      const recentlyViewedProductsList = responseData.data.filter(
         (each) => each.type === "recently_viewed"
       );
 
@@ -251,79 +139,75 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const FetchRecentlyViewdata = async () => {
-      const api = `${baseUrl}dashboard`;
-      const options = {
-        method: "POST",
-        body: dashboardFormData,
-      };
-
-      try {
-        const response = await fetch(api, options);
-        const data = await response.json();
-
-        const setSponsoredProductsList = data.data.filter(
-          (each) => each.type === "product1"
-        );
-
-        setSponsoredProducts(setSponsoredProductsList[0].data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    FetchRecentlyViewdata();
-  }, []);
-
-  const FetchCartDetails = async () => {
-    const api = `${baseUrl}viewCart`;
-    const options = {
-      method: "POST",
-      body: cartDetailsformData,
-    };
-
+  const FetchCategorydata = async () => {
     try {
-      const response = await fetch(api, options);
-      const data = await response.json();
+      const { responseData } = await postData("dashboard", dashboardBodyData);
 
-      setCartDetails(data);
+      const categorysList = responseData.data.filter(
+        (each) => each.type === "category_list"
+      );
+
+      setCategoryList(categorysList[0].data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  useEffect(() => {
-    FetchCartDetails();
-    FetchFeaturedProductsdata();
-    FetchRecentlyViewdata();
-  }, []);
-
-  useEffect(() => {
-    const FetchBannerCarouseldata = async () => {
-      const api = `${baseUrl}dashboard`;
-      const options = {
-        method: "POST",
-        body: dashboardFormData,
-      };
-
-      try {
-        const response = await fetch(api, options);
-        const data = await response.json();
-
-        const bannerData = data.data.filter((each) => each.type === "banner");
-        setBannerData(bannerData[0].data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+  const getBrandData = async () => {
+    const getBrandBody = {
+      dashboard_type: "ecommerce",
     };
-    FetchBannerCarouseldata();
-  }, []);
 
-  useEffect(() => {
-    if (productId !== null) {
-      FetchProductDetailsData();
+    try {
+      const { responseData } = await postData("getBrand", getBrandBody);
+
+      setBrandList(responseData.data);
+    } catch (error) {
+      console.log(error);
     }
-  }, [productId]);
+  };
+
+  const FetchSponsoredProductsdata = async () => {
+    try {
+      const { responseData } = await postData("dashboard", dashboardBodyData);
+
+      const setSponsoredProductsList = responseData.data.filter(
+        (each) => each.type === "product1"
+      );
+
+      setSponsoredProducts(setSponsoredProductsList[0].data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const FetchCartDetails = async () => {
+    const cartBodyData = {
+      user_id: userid,
+      cart_type: "ecommerce",
+    };
+
+    try {
+      const { responseData } = await postData("viewCart", cartBodyData);
+
+      setCartDetails(responseData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const FetchBannerCarouseldata = async () => {
+    try {
+      const { responseData } = await postData("dashboard", dashboardBodyData);
+
+      const bannerData = responseData.data.filter(
+        (each) => each.type === "banner"
+      );
+      setBannerData(bannerData[0].data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const incrementCartCount = () => {
     setlocalCartCount((prevCount) => prevCount + 1);
@@ -339,25 +223,10 @@ export const AppProvider = ({ children }) => {
       product_id: id,
     };
 
-    console.log(id, "product id from wish list ");
-
-    const wishlistFormData = new FormData();
-
-    Object.entries(wishlistBody).forEach(([key, value]) => {
-      wishlistFormData.append(key, value);
-    });
-
     try {
-      const api = `${baseUrl}addToWishList`;
-      const options = {
-        method: "POST",
-        body: wishlistFormData,
-      };
+      const { responseData } = await postData("addToWishList", wishlistBody);
 
-      const response = await fetch(api, options);
-      const data = await response.json();
-      console.log(data, "sdkmdsmdslmmldsfdmf");
-      return data;
+      return responseData;
     } catch (error) {
       console.log(error);
     }

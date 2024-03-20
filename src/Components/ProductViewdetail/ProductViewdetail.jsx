@@ -595,31 +595,47 @@ const ProductViewdetail = () => {
                           </td>
                         </tr>
                         <tr className="product-additional-details-table-row">
-                          <td className="product-additional-details-left-heading">
-                            Form
-                          </td>
-                          <td className="product-additional-details-right-heading">
-                            {productDetails.specification[0].specification_key}
-                          </td>
+                          {productDetails.specification &&
+                            productDetails.specification[0] && (
+                              <td className="product-additional-details-left-heading">
+                                Form
+                              </td>
+                            )}
+
+                          {productDetails.specification &&
+                            productDetails.specification[0] && (
+                              <td className="product-additional-details-right-heading">
+                                {
+                                  productDetails.specification[0]
+                                    .specification_key
+                                }
+                              </td>
+                            )}
                         </tr>
-                        <tr className="product-additional-details-table-row">
+                        {/* <tr className="product-additional-details-table-row">
                           <td className="product-additional-details-left-heading">
                             Militers
                           </td>
                           <td className="product-additional-details-right-heading">
                             500
                           </td>
-                        </tr>
+                        </tr> */}
                         <tr className="product-additional-details-table-row">
-                          <td className="product-additional-details-left-heading">
-                            Frequency
-                          </td>
-                          <td className="product-additional-details-right-heading">
-                            {
-                              productDetails.specification[0]
-                                .specification_value
-                            }
-                          </td>
+                          {productDetails.specification &&
+                            productDetails.specification[0] && (
+                              <td className="product-additional-details-left-heading">
+                                Frequency
+                              </td>
+                            )}
+                          {productDetails.specification &&
+                            productDetails.specification[0] && (
+                              <td className="product-additional-details-right-heading">
+                                {
+                                  productDetails.specification[0]
+                                    .specification_value
+                                }
+                              </td>
+                            )}
                         </tr>
                       </tbody>
                     </table>

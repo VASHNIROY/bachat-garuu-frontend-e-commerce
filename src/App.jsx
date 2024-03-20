@@ -22,6 +22,7 @@ import Register from "./Pages/Register/Register";
 import ProductsList from "./Components/ProductsList/ProductsList";
 import CategoryProductList from "./Components/CategoryProductList/CategoryProductList";
 import ScrollToTopButton from "./Components/scroll/Scroll";
+import { ConvertObjectToFormData } from "./convertobj";
 
 function App() {
   const isMobileScreen = useMediaQuery("(max-width: 800px)");
@@ -30,7 +31,6 @@ function App() {
     <div className="app-container">
       <AppProvider>
         {!isMobileScreen && <ScrollToTopButton />}
-
         <Navbar />
         <Routes>
           <Route path="/register" element={<Register />} />
@@ -52,6 +52,7 @@ function App() {
         <Footer />
         {isMobileScreen && <SimpleBottomNavigation />}
       </AppProvider>
+      <ConvertObjectToFormData />
     </div>
   );
 }
