@@ -70,6 +70,8 @@ export const NavElementsBar = () => {
     if (userid) {
       if (wishList && Array.isArray(wishList)) {
         setWishlistCount(wishList.length);
+      } else if (wishList === undefined) {
+        setWishlistCount(0);
       }
     }
   }, [wishList, userid]);
