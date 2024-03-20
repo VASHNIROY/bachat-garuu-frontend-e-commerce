@@ -49,9 +49,11 @@ const typesOfTransfer = [
 //   },
 // ];
 
+const userid = Cookies.get("userid");
+
 const addressBody = {
   vendor_id: "4d544d3d",
-  user_id: "1",
+  user_id: userid,
 };
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -159,7 +161,7 @@ function CheckoutPage() {
   const getCoupons = async () => {
     const getcouponsdata = {
       vendor_id: "4d513d3d",
-      user_id: "1",
+      user_id: userid,
     };
     const getcouponsdataformData = new FormData();
     Object.entries(getcouponsdata).forEach(([key, value]) => {
@@ -195,7 +197,7 @@ function CheckoutPage() {
       addaddressformData.append(key, value);
     });
 
-    addaddressformData.append("user_id", "1");
+    addaddressformData.append("user_id", userid);
     addaddressformData.append("vendor_id", "4d544d3d");
     const api = `${baseUrl}addAddress`;
     const options = {
@@ -325,7 +327,7 @@ function CheckoutPage() {
     console.log("applyCoupon id", couponid);
     const coupondata = {
       vendor_id: "4d513d3d",
-      user_id: "1",
+      user_id: userid,
       coupon_id: couponid,
     };
     const coupondataformData = new FormData();
@@ -355,7 +357,7 @@ function CheckoutPage() {
   const removeCoupon = async (coupon_id) => {
     const removecoupondata = {
       vendor_id: "4d513d3d",
-      user_id: "1",
+      user_id: userid,
       coupon_id: coupon_id,
     };
     const removecoupondataformData = new FormData();

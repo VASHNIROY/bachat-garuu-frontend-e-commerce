@@ -72,7 +72,7 @@
   padding: 5px;
 }
 
-.mbl-search-btn {
+/* .mbl-search-btn {
   background-color: #f2971f;
   border: none;
   outline: none;
@@ -80,7 +80,7 @@
   width: 100%;
   height: 38px;
   border-radius: 25px;
-}
+} */
 
 /*-------------------------------------------------------------------------- Web Css -------------------------------------------*/
 
@@ -146,10 +146,21 @@
   color: white;
 }
 
+/* .navbar-search-slide-down-container {
+  height: 300px !important;
+  top: 74px;
+  width: 49%;
+  margin-left: 24px;
+  position: absolute;
+  z-index: 999;
+  border-radius: 10px;
+} */
+
 .navbar-search-slide-down-container {
   height: 300px !important;
   top: 74px;
   width: 49%;
+  max-width: 646px;
   margin-left: 24px;
   position: absolute;
   z-index: 999;
@@ -178,7 +189,7 @@
 }
 
 .category-search {
-  width: 800px;
+  width: 590px;
   height: 48px;
   color: #184363;
   border: none;
@@ -224,27 +235,41 @@
   margin-bottom: 0;
 }
 
-@media screen and (min-width: 420px) and (max-width: 730px) {
+@media screen and (max-width: 800px) {
   .mbl-category-input {
     width: 350px;
   }
   .mbl-category-search {
     width: 350px;
   }
-  .mbl-search-btn {
+  /* .mbl-search-btn {
     width: 350px;
-  }
-}
-
-@media screen and (max-width: 740px) {
+  } */
   .navbar-search-slide-down-container {
     height: 500px !important;
     top: 120px;
-    width: 350px;
+    width: 85%;
+    max-width: 350px;
+    position: absolute;
+    z-index: 999;
+    border-radius: 1%;
+    margin-left: 0px;
+  }
+}
+
+@media screen and (min-width: 730px) and (max-width: 1024px) {
+  .category-search {
+    width: 260px;
+  }
+}
+
+@media screen and (min-width: 801px) and (max-width: 1024px) {
+  .navbar-search-slide-down-container {
+    height: 500px !important;
+    width: 35%;
     position: absolute;
     z-index: 999;
     border-radius: 10px;
-    margin-left: 0px;
   }
 }
 
@@ -255,20 +280,25 @@
   .mbl-category-search {
     width: 50%;
   }
-  .mbl-search-btn {
+  /* .mbl-search-btn {
     width: 150px;
-  }
+  } */
   .mbl-search-modal {
     display: flex;
     flex-wrap: nowrap;
   }
 
-  .navbar-search-slide-down-container {
-    height: 500px !important;
-    top: 120px;
-    width: 75%;
-    position: absolute;
-    z-index: 999;
-    border-radius: 10px;
+  .navbar-contact-details-para {
+    font-size: 8px;
+  }
+
+  .navbar-logo-content-container {
+    font-size: 8px;
+  }
+  .contact-details-container {
+    width: 110px;
+  }
+  .navbar-search-icon-container {
+    width: 47px;
   }
 }

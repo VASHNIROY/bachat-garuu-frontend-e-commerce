@@ -7,11 +7,13 @@ import "slick-carousel/slick/slick-theme.css";
 import "./categorySlider.css";
 import { useAppContext } from "../../Context";
 import { useNavigate } from "react-router-dom";
+import logo from "../../Utils/logo.png";
 
 function CategorySlider() {
   const [isHovered, setIsHovered] = useState(false);
 
   const { categoryList } = useAppContext();
+  console.log("categorylist", categoryList);
 
   const navigate = useNavigate();
 
@@ -104,6 +106,7 @@ function CategorySlider() {
                 onClick={() => navigate(`/products/${slide.category_id}`)}
               >
                 <img className="icon-slider" src={slide.image} />
+
                 <p style={{ margin: 0 }}>{slide.name}</p>
               </div>
             );

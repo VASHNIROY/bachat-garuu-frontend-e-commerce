@@ -21,13 +21,16 @@ import CategoryPage from "./Pages/CategoryPage/categoryPage";
 import Register from "./Pages/Register/Register";
 import ProductsList from "./Components/ProductsList/ProductsList";
 import CategoryProductList from "./Components/CategoryProductList/CategoryProductList";
+import ScrollToTopButton from "./Components/scroll/Scroll";
 
 function App() {
-  const isMobileScreen = useMediaQuery("(max-width: 1250px)");
+  const isMobileScreen = useMediaQuery("(max-width: 800px)");
 
   return (
     <div className="app-container">
       <AppProvider>
+        {!isMobileScreen && <ScrollToTopButton />}
+
         <Navbar />
         <Routes>
           <Route path="/register" element={<Register />} />
