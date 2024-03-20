@@ -27,3 +27,11 @@
   color: #184363;
   width: 150px;
 }
+
+.category-loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

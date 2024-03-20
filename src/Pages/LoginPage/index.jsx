@@ -113,6 +113,7 @@ import "./index.css";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../Context";
 
 const Login = () => {
   const [login, setLogin] = useState("");
@@ -123,6 +124,7 @@ const Login = () => {
 
   useEffect(() => {
     const userId = Cookies.get("userid");
+    console.log(userId, "login ");
     if (userId) {
       navigate("/");
     }

@@ -61,7 +61,7 @@ const Wishlist = () => {
 
   const addToWish = async (id) => {
     const data = await addToWishlist(id);
-    fetchWishlist();
+    await fetchWishlist();
   };
 
   return (

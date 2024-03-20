@@ -97,7 +97,7 @@ function CategorySlider() {
   return (
     <div className="slider-main-container">
       <div className="slider-container-2">
-        <Slider {...settings} className="slider-start">
+        <Slider {...settings}>
           {categoryList.map((slide) => {
             return (
               <div

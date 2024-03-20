@@ -8,6 +8,7 @@ export default function Profiledropdown({ handleLogout }) {
 
   const removeUser = () => {
     Cookies.remove("userid");
+
     navigate("/login");
     handleLogout();
   };

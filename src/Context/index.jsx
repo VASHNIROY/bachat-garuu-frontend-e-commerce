@@ -30,7 +30,7 @@ export const AppProvider = ({ children }) => {
 
   const dashboardBodyData = {
     dashboard_type: "ecommerce",
-    user_id: userid,
+    ...(userid && { user_id: userid }),
   };
 
   const cartBodyData = {
@@ -83,7 +83,7 @@ export const AppProvider = ({ children }) => {
     };
 
     const wishlistFormData = new FormData();
-    console.log("fwtch wish list called ");
+
     Object.entries(getWishlistData).forEach(([key, value]) => {
       wishlistFormData.append(key, value);
     });
@@ -203,6 +203,8 @@ export const AppProvider = ({ children }) => {
       method: "POST",
       body: dashboardFormData,
     };
+
+    console.log(dashboardFormData, "from contextr");
 
     try {
       const response = await fetch(api, options);

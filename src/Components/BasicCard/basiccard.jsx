@@ -10,10 +10,13 @@ import { useAppContext } from "../../Context";
 import { RotatingLines } from "react-loader-spinner";
 import { useState } from "react";
 import Cookies from "js-cookie";
+import { BsCheckLg } from "react-icons/bs";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const BasicCard = ({ item, addWishClicked }) => {
   const { addToWishlist, fetchWishlist, FetchCartDetails } = useAppContext();
+
+  const [isAdded, setIsAddedToCart] = useState(false);
   const {
     id,
     wishlist_status,
@@ -70,7 +73,7 @@ const BasicCard = ({ item, addWishClicked }) => {
         const response = await fetch(api, options);
         const data = await response.json();
         FetchCartDetails();
-        // setIsAddedToCart(true);
+        setIsAddedToCart(true);
         console.log(data, "from basic card");
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -81,9 +84,8 @@ const BasicCard = ({ item, addWishClicked }) => {
   };
 
   return (
-    <div className="medicines-cards-mini-container">
+    <div className="medicines-cards-mini-container" key={id}>
       <div
-        key={id}
         className="medicines-cards-main-category-container"
         style={{ height: "490px", width: "275px" }}
       >
@@ -146,14 +148,20 @@ const BasicCard = ({ item, addWishClicked }) => {
         </Link>
         <div>
           {" "}
-          <button
-            className="medicines-cards-cart-button"
-            onClick={() => addToCart()}
-          >
-            {" "}
-            <MdOutlineShoppingCart />
-            Add to Cart
-          </button>
+          {isAdded ? (
+            <button className="medicines-added-to-cart-button">
+              <BsCheckLg /> Added To Cart
+            </button>
+          ) : (
+            <button
+              className="medicines-cards-cart-button"
+              onClick={() => addToCart()}
+            >
+              {" "}
+              <MdOutlineShoppingCart />
+              Add to Cart
+            </button>
+          )}
         </div>
       </div>
     </div>

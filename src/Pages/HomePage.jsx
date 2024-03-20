@@ -10,8 +10,11 @@ import AdvertBanner from "../Components/AdvertisingBanner/advertBanner";
 import BannerCarousel from "../Components/BannerCarousel/bannerCarousel";
 import Loader from "../Components/Loader/Loader";
 import { useEffect, useState } from "react";
+import { useAppContext } from "../Context";
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
+
+  const { fetchWishlist, FetchCartDetails } = useAppContext();
 
   const disableLoader = () => {
     const timeout = setTimeout(() => {
@@ -21,8 +24,10 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    fetchWishlist();
+    FetchCartDetails();
     disableLoader();
-  });
+  }, []);
 
   return (
     <>
