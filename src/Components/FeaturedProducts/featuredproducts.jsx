@@ -49,18 +49,19 @@ SamplePrevArrow.propTypes = {
   onClick: PropTypes.func,
 };
 
+// checked rendering
+
 export default function FeaturedProducts() {
   const slider = React.useRef(null);
 
-  const { featuredProductsList, FetchFeaturedProductsdata } = useAppContext();
+  const { dashboardData, FetchDashboardData } = useAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
-    if (featuredProductsList && featuredProductsList.length > 0) {
+    if (dashboardData && dashboardData.data) {
       setIsLoading(false);
     }
-  }, [featuredProductsList]);
+  }, [dashboardData]);
 
   const settings = {
     infinite: true,
@@ -113,42 +114,52 @@ export default function FeaturedProducts() {
     prevArrow: <SamplePrevArrow />,
   };
 
+  const featuredProductsList =
+    dashboardData && dashboardData.data
+      ? dashboardData.data.filter((each) => each.type === "product")
+      : [];
+
   const clickedAddWish = async () => {
-    await FetchFeaturedProductsdata();
+    await FetchDashboardData();
   };
 
   return (
     <>
-      <h1 className="product-curosal-heading">Featured Products</h1>
       {isLoading ? (
         <Loader value={40} />
       ) : (
         <>
           <div style={{ width: "100%", padding: "0 9% 0 9%" }}>
-            <div className="feature-curosal-arrow-button">
-              <button
-                className="feature-curosal-arrow-right"
-                onClick={() => slider?.current?.slickPrev()}
-              >
-                <IoIosArrowBack className="feature-curosal-arrow" />
-              </button>
-              <button
-                style={{ marginLeft: 10 }}
-                className="feature-curosal-arrow-right"
-                onClick={() => slider?.current?.slickNext()}
-              >
-                <IoIosArrowForward className="feature-curosal-arrow" />
-              </button>
-            </div>
-            <Slider ref={slider} {...settings}>
-              {featuredProductsList.map((item) => (
-                <BasicCard
-                  item={item}
-                  key={item.id}
-                  addWishClicked={clickedAddWish}
-                />
-              ))}
-            </Slider>
+            {featuredProductsList[0].data.length > 0 ? (
+              <>
+                <h1 className="product-curosal-heading">Featured Products</h1>
+
+                <div className="feature-curosal-arrow-button">
+                  <button
+                    className="feature-curosal-arrow-right"
+                    onClick={() => slider?.current?.slickPrev()}
+                  >
+                    <IoIosArrowBack className="feature-curosal-arrow" />
+                  </button>
+                  <button
+                    style={{ marginLeft: 10 }}
+                    className="feature-curosal-arrow-right"
+                    onClick={() => slider?.current?.slickNext()}
+                  >
+                    <IoIosArrowForward className="feature-curosal-arrow" />
+                  </button>
+                </div>
+                <Slider ref={slider} {...settings}>
+                  {featuredProductsList[0].data.map((item) => (
+                    <BasicCard
+                      item={item}
+                      key={item.id}
+                      addWishClicked={clickedAddWish}
+                    />
+                  ))}
+                </Slider>
+              </>
+            ) : null}
           </div>
         </>
       )}

@@ -2,7 +2,7 @@ import { DNA } from "react-loader-spinner";
 import "./Loader.css";
 
 function Loader({ value }) {
-  console.log(value, "height value ");
+  console.log("Loadinggggg....");
   return (
     <div className="loader-container" style={{ height: `${value}vh` }}>
       <DNA

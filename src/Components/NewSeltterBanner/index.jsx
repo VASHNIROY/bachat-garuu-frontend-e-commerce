@@ -1,4 +1,3 @@
-import React from 'react';
 import { SlPaperPlane } from "react-icons/sl";
 import './index.css'
 

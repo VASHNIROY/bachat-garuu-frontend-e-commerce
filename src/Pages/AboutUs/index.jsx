@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import "./index.css";
 import { Rating } from "react-simple-star-rating";
@@ -37,6 +36,45 @@ function AboutUs() {
         "These worked out well for the crab-feed I was attending the other week and got here just on time.",
       imgSrc: "https://enovathemes.com/propharm/wp-content/uploads/test2.jpg",
       name: "Sidney Millspaugh",
+    },
+  ];
+
+  const followUsImages = [
+    {
+      id: 1,
+      image:
+        "https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_1.jpg",
+      alt: "follow1",
+    },
+    {
+      id: 2,
+      image:
+        "https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_2.jpg",
+      alt: "follow1",
+    },
+    {
+      id: 3,
+      image:
+        "https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_3.jpg",
+      alt: "follow1",
+    },
+    {
+      id: 4,
+      image:
+        "https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_4.jpg",
+      alt: "follow1",
+    },
+    {
+      id: 5,
+      image:
+        "https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_5.jpg",
+      alt: "follow1",
+    },
+    {
+      id: 6,
+      image:
+        "https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_6.jpg",
+      alt: "follow1",
     },
   ];
 
@@ -185,36 +223,14 @@ function AboutUs() {
           Follow us in instagram @propharm
         </h1>
         <div className="client-reviews-follow-img-container">
-          <img
-            className="client-reviews-follow-img"
-            src="https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_1.jpg"
-            alt=""
-          />
-          <img
-            className="client-reviews-follow-img"
-            src="https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_2.jpg"
-            alt=""
-          />
-          <img
-            className="client-reviews-follow-img"
-            src="https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_3.jpg"
-            alt=""
-          />
-          <img
-            className="client-reviews-follow-img"
-            src="https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_4.jpg"
-            alt=""
-          />
-          <img
-            className="client-reviews-follow-img"
-            src="https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_5.jpg"
-            alt=""
-          />
-          <img
-            className="client-reviews-follow-img"
-            src="https://enovathemes.com/propharm/wp-content/uploads/inst_placeholder_6.jpg"
-            alt=""
-          />
+          {followUsImages.map((each) => (
+            <img
+              key={each.id}
+              className="client-reviews-follow-img"
+              src={each.image}
+              alt={each.alt}
+            />
+          ))}
         </div>
       </div>
       <NewsSeltterBanner />

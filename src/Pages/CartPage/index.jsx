@@ -7,10 +7,7 @@ import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import Loader from "../../Components/Loader/Loader";
-
-// import { axios } from "axios";
-// const logo = "";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+import { postData } from "../../CustomAPIs/customposthook";
 
 function CartPage() {
   const { cartDetails, FetchCartDetails } = useAppContext();
@@ -27,7 +24,8 @@ function CartPage() {
     fetchCart();
   }, []);
 
-  const addToCartbtn = async (id) => {
+  function CartBodyfunction(props) {
+    const { id, type } = props;
     const userid = Cookies.get("userid");
 
     const productDetails = cartDetails.data.filter((el) => el.id === id);
@@ -40,153 +38,26 @@ function CartPage() {
       unit: productDetails[0].unit,
       unit_id: productDetails[0].unit_id,
       unit_value: productDetails[0].unit_value,
-      type: "add",
+      type: type,
       product_type: productDetails[0].product_type,
       cart_type: "ecommerce",
     };
 
-    const addToCartformData = new FormData();
+    return addToCartBody;
+  }
 
-    Object.entries(addToCartBody).forEach(([key, value]) => {
-      addToCartformData.append(key, value);
-    });
-    const api = `${baseUrl}addToCart`;
-    const options = {
-      method: "POST",
-      body: addToCartformData,
-    };
+  const addToCartbtn = async (id) => {
+    const addToCartBody = CartBodyfunction({ type: "add", id });
 
-    try {
-      const response = await fetch(api, options);
-      const data = await response.json();
-      fetchCart();
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    const { responseData } = await postData("addToCart", addToCartBody);
+    fetchCart();
   };
 
   const removeFromCart = async (id) => {
-    const userid = Cookies.get("userid");
-
-    const productDetails = cartDetails.data.filter((el) => el.id === id);
-    console.log(productDetails);
-
-    const addToCartBody = {
-      vendor_id: "4d544d3d",
-      user_id: userid,
-      product_id: productDetails[0].product_id,
-      unit: productDetails[0].unit,
-      unit_id: productDetails[0].unit_id,
-      unit_value: productDetails[0].unit_value,
-      type: "remove",
-      product_type: productDetails[0].product_type,
-      cart_type: "ecommerce",
-    };
-
-    const addToCartformData = new FormData();
-
-    Object.entries(addToCartBody).forEach(([key, value]) => {
-      addToCartformData.append(key, value);
-    });
-    const api = `${baseUrl}addToCart`;
-    const options = {
-      method: "POST",
-      body: addToCartformData,
-    };
-
-    try {
-      const response = await fetch(api, options);
-      const data = await response.json();
-      fetchCart();
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    const removeToCartBody = CartBodyfunction({ type: "remove", id });
+    const { responseData } = await postData("addToCart", removeToCartBody);
+    fetchCart();
   };
-
-  // const success = async (packageId) => {
-  //   try {
-  //     const options = {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         packageId: packageId,
-  //         organizationId: organizationId,
-  //       }),
-  //     };
-  //     const response = await fetch(
-  //       `${process.env}/postsubcriptionid`,
-  //       options
-  //     );
-  //     const data = await response.json();
-  //     if (response.ok === true) {
-  //       Toast.fire({
-  //         icon: "success",
-  //         title: data.message,
-  //       });
-  //       navigate("/login");
-  //     } else {
-  //       Toast.fire({
-  //         icon: "error",
-  //         title: data.message,
-  //       });
-  //     }
-  //   } catch {
-  //     console.log("error");
-  //   }
-  // };
-  // console.log(process.env.REACT_APP_PAYMENT_KEY);
-
-  // const initPayment = (data, packageId) => {
-  //   console.log("init payment called");
-  //   const options = {
-  //     key: import.meta.env.REACT_APP_PAYMENT_KEY,
-  //     // key: "rzp_test_BSbNIdfoV3nkDf",
-  //     amount: data.amount,
-  //     currency: data.currency,
-  //     name: "XpenseFlow",
-  //     description: "Payment for XpenseFlow",
-  //     image: { logo },
-  //     order_id: data.id,
-  //     handler: async (response) => {
-  //       console.log(response, "response before callin verify api");
-  //       try {
-  //         const verifyUrl = `${baseUrl}/paymentverify`;
-  //         const { data1 } = await axios.post(verifyUrl, {
-  //           ...response,
-  //           amount: data.amount,
-  //           // packageId: packageId,
-  //           // organizationId: organizationId,
-  //         });
-  //         console.log(data1);
-  //         await success(packageId);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     },
-  //     theme: {
-  //       color: "#3399cc",
-  //     },
-  //   };
-  //   const rzp1 = new window.Razorpay(options);
-  //   rzp1.open();
-  // };
-
-  // const handlePayment = async (id, price) => {
-  //   console.log("handle called", price);
-  //   try {
-  //     const orderUrl = `${baseUrl}/orders`;
-  //     const { data } = await axios.post(orderUrl, {
-  //       amount: parseInt(price),
-  //     });
-  //     console.log(data, "first data console");
-  //     console.log(data.data, "payment data");
-  //     initPayment(data.data, id);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <>

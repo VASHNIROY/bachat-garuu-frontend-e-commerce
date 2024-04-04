@@ -8,44 +8,27 @@ import Loader from "../../Components/Loader/Loader";
 import noOrderImage from "../../Utils/noorders.jpg";
 
 import NotFound from "../../Components/NotFound/NotFound";
-
-const baseUrl = import.meta.env.VITE_BASE_URL;
+import { postData } from "../../CustomAPIs/customposthook";
 
 const OrdersList = () => {
   const [orderDetailsData, setOrderDetailsData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const userid = Cookies.get("userid");
+    const FetchOrderDetails = async () => {
+      const userid = Cookies.get("userid");
 
-    const ordersListData = {
-      vendor_id: "4d513d3d",
-      user_id: userid,
-    };
-
-    const ordersListformData = new FormData();
-
-    Object.entries(ordersListData).forEach(([key, value]) => {
-      ordersListformData.append(key, value);
-    });
-
-    const FetchOrderDetails = async (ordersListformData) => {
-      const api = `${baseUrl}getUserOrders`;
-      const options = {
-        method: "POST",
-        body: ordersListformData,
+      const ordersListData = {
+        vendor_id: "4d513d3d",
+        user_id: userid,
       };
 
-      try {
-        const response = await fetch(api, options);
-        const data = await response.json();
-        setOrderDetailsData(data.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      const { responseData } = await postData("getUserOrders", ordersListData);
+
+      setOrderDetailsData(responseData.data);
+      setIsLoading(false);
     };
-    FetchOrderDetails(ordersListformData);
+    FetchOrderDetails();
   }, []);
 
   console.log("render", orderDetailsData);

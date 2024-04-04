@@ -1,20 +1,8 @@
 import { useRef, useState } from "react";
 import "../../Components/ProductViewdetail/ProductViewdetail.css";
-//
-import { FiShoppingCart } from "react-icons/fi";
-import {
-  FaRegHeart,
-  FaFacebookF,
-  FaWhatsapp,
-  FaLinkedinIn,
-  FaPinterestP,
-  FaRupeeSign,
-  FaTelegramPlane,
-  FaCheck,
-} from "react-icons/fa";
+
 import { FaGreaterThan } from "react-icons/fa6";
 import Slider from "react-slick";
-import { useAppContext } from "../../Context";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Stepper } from "react-form-stepper";
@@ -25,6 +13,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import PropTypes from "prop-types";
 import Loader from "../../Components/Loader/Loader";
+import { FaCheck } from "react-icons/fa";
+import { postData } from "../../CustomAPIs/customposthook";
 
 const bannerImages = [
   {
@@ -135,7 +125,6 @@ SamplePrevArrow.propTypes = {
   onClick: PropTypes.func,
 };
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const userid = Cookies.get("userid");
 
@@ -153,36 +142,25 @@ const OrderViewDetail = () => {
   const [orderStatusDetails, setOrderStatusDetails] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  const { FetchCartDetails } = useAppContext();
   const slider = useRef(null);
   const { id } = useParams();
 
-  const getProductBody = {
-    vendor_id: "4d513d3d",
-    user_id: "1",
-    product_id: id,
-  };
-
   const fetchProductDetailsData = async () => {
-    const productFormData = new FormData();
-
-    Object.entries(getProductBody).forEach(([key, value]) => {
-      productFormData.append(key, value);
-    });
-
-    const api = `${baseUrl}getProductDetails`;
-    const options = {
-      method: "POST",
-      body: productFormData,
+    const getProductBody = {
+      vendor_id: "4d513d3d",
+      user_id: userid,
+      product_id: id,
     };
 
+    const { responseData } = await postData(
+      "getProductDetails",
+      getProductBody
+    );
+
     try {
-      const response = await fetch(api, options);
-      const data = await response.json();
+      const productDetails = responseData.data;
 
-      const productDetails = data.data;
-
-      const similarProducts = data.similar_product;
+      const similarProducts = responseData.similar_product;
 
       setProductDetails(productDetails);
       setSimilarProducts(similarProducts);
@@ -199,29 +177,18 @@ const OrderViewDetail = () => {
       order_id: id,
     };
 
-    const productOrderFormData = new FormData();
-
-    Object.entries(getProductOrderBody).forEach(([key, value]) => {
-      productOrderFormData.append(key, value);
-    });
-
-    const api = `${baseUrl}getOrderDetail`;
-    const options = {
-      method: "POST",
-      body: productOrderFormData,
-    };
+    const { responseData } = await postData(
+      "getOrderDetail",
+      getProductOrderBody
+    );
 
     try {
-      const response = await fetch(api, options);
-      const data = await response.json();
-      console.log(data, "order details from ");
-      setAddressDetails(data.data.address_detail);
-      setPaymentDetails(data.data.payment_details);
+      setAddressDetails(responseData.data.address_detail);
+      setPaymentDetails(responseData.data.payment_details);
 
-      setOrderProductDetails(data.data.products[0]);
+      setOrderProductDetails(responseData.data.products[0]);
 
-      setOrderStatusDetails(data.data.statusArr);
-      console.log(data);
+      setOrderStatusDetails(responseData.data.statusArr);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -238,37 +205,6 @@ const OrderViewDetail = () => {
     return <Stepper steps={steps} activeStep={activeStep} />;
   };
 
-  const addToCart = async () => {
-    const addToCartBody = {
-      vendor_id: "4d544d3d",
-      user_id: "1",
-      product_id: id,
-      unit: productDetails.unit_details[0].unit,
-      unit_id: productDetails.unit_details[0].unit_id,
-      unit_value: productDetails.unit_details[0].unit_value,
-      type: "add",
-      product_type: productDetails.product_type,
-      cart_type: "ecommerce",
-    };
-    const addToCartformData = new FormData();
-
-    Object.entries(addToCartBody).forEach(([key, value]) => {
-      addToCartformData.append(key, value);
-    });
-    const api = `${baseUrl}addToCart`;
-    const options = {
-      method: "POST",
-      body: addToCartformData,
-    };
-
-    try {
-      const response = await fetch(api, options);
-      const data = await response.json();
-      FetchCartDetails();
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   useEffect(() => {
     fetchProductDetailsData();
     fetchProductOrderDetailsData();

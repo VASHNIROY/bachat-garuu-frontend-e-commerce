@@ -6,8 +6,7 @@
   align-items: center;
   height: 80px;
   width: 90%;
-  /* position: absolute; */
-  /* z-index: -999; */
+  
   top: 0;
 }
 
@@ -72,16 +71,6 @@
   padding: 5px;
 }
 
-/* .mbl-search-btn {
-  background-color: #f2971f;
-  border: none;
-  outline: none;
-  color: white;
-  width: 100%;
-  height: 38px;
-  border-radius: 25px;
-} */
-
 /*-------------------------------------------------------------------------- Web Css -------------------------------------------*/
 
 .navbar {
@@ -116,7 +105,6 @@
 }
 
 .navbar-logo {
-  /* width: 200px; */
   display: flex;
   object-fit: contain;
 
@@ -146,15 +134,7 @@
   color: white;
 }
 
-/* .navbar-search-slide-down-container {
-  height: 300px !important;
-  top: 74px;
-  width: 49%;
-  margin-left: 24px;
-  position: absolute;
-  z-index: 999;
-  border-radius: 10px;
-} */
+
 
 .navbar-search-slide-down-container {
   height: 300px !important;
@@ -242,9 +222,7 @@
   .mbl-category-search {
     width: 350px;
   }
-  /* .mbl-search-btn {
-    width: 350px;
-  } */
+ 
   .navbar-search-slide-down-container {
     height: 500px !important;
     top: 120px;
@@ -280,9 +258,7 @@
   .mbl-category-search {
     width: 50%;
   }
-  /* .mbl-search-btn {
-    width: 150px;
-  } */
+
   .mbl-search-modal {
     display: flex;
     flex-wrap: nowrap;

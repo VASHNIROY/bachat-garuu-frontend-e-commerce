@@ -8,17 +8,16 @@ const AppContext = createContext();
 export const useAppContext = () => useContext(AppContext);
 
 export const AppProvider = ({ children }) => {
-  const [categoryList, setCategoryList] = useState([]);
+  // const [categoryList, setCategoryList] = useState([]);
   const [brandList, setBrandList] = useState([]);
   const [serverCartCount, setServerCartCount] = useState();
-  const [localCartCount, setlocalCartCount] = useState(0);
-  const [featuredProductsList, setFeaturedProductsList] = useState([]);
-  const [recentlyViewedProducts, setRecentlyViewedProducts] = useState([]);
-  const [sponsoredProducts, setSponsoredProducts] = useState([]);
+  // const [featuredProductsList, setFeaturedProductsList] = useState([]);
+  // const [sponsoredProducts, setSponsoredProducts] = useState([]);
   const [productId, setProductId] = useState(null);
-  const [bannerData, setBannerData] = useState([]);
+  // const [bannerData, setBannerData] = useState([]);
   const [cartDetails, setCartDetails] = useState([]);
   const [wishList, setWishList] = useState([]);
+  const [dashboardData, setDashboardData] = useState([]);
 
   const [productData, SetProductDetails] = useState({
     productDetails: {},
@@ -30,13 +29,13 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     FetchCartCountdata();
     fetchWishlist();
-    FetchCategorydata();
+    FetchDashboardData();
+    // FetchCategorydata();
     getBrandData();
-    FetchSponsoredProductsdata();
+    // FetchSponsoredProductsdata();
     FetchCartDetails();
-    FetchFeaturedProductsdata();
-    FetchRecentlyViewdata();
-    FetchBannerCarouseldata();
+    // FetchFeaturedProductsdata();
+    // FetchBannerCarouseldata();
   }, []);
 
   useEffect(() => {
@@ -48,6 +47,16 @@ export const AppProvider = ({ children }) => {
   const dashboardBodyData = {
     dashboard_type: "ecommerce",
     ...(userid && { user_id: userid }),
+  };
+
+  const FetchDashboardData = async () => {
+    try {
+      const { responseData } = await postData("dashboard", dashboardBodyData);
+      console.log("all data", responseData);
+      setDashboardData(responseData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const FetchProductDetailsData = async () => {
@@ -106,52 +115,33 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const FetchFeaturedProductsdata = async () => {
-    try {
-      const { responseData } = await postData("dashboard", dashboardBodyData);
+  // const FetchFeaturedProductsdata = async () => {
+  //   try {
+  //     const { responseData } = await postData("dashboard", dashboardBodyData);
 
-      const featuredProducts = responseData.data.filter(
-        (each) => each.type === "product"
-      );
+  //     const featuredProducts = responseData.data.filter(
+  //       (each) => each.type === "product"
+  //     );
 
-      setFeaturedProductsList(featuredProducts[0].data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  //     setFeaturedProductsList(featuredProducts[0].data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
-  const FetchRecentlyViewdata = async () => {
-    try {
-      const recntlyViewedBody = {
-        ...(userid && { user_id: userid }),
-        dashboard_type: "ecommerce",
-      };
+  // const FetchCategorydata = async () => {
+  //   try {
+  //     const { responseData } = await postData("dashboard", dashboardBodyData);
 
-      const { responseData } = await postData("dashboard", recntlyViewedBody);
+  //     const categorysList = responseData.data.filter(
+  //       (each) => each.type === "category_list"
+  //     );
 
-      const recentlyViewedProductsList = responseData.data.filter(
-        (each) => each.type === "recently_viewed"
-      );
-
-      setRecentlyViewedProducts(recentlyViewedProductsList[0].data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const FetchCategorydata = async () => {
-    try {
-      const { responseData } = await postData("dashboard", dashboardBodyData);
-
-      const categorysList = responseData.data.filter(
-        (each) => each.type === "category_list"
-      );
-
-      setCategoryList(categorysList[0].data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  //     setCategoryList(categorysList[0].data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
   const getBrandData = async () => {
     const getBrandBody = {
@@ -167,19 +157,19 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const FetchSponsoredProductsdata = async () => {
-    try {
-      const { responseData } = await postData("dashboard", dashboardBodyData);
+  // const FetchSponsoredProductsdata = async () => {
+  //   try {
+  //     const { responseData } = await postData("dashboard", dashboardBodyData);
 
-      const setSponsoredProductsList = responseData.data.filter(
-        (each) => each.type === "product1"
-      );
+  //     const setSponsoredProductsList = responseData.data.filter(
+  //       (each) => each.type === "product1"
+  //     );
 
-      setSponsoredProducts(setSponsoredProductsList[0].data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  //     setSponsoredProducts(setSponsoredProductsList[0].data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
   const FetchCartDetails = async () => {
     const cartBodyData = {
@@ -196,22 +186,18 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const FetchBannerCarouseldata = async () => {
-    try {
-      const { responseData } = await postData("dashboard", dashboardBodyData);
+  // const FetchBannerCarouseldata = async () => {
+  //   try {
+  //     const { responseData } = await postData("dashboard", dashboardBodyData);
 
-      const bannerData = responseData.data.filter(
-        (each) => each.type === "banner"
-      );
-      setBannerData(bannerData[0].data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const incrementCartCount = () => {
-    setlocalCartCount((prevCount) => prevCount + 1);
-  };
+  //     const bannerData = responseData.data.filter(
+  //       (each) => each.type === "banner"
+  //     );
+  //     setBannerData(bannerData[0].data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
   const setproductid = (id) => {
     setProductId(id);
@@ -225,6 +211,7 @@ export const AppProvider = ({ children }) => {
 
     try {
       const { responseData } = await postData("addToWishList", wishlistBody);
+      await fetchWishlist();
 
       return responseData;
     } catch (error) {
@@ -239,24 +226,20 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        categoryList,
+        // categoryList,
         serverCartCount,
-        featuredProductsList,
-        recentlyViewedProducts,
-        sponsoredProducts,
-        incrementCartCount,
-        localCartCount,
+        // sponsoredProducts,
         setproductid,
         productData,
-        FetchRecentlyViewdata,
-        bannerData,
+        // bannerData,
         FetchCartDetails,
         cartDetails,
         wishList,
         addToWishlist,
         fetchWishlist,
-        FetchFeaturedProductsdata,
+        // FetchFeaturedProductsdata,
         brandList,
+        dashboardData,
       }}
     >
       {children}

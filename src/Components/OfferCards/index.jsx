@@ -1,4 +1,3 @@
-import React from 'react';
 import { TfiWallet } from "react-icons/tfi";
 import { GoArchive } from "react-icons/go";
 import { PiTruckThin } from "react-icons/pi";

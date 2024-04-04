@@ -1,7 +1,7 @@
 import FeaturedProducts from "../Components/FeaturedProducts/featuredproducts";
 import Layout from "../Components/Layout/layout";
 // import MedicineCard from "../Components/MedicineCard/medicineCard";
-import SellingProducts from "../Components/SellingProducts/sellingproducts";
+import RecentlyViewedProducts from "../Components/RecentlyViewedProducts/recentlyViewedProducts";
 import NewSeltterBanner from "../Components/NewSeltterBanner";
 import OfferCards from "../Components/OfferCards";
 import CategorySlider from "../Components/CategorySlider/categorySlider";
@@ -29,6 +29,8 @@ const HomePage = () => {
     disableLoader();
   }, []);
 
+  console.log("homepage");
+
   return (
     <>
       {isLoading ? (
@@ -38,14 +40,18 @@ const HomePage = () => {
           <BannerCarousel />
           <FeaturedProducts />
           <CategorySlider />
-          <Layout title={"ALl Products - Best offers "}>
-            <NewSeltterBanner />
+          <NewSeltterBanner />
+          <OfferCards />
+
+          <Layout
+            title={"ALl Products - Best offers "}
+            style={{ width: "100%" }}
+          >
             {/* <MedicineCard /> */}
             <SponsoredProducts />
-            <OfferCards />
-            <SellingProducts />
-            <AdvertBanner />
+            <RecentlyViewedProducts />
           </Layout>
+          <AdvertBanner />
         </>
       )}
     </>

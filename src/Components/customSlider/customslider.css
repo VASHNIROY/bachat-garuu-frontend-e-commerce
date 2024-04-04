@@ -12,15 +12,10 @@
 }
 
 .slider-container-2 {
-  /* justify-content: center;
-  align-items: center;*/
+
   position: relative;
   width: 78%;
-  /* display: flex !important;
-  flex-direction: column;
-  align-self: center;
-  justify-content: center;
-  align-items: center; */
+  
 }
 
 .brand-icon-content-container {
@@ -70,22 +65,13 @@
   opacity: 1;
 }
 
-/* .slick-prev{
-    left: 0;
-  }
-   
-  .slick-next{
-    right: 0;
-  } */
+
 
 .slider-container-2:hover .slick-prev,
 .slider-container-2:hover .slick-next {
   opacity: 1;
 }
 
-/* .custom-arrow:hover {
-    color: #007bff ;
-  } */
 
 .custom-prev-arrow,
 .custom-next-arrow {

@@ -14,7 +14,7 @@ import { BsCheckLg } from "react-icons/bs";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const BasicCard = ({ item, addWishClicked }) => {
-  const { addToWishlist, fetchWishlist, FetchCartDetails } = useAppContext();
+  const { addToWishlist, FetchCartDetails } = useAppContext();
 
   const [isAdded, setIsAddedToCart] = useState(false);
   const {
@@ -38,7 +38,6 @@ const BasicCard = ({ item, addWishClicked }) => {
       setAddingToWishlist(true);
       await addToWishlist(id);
       await addWishClicked();
-      await fetchWishlist();
       setAddingToWishlist(false);
     } else {
       navigate("/login");
@@ -126,7 +125,7 @@ const BasicCard = ({ item, addWishClicked }) => {
             alt={home_image}
           />
         </div>
-        <Link className="basic-card-link" to={`/product/${id}`} key={id}>
+        <Link className="basic-card-link" to={`/product/${id}`}>
           <div className="p-2">
             {/* <h5 className="medicines-cards-heading">{items.category}</h5> */}
             <h2

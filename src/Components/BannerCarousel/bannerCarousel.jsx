@@ -1,145 +1,132 @@
+// import { Carousel } from "react-responsive-carousel";
+// import "react-responsive-carousel/lib/styles/carousel.min.css";
+// import { useAppContext } from "../../Context";
+// import Loader from "../Loader/Loader";
+// import "./bannerCarousel.css";
+// import { useEffect, useState } from "react";
+
+// const BannerCarousel = () => {
+//   const { dashboardData } = useAppContext();
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [selectedSlide, setSelectedSlide] = useState(0);
+
+//   useEffect(() => {
+//     if (dashboardData && dashboardData.data) {
+//       setIsLoading(false);
+//     }
+//   }, [dashboardData]);
+
+//   const handleSlideChange = (index) => {
+//     setSelectedSlide(index);
+//   };
+
+//   const bannerData =
+//     dashboardData && dashboardData.data
+//       ? dashboardData.data.filter((each) => each.type === "banner")
+//       : [];
+
+//   return (
+//     <>
+//       {isLoading ? (
+//         <Loader value={20} />
+//       ) : (
+//         <div className="study-abroad-carousel-main-container">
+//           <Carousel
+//             showThumbs={false}
+//             autoPlay={true}
+//             interval={3000}
+//             showArrows={true}
+//             selectedItem={selectedSlide}
+//             onChange={handleSlideChange}
+//             className="slider"
+//           >
+//             {bannerData[0].data.map((slide) => {
+//               console.log("slide ", slide.image);
+//               return (
+//                 <>
+//                   <img
+//                     key={slide.banner_id}
+//                     className="study-abroad-carousel-slide"
+//                     src={slide.image}
+//                   />
+//                 </>
+//               );
+//             })}
+//           </Carousel>
+//         </div>
+//       )}
+//     </>
+//   );
+// };
+
+// export default BannerCarousel;
+
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useEffect, useState } from "react";
-// import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-// import { Fade } from "react-awesome-reveal";
-//import CustomSlider from '../Slider'; // Import CustomSlider component
-// import medicine1 from "../../Utils/medicine-box1.png";
-// import medicine2 from "../../Utils/medicine-box2.png";
-
-// import cyrup1 from "../../Utils/cyrup1.png";
-// import cyrup2 from "../../Utils/cyrup2.png";
-
-import "./bannerCarousel.css";
 import { useAppContext } from "../../Context";
 import Loader from "../Loader/Loader";
+import "./bannerCarousel.css";
+import banner from "../../Utils/banner1.png";
 
 const BannerCarousel = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const { bannerData } = useAppContext();
-
+  const { dashboardData } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedSlide, setSelectedSlide] = useState(0);
+  const [imageLoadError, setImageLoadError] = useState(false);
 
   useEffect(() => {
-    if (bannerData && bannerData.length > 0) {
+    if (dashboardData && dashboardData.data) {
       setIsLoading(false);
     }
-  }, [bannerData]);
+  }, [dashboardData]);
 
-  const handlePrev = () => {
-    const newIndex = (activeIndex - 1 + bannerData.length) % bannerData.length;
-    setActiveIndex(newIndex);
+  const handleSlideChange = (index) => {
+    setSelectedSlide(index);
   };
 
-  const handleNext = () => {
-    const newIndex = (activeIndex + 1) % bannerData.length;
-    setActiveIndex(newIndex);
+  const handleImageLoadError = () => {
+    setImageLoadError(true);
   };
 
-  // useEffect(() => {
-  //   const container = document.getElementById("carouselExampleIndicators");
-  //   if (container) {
-  //     container.style.backgroundColor = bannerData[activeIndex].overlayColor;
-  //   }
-  // }, [activeIndex, bannerData]);
+  const bannerData =
+    dashboardData && dashboardData.data
+      ? dashboardData.data.filter((each) => each.type === "main_banner")
+      : [];
 
   return (
     <>
       {isLoading ? (
         <Loader value={20} />
       ) : (
-        <>
-          <div className="banner-container">
-            <div
-              id="carouselExampleIndicators"
-              className="carousel slide"
-              data-bs-ride="carousel"
-            >
-              <div className="carousel-indicators">
-                {bannerData.map((_, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide-to={index}
-                    className={index === activeIndex ? "active" : ""}
-                    aria-current={index === activeIndex ? "true" : "false"}
-                    aria-label={`Slide ${index + 1}`}
-                    onClick={() => setActiveIndex(index)}
+        <div className="study-abroad-carousel-main-container">
+          <Carousel
+            showThumbs={false}
+            autoPlay={true}
+            interval={3000}
+            showArrows={true}
+            selectedItem={selectedSlide}
+            className="sliderrrr"
+            onChange={handleSlideChange}
+            style={{ color: "#196AE5", width: "100%" }}
+          >
+            {bannerData[0].data.map((slide, index) => {
+              console.log("image", slide.image);
+              return (
+                <div key={index} className="study-abroad-carousel-slide">
+                  <img
+                    src={slide.image}
+                    // alt={`Slide ${index}`}
+                    style={{ width: "100%" }}
+                    onError={handleImageLoadError}
+                    className="study-abroad-carousel-image"
                   />
-                ))}
-              </div>
-              <div className="carousel-inner">
-                {bannerData.map((card, index) => (
-                  <div
-                    key={index}
-                    className={`carousel-item ${
-                      index === activeIndex ? "active" : ""
-                    }`}
-                  >
-                    <div
-                      className="main-banner"
-                      style={{
-                        backgroundImage: `url(${card.image})`,
-                        backgroundSize: "auto",
-                        backgroundPosition: "center",
-                        display: "flex",
-
-                        backgoundColor: "red",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>
-                        {/* <p className="banner-paragraph-content">{card.description}</p> */}
-                        {/* <h2 className="banner-heading-content">
-                    {card.category_name}
-                  </h2> */}
-                        {/* <button className="banner-button">
-                    Buy it Now{" "}
-                    <span>
-                      <MdOutlineKeyboardArrowRight />
-                    </span>
-                  </button> */}
-                      </div>
-                      {/* <div className="banner-images-container">
-                  <Fade direction="left">
-                    <img src={card.image} alt="" className="banner-image" />
-                  </Fade>
-                  <Fade direction="right">
-                    <img src={card.image} alt="" className="banner-image" />
-                  </Fade>
-                </div> */}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <button
-                className="carousel-control-prev"
-                type="button"
-                onClick={handlePrev}
-              >
-                <span
-                  className="carousel-control-prev-icon"
-                  aria-hidden="true"
-                />
-                <span className="visually-hidden">Previous</span>
-              </button>
-              <button
-                className="carousel-control-next"
-                type="button"
-                onClick={handleNext}
-              >
-                <span
-                  className="carousel-control-next-icon"
-                  aria-hidden="true"
-                />
-                <span className="visually-hidden">Next</span>
-              </button>
-            </div>
-            {/* Render the CustomSlider component */}
-            {/* <CustomSlider /> */}
-          </div>
-        </>
+                  {imageLoadError && <img src={banner} />}
+                </div>
+              );
+            })}
+          </Carousel>
+        </div>
       )}
     </>
   );

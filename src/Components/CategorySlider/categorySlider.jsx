@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -7,11 +7,13 @@ import "slick-carousel/slick/slick-theme.css";
 import "./categorySlider.css";
 import { useAppContext } from "../../Context";
 import { useNavigate } from "react-router-dom";
-
+import Loader from "../Loader/Loader";
+//checked rendering
 function CategorySlider() {
   const [isHovered, setIsHovered] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { categoryList } = useAppContext();
+  const { dashboardData } = useAppContext();
 
   const navigate = useNavigate();
 
@@ -92,26 +94,45 @@ function CategorySlider() {
     ],
   };
 
-  return (
-    <div className="slider-main-container">
-      <div className="slider-container-2">
-        <Slider {...settings}>
-          {categoryList.map((slide) => {
-            return (
-              <div
-                key={slide.category_id}
-                className="icon-content-container"
-                onClick={() => navigate(`/products/${slide.category_id}`)}
-              >
-                <img className="icon-slider" src={slide.image} />
+  useEffect(() => {
+    if (dashboardData && dashboardData.data) {
+      setIsLoading(false);
+    }
+  }, [dashboardData]);
 
-                <p style={{ margin: 0 }}>{slide.name}</p>
-              </div>
-            );
-          })}
-        </Slider>
-      </div>
-    </div>
+  const categoryList =
+    dashboardData && dashboardData.data
+      ? dashboardData.data.filter((each) => each.type === "category_list")
+      : [];
+
+  console.log("categoryList", categoryList);
+  return (
+    <>
+      {" "}
+      {isLoading ? (
+        <Loader size={20} />
+      ) : (
+        <div className="slider-main-container">
+          <div className="slider-container-2">
+            <Slider {...settings}>
+              {categoryList[0].data.map((slide) => {
+                return (
+                  <div
+                    key={slide.category_id}
+                    className="icon-content-container"
+                    onClick={() => navigate(`/products/${slide.category_id}`)}
+                  >
+                    <img className="icon-slider" src={slide.image} />
+
+                    <p style={{ margin: 0 }}>{slide.name}</p>
+                  </div>
+                );
+              })}
+            </Slider>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

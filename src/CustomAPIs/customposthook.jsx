@@ -1,20 +1,18 @@
 import { ConvertObjectToFormData } from "../convertobj";
-import axios from "axios";
 
 // import axios from "axios";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const postData = async (endpoint, data) => {
-  console.log(data, "post data");
-  // const bodydataaa = { dashboard_type: "ecommerce", user_id: "1" };
+  console.log("endpoint", endpoint);
   const bodyData = ConvertObjectToFormData(data);
 
   try {
     const url = `${baseUrl}${endpoint}`;
+    console.log("url", url);
 
     const response = await fetch(url, {
       method: "POST",
-
       body: bodyData,
     });
 
@@ -25,7 +23,7 @@ export const postData = async (endpoint, data) => {
       //   icon: "success",
       //   title: responseData.message,
       // });
-      console.log(responseData, "responseData");
+      console.log(responseData, "responseData", endpoint);
     } else {
       console.log(responseData, "responseData");
     }

@@ -41,10 +41,12 @@ export const NavElementsBar = () => {
     cartDetails,
     fetchWishlist,
     FetchCartDetails,
+    FetchDashboardData,
   } = useAppContext();
 
   const logOutUser = async () => {
     Cookies.remove("userid");
+    await FetchDashboardData();
     setCount(0);
     setWishlistCount(0);
   };
@@ -82,19 +84,15 @@ export const NavElementsBar = () => {
   const [activeElId, setActivedropEle] = useState(initialActiveElId);
 
   const handleMouseMove = (e) => {
-    // Get the horizontal and vertical position of the mouse
     const mouseX = e.clientX;
     const mouseY = e.clientY;
 
-    // Get the horizontal and vertical position of the container
     const containerX = e.currentTarget.getBoundingClientRect().left;
     const containerY = e.currentTarget.getBoundingClientRect().top;
 
-    // Calculate the distance between the mouse and the container
     const distanceX = mouseX - containerX;
     const distanceY = mouseY - containerY;
 
-    // If the mouse is moving downwards, set isCategoryTrue to true
     if (
       distanceY > 0 &&
       distanceX >= 0 &&
@@ -102,25 +100,20 @@ export const NavElementsBar = () => {
     ) {
       setIsCateogrytrue(true);
     } else {
-      // Otherwise, set isCategoryTrue to false
       setIsCateogrytrue(false);
     }
   };
 
   const handleCategoryCarouselMouseMove = (e) => {
-    // Get the horizontal and vertical position of the mouse
     const mouseX = e.clientX;
     const mouseY = e.clientY;
 
-    // Get the horizontal and vertical position of the container
     const containerX = e.currentTarget.getBoundingClientRect().left;
     const containerY = e.currentTarget.getBoundingClientRect().top;
 
-    // Calculate the distance between the mouse and the container
     const distanceX = mouseX - containerX;
     const distanceY = mouseY - containerY;
 
-    // If the mouse is moving downwards, set isCategoryTrue to true
     if (
       distanceY > 0 &&
       distanceX >= 0 &&
@@ -128,25 +121,20 @@ export const NavElementsBar = () => {
     ) {
       setShowbyCategoryTrue(true);
     } else {
-      // Otherwise, set isCategoryTrue to false
       setShowbyCategoryTrue(false);
     }
   };
 
   const handleBrandCarouselMouseMove = (e) => {
-    // Get the horizontal and vertical position of the mouse
     const mouseX = e.clientX;
     const mouseY = e.clientY;
 
-    // Get the horizontal and vertical position of the container
     const containerX = e.currentTarget.getBoundingClientRect().left;
     const containerY = e.currentTarget.getBoundingClientRect().top;
 
-    // Calculate the distance between the mouse and the container
     const distanceX = mouseX - containerX;
     const distanceY = mouseY - containerY;
 
-    // If the mouse is moving downwards, set isCategoryTrue to true
     if (
       distanceY > 0 &&
       distanceX >= 0 &&
@@ -154,40 +142,41 @@ export const NavElementsBar = () => {
     ) {
       setShowbyBrandTrue(true);
     } else {
-      // Otherwise, set isCategoryTrue to false
       setShowbyBrandTrue(false);
     }
   };
 
   function showCategoriesDropdown() {
     return (
-      <SlideDown
-        className="nav-dropdown-main-container"
-        onMouseLeave={() => setIsCateogrytrue(false)}
-      >
-        <Scrollbars style={{ width: 300, height: 480 }}>
-          <ul className="nav-dropdown-ul-container">
-            {categoryList.map((each) => {
-              return (
-                <li
-                  key={each.category_id}
-                  onClick={() => setActivedropEle(each.category_id)}
-                  className={`${
-                    activeElId === each.category_id
-                      ? "nav-dropdown-li-active"
-                      : ""
-                  }`}
-                >
-                  {each.name}
-                </li>
-              );
-            })}
-          </ul>
-        </Scrollbars>
-        <div className="nav-dropdown-side-container">
-          <CategoryItem categoryId={activeElId} />
-        </div>
-      </SlideDown>
+      <>
+        <SlideDown
+          className="nav-dropdown-main-container"
+          onMouseLeave={() => setIsCateogrytrue(false)}
+        >
+          <Scrollbars style={{ width: 300, height: 480 }}>
+            <ul className="nav-dropdown-ul-container">
+              {categoryList.map((each) => {
+                return (
+                  <li
+                    key={each.category_id}
+                    onClick={() => setActivedropEle(each.category_id)}
+                    className={`${
+                      activeElId === each.category_id
+                        ? "nav-dropdown-li-active"
+                        : ""
+                    }`}
+                  >
+                    {each.name}
+                  </li>
+                );
+              })}
+            </ul>
+          </Scrollbars>
+          <div className="nav-dropdown-side-container">
+            <CategoryItem categoryId={activeElId} />
+          </div>
+        </SlideDown>
+      </>
     );
   }
 
@@ -226,7 +215,11 @@ export const NavElementsBar = () => {
               isCategoryTrue ? "nav-ele-btn-active" : ""
             }`}
             onMouseLeave={handleMouseMove}
-            onMouseEnter={() => setIsCateogrytrue(true)}
+            onMouseEnter={() => {
+              if (categoryList && categoryList.length > 0) {
+                setIsCateogrytrue(true);
+              }
+            }}
           >
             <RxHamburgerMenu />
             All Categories
@@ -251,7 +244,7 @@ export const NavElementsBar = () => {
             >
               Shop By Category
             </li>
-            <li className="nav-ele-bar-li-ele">Blog</li>
+            <li className="nav-ele-bar-li-ele">Groceries</li>
             <li className="nav-ele-bar-li-ele">Shop</li>
             <li className="nav-ele-bar-li-ele">Elements</li>
             <li className="nav-ele-bar-li-ele">Features</li>

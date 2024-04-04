@@ -1,15 +1,12 @@
 import { useAppContext } from "../../Context";
 import "./index.css";
-
 import { HiMiniXMark } from "react-icons/hi2";
-
 import { FaRupeeSign } from "react-icons/fa";
-
 import emptyWishList from "../../Utils/emptywish.png";
 import NotFound from "../../Components/NotFound/NotFound";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+import { postData } from "../../CustomAPIs/customposthook";
 
 const Wishlist = () => {
   const { wishList, FetchCartDetails, addToWishlist, fetchWishlist } =
@@ -34,26 +31,9 @@ const Wishlist = () => {
         cart_type: "ecommerce",
       };
 
-      const addToCartformData = new FormData();
+      const { responseData } = await postData("addToCart", addToCartBody);
 
-      Object.entries(addToCartBody).forEach(([key, value]) => {
-        addToCartformData.append(key, value);
-      });
-      const api = `${baseUrl}addToCart`;
-      const options = {
-        method: "POST",
-        body: addToCartformData,
-      };
-
-      try {
-        const response = await fetch(api, options);
-
-        const data = await response.json();
-
-        FetchCartDetails();
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      FetchCartDetails();
     } else {
       navigate("/login");
     }
@@ -117,13 +97,6 @@ const Wishlist = () => {
           />
         </>
       )}
-      {/* <div className="wish-list-subtotal-container">
-        <p className="wish-list-sub-total-text">SubTotal : $20</p>
-        <div className="wish-list-button-container">
-          <button className="wish-list-page-button">View Cart</button>
-          <button className="wish-list-page-button">Check out</button>
-        </div>
-      </div>*/}
     </div>
   );
 };
